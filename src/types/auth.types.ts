@@ -45,6 +45,17 @@ export interface IVerifyOtpResponse {
   user: VerifyUser
 }
 
+// * --------// Types for Change Password --------*//
+export interface IChangePasswordPayload {
+  currentPassword: string;
+  newPassword: string;
+}
+
+export interface IChangePasswordResponse {
+  token: string;
+  user: VerifyUser;
+}
+
 export interface VerifyUser {
   name: string
   email: string

@@ -1,3 +1,4 @@
+'use server'
 import { httpClient } from "@/lib/axios/httpClient";
 import { setTokenInCookies } from "@/lib/token.utils";
 import { ApiErrorResponse, ApiResponse } from "@/types/api.types";

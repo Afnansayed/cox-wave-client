@@ -1,3 +1,4 @@
+'use server'
 import { httpClient } from "@/lib/axios/httpClient";
 import { ApiErrorResponse, ApiResponse } from "@/types/api.types";
 import {  IVerifyOtpPayload, IVerifyOtpResponse } from "@/types/auth.types";
