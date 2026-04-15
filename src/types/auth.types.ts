@@ -56,6 +56,25 @@ export interface IChangePasswordResponse {
   user: VerifyUser;
 }
 
+// * --------// Types for Forgot / Reset Password --------*//
+export interface IForgotPasswordPayload {
+  email: string;
+}
+
+export interface IResetPasswordPayload {
+  email: string;
+  otp: string;
+  newPassword: string;
+}
+
+export interface IForgotPasswordResponse {
+  status?: boolean;
+}
+
+export interface IResetPasswordResponse {
+  status?: boolean;
+}
+
 export interface VerifyUser {
   name: string
   email: string

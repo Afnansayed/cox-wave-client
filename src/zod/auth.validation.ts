@@ -36,6 +36,19 @@ export const changePasswordZodSchema = z
         path: ["newPassword"],
     });
 
+export const forgotPasswordZodSchema = z.object({
+    email: z.email("Invalid email address"),
+});
+
+export const resetPasswordZodSchema = z.object({
+    email: z.email("Invalid email address"),
+    otp: z.string().length(6, "OTP must be 6 characters long"),
+    newPassword: z
+        .string()
+        .min(1, "New password is required")
+        .min(8, "New password must be at least 8 characters long"),
+});
+
 
 
 
@@ -43,3 +56,5 @@ export type ILoginPayload = z.infer<typeof loginZodSchema>;
 export type IRegisterPayload = z.infer<typeof registerZodSchema>;
 export type IVerifyOtpPayload = z.infer<typeof verifyOtpZodSchema>;
 export type IChangePasswordPayload = z.infer<typeof changePasswordZodSchema>;
+export type IForgotPasswordPayload = z.infer<typeof forgotPasswordZodSchema>;
+export type IResetPasswordPayload = z.infer<typeof resetPasswordZodSchema>;

@@ -256,12 +256,9 @@ const LoginPage = () => {
               </form.Field>
 
               <div>
-                <button
-                  type="button"
-                  className="text-sm text-white/80 hover:text-white"
-                >
+                <Link href="/forgot-password" className="text-sm text-white/80 hover:text-white">
                   Forgot Password?
-                </button>
+                </Link>
               </div>
 
               {/*

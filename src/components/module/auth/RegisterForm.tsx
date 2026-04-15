@@ -10,7 +10,6 @@ import { toast } from "sonner";
 import VerifyOtpModal from "@/components/Authentication/VerifyOtpModal";
 import { IRegisterPayload, registerZodSchema } from "@/zod/auth.validation";
 import { useRouter } from "next/navigation";
-import RegisterPage from "@/app/register/page";
 import { registerAction } from "@/app/register/_actions";
 
 const RegisterForm = () => {
