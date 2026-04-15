@@ -13,3 +13,18 @@ export interface ILoginResponse {
         emailVerified : boolean;
     }
 }
+
+export type UserRole = 'CUSTOMER' | 'ADMIN' | 'OWNER';
+export type UserStatus = 'ACTIVE' | 'DELETED' | 'BLOCKED';
+
+export interface DecodedToken {
+  userId: string;
+  name: string;
+  email: string;
+  role: UserRole;
+  status: UserStatus;
+  emailVerified: boolean;
+  isDeleted: boolean;
+  iat: number; // Issued At (Unix timestamp)
+  exp: number; // Expiration (Unix timestamp)
+}
