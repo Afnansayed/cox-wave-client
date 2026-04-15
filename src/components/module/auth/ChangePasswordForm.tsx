@@ -11,6 +11,7 @@ import {
 } from "@/zod/auth.validation";
 import { changePasswordAction } from "@/app/(withDashboardLayout)/@admin/admin-dashboard/change-password/_actions";
 import { useRouter } from "next/navigation";
+import { logoutUser } from "@/components/Authentication/logoutUser";
 
 
 
@@ -54,7 +55,8 @@ const ChangePasswordForm = () => {
         });
         form.reset();
         setLoading(false);
-        router.push("/login");
+        await logoutUser();
+        router.push('/login');
       } catch (error: any) {
         const message = error?.message || "Failed to change password";
         setServerError(message);

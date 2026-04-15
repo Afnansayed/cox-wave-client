@@ -17,15 +17,19 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { logOut } from '../Redux/Slice/authSlice';
 import { DecodedToken } from '@/types/auth.types';
+import { logoutUser } from '@/components/Authentication/logoutUser';
 
 export function UserNav({ user }: { user: DecodedToken }) {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const handleSignOut = async () => {
     try {
-    //todo: write a logout function in the authentication folder and call it here to log out the user from the server as well
+      dispatch(logOut());
+      await logoutUser();
+      router.push('/login');
     } catch (err) {
       console.log(err);
+      toast.error('Logout failed', { duration: 2000 });
     }
   };
   return (

@@ -13,6 +13,7 @@ import {
   resetPasswordZodSchema,
 } from "@/zod/auth.validation";
 import { resetPasswordAction } from "@/app/reset-password/_actions";
+import { logoutUser } from "@/components/Authentication/logoutUser";
 
 const ResetPasswordForm = () => {
   const searchParams = useSearchParams();
@@ -53,7 +54,8 @@ const ResetPasswordForm = () => {
           duration: 2000,
         });
         form.reset();
-        router.push("/login");
+        await logoutUser();
+        router.push('/login');
         setLoading(false);
       } catch (error: any) {
         const message = error?.message || "Failed to reset password";

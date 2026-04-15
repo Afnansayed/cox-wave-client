@@ -63,11 +63,6 @@ const LoginPage = () => {
             return ;
         }
 
-        console.log({res});
-        // toast.success("Login Successfully", { id: toastId, duration: 2000 });
-        // form.reset();
-        // setLoading(false);
-        // router.push("/dashboard");
         if (res?.data?.user?.emailVerified === true) {
           const { user, accessToken } = res?.data;
           dispatch(setToken({ accessToken: accessToken }));
@@ -87,7 +82,7 @@ const LoginPage = () => {
             return;
           }
           setLoading(false);
-          // router.push("/dashboard");
+          router.push("/customer-dashboard");
         } else {
           toast.error(res?.data?.message || "Valid Information Provide!", {
             id: toastId,
