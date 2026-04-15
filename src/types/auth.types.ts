@@ -20,6 +20,19 @@ export interface ILoginPayload {
     password: string;
 }
 
+// export interface IRegisterPayload {
+//   name: string;
+//   email: string;
+//   password: string;
+// }
+
+export interface IRegisterResponse {
+  token : string;
+  accessToken : string;
+  refreshToken : string;
+  user: VerifyUser
+}
+
 // * --------// Types for OTP Verification --------*//  
 export interface IVerifyOtpPayload {
     email: string;
@@ -36,7 +49,7 @@ export interface VerifyUser {
   name: string
   email: string
   emailVerified: boolean
-  image: any
+  image: string | null
   createdAt: string
   updatedAt: string
   role: string
@@ -66,3 +79,4 @@ export interface DecodedToken {
   iat: number; // Issued At (Unix timestamp)
   exp: number; // Expiration (Unix timestamp)
 }
+
