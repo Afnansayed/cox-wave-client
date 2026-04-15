@@ -7,4 +7,13 @@ export const loginZodSchema = z.object({
         .min(8, "Password must be at least 8 characters long")
 })
 
+export const verifyOtpZodSchema = z.object({
+    email : z.email("Invalid email address"),
+    otp : z.string().length(6, "OTP must be 6 characters long")
+})
+
+
+
+
 export type ILoginPayload = z.infer<typeof loginZodSchema>;
+export type IVerifyOtpPayload = z.infer<typeof verifyOtpZodSchema>;

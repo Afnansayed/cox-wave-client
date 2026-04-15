@@ -14,6 +14,44 @@ export interface ILoginResponse {
     }
 }
 
+
+export interface ILoginPayload {
+    email: string;
+    password: string;
+}
+
+// * --------// Types for OTP Verification --------*//  
+export interface IVerifyOtpPayload {
+    email: string;
+    otp: string;
+}
+
+export interface IVerifyOtpResponse {
+  status: boolean
+  token: string
+  user: VerifyUser
+}
+
+export interface VerifyUser {
+  name: string
+  email: string
+  emailVerified: boolean
+  image: any
+  createdAt: string
+  updatedAt: string
+  role: string
+  status: string
+  needPasswordChange: boolean
+  isDeleted: boolean
+  deletedAt: any
+  id: string
+}
+
+
+
+
+//* --------// Types for JWT Decoding --------*//
+
 export type UserRole = 'CUSTOMER' | 'ADMIN' | 'OWNER';
 export type UserStatus = 'ACTIVE' | 'DELETED' | 'BLOCKED';
 

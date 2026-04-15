@@ -5,14 +5,8 @@ import Image from "next/image";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "../ui/input-otp";
 import { REGEXP_ONLY_DIGITS_AND_CHARS } from "input-otp";
 import { toast } from "sonner";
-import {
-  useResendVerifyOTPMutation,
-  useVerifyOTPMutation,
-} from "../Redux/RTK/authApi";
-import { useAppDispatch } from "../Redux/hooks";
 import { useRouter } from "next/navigation";
-import { userLogin } from "./userLogin";
-import { setToken, setUserInfo } from "../Redux/Slice/authSlice";
+import { verifyAction } from "./actions";
 
 interface VerifyOtpModalProps {
   isOpen: boolean;
@@ -27,10 +21,6 @@ const VerifyOtpModal: React.FC<VerifyOtpModalProps> = ({
 }) => {
   const [value, setValue] = useState("");
   const [timer, setTimer] = useState(0);
-  const [resendVerifyAuthOtp, { isLoading: resending }] =
-    useResendVerifyOTPMutation();
-  const [verifyAuthOtp, { isLoading }] = useVerifyOTPMutation();
-  const dispatch = useAppDispatch();
   const router = useRouter();
   const [otpLoading, setLoading] = useState(false);
 
@@ -44,36 +34,6 @@ const VerifyOtpModal: React.FC<VerifyOtpModalProps> = ({
     return () => clearInterval(interval);
   }, [timer]);
 
-  const handleResendOtp = async () => {
-    const toastId = toast.loading("Resending OTP...");
-    setValue("");
-    setTimer(15);
-    const resendData = {
-      email: loginData?.email,
-    };
-
-    try {
-      const response = await resendVerifyAuthOtp(resendData);
-      console.log("OTP Responsive", response);
-      if (response?.data?.status_code === 200) {
-        toast.success(response?.data?.data?.message, {
-          id: toastId,
-          duration: 1000,
-        });
-      } else {
-        toast.error(
-          response?.data?.error?.errMsg || "OTP verification failed.",
-          {
-            id: toastId,
-            duration: 1000,
-          }
-        );
-      }
-    } catch (err) {
-      console.log(err);
-      toast.error("Failed to verify OTP.", { id: toastId });
-    }
-  };
 
   const handleOtpChange = (otp: string) => {
     setValue(otp);
@@ -99,46 +59,35 @@ const VerifyOtpModal: React.FC<VerifyOtpModalProps> = ({
     };
 
     console.log("Verify Data", verifyData);
+
     try {
-      const response = await verifyAuthOtp(verifyData);
+      const response = await verifyAction(verifyData);
       console.log("Verify Code  Response", response);
-      if (response?.data?.status_code === 200) {
-        toast.success(response?.data?.data?.message, {
-          id: toastId,
-          duration: 1000,
-        });
-        const res = await userLogin(loginData);
-        if (res?.data.token) {
-          const { token, user } = res?.data;
-          dispatch(setToken({ accessToken: token }));
-          dispatch(
-            setUserInfo({
-              email: user.email,
-              name: user.name,
-              role: user.role,
-              emailVerified: user.emailVerified,
-            })
-          );
-          toast.success("Login Successfully", { id: toastId, duration: 2000 });
-          const redirectRoute = sessionStorage.getItem("redirect_to");
-          if (redirectRoute) {
-            router.push(JSON.parse(redirectRoute));
-            return;
-          }
-          router.push("/dashboard");
-          onClose();
-          setLoading(true);
-        } else {
-          setLoading(false);
-          toast.error("Something Went Wrong", { id: toastId, duration: 2000 });
-        }
-      } else {
-        toast.error(response?.data?.error?.errMsg, {
+      if (!("data" in response)) {
+        toast.error(response.message || "OTP verification failed.", {
           id: toastId,
           duration: 1000,
         });
         setLoading(false);
-        console.log("Error Message Check", response?.data?.error?.errMsg);
+        return;
+      }
+
+      if (response.data?.token) {
+        toast.success(response?.message || "Email verified successfully", {
+          id: toastId,
+          duration: 1000,
+        });
+
+        router.push("/login");
+        onClose();
+        setLoading(false);
+      } else {
+        toast.error(response.message || "OTP verification failed.", {
+          id: toastId,
+          duration: 1000,
+        });
+        setLoading(false);
+        console.log("Error Message Check", response.message);
       }
     } catch (err) {
       console.log(err);
@@ -201,22 +150,14 @@ const VerifyOtpModal: React.FC<VerifyOtpModalProps> = ({
               <InputOTPSlot index={5} />
             </InputOTPGroup>
           </InputOTP>
-          {timer === 0 && (
-            <h1
-              onClick={handleResendOtp}
-              className="text-center text-base font-medium underline cursor-pointer"
-            >
-              Resend Code
-            </h1>
-          )}
         </div>
 
         <button
-          disabled={isLoading || resending || otpLoading}
+          disabled={otpLoading}
           onClick={handleVerifyOtp}
           className=" w-[60%] mx-auto bg-yellow-700 text-white text-sm py-2 px-6 rounded-full"
         >
-          {isLoading || otpLoading ? "Verifying..." : "Verify Code"}
+          {otpLoading ? "Verifying..." : "Verify Code"}
         </button>
       </DialogContent>
     </Dialog>
