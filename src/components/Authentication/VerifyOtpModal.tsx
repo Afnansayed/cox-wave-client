@@ -115,8 +115,8 @@ const VerifyOtpModal: React.FC<VerifyOtpModalProps> = ({
             setUserInfo({
               email: user.email,
               name: user.name,
-              category: user.category,
-              email_verified: user.email_verified,
+              role: user.role,
+              emailVerified: user.emailVerified,
             })
           );
           toast.success("Login Successfully", { id: toastId, duration: 2000 });

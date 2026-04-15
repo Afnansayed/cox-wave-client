@@ -11,6 +11,8 @@ import VerifyOtpModal from "@/components/Authentication/VerifyOtpModal";
 import {ILoginPayload, loginZodSchema } from "@/zod/auth.validation";
 import { useMutation } from "@tanstack/react-query";
 import { loginAction } from "@/app/login/_actions";
+import { useAppDispatch } from "@/components/Redux/hooks";
+import { setToken, setUserInfo } from "@/components/Redux/Slice/authSlice";
 
 
 
@@ -24,6 +26,7 @@ const LoginPage = () => {
     password: string;
   } | null>(null);
   const [serverError, setServerError] = useState<string | null>(null);
+  const dispatch = useAppDispatch();
 
   const router = useRouter();
 
@@ -31,7 +34,7 @@ const LoginPage = () => {
     mutationFn: (payload: ILoginPayload) => loginAction(payload),
   })
 
-  // ─── TanStack Form ───────────────────────────────────────────────────────────
+  
   const form = useForm({
     defaultValues: {
       email: "",
@@ -47,47 +50,51 @@ const LoginPage = () => {
         const res = await mutateAsync(value) as any;
         
         if(!res.success){
+        if (res?.message === "Email not verified") {
+              toast.success("OTP sent! Please verify.", { id: toastId });
+              setVerifyModal(true);
+              setLoading(false);
+              return;
+        }
+
             setServerError(res.message || "Login failed");
             toast.error(res.message || "Login failed", { id: toastId });
             setLoading(false);
             return ;
         }
-        toast.success("Login Successfully", { id: toastId, duration: 2000 });
-        form.reset();
-        setLoading(false);
-        router.push("/dashboard");
-        // if (res?.data?.user?.email_verified === false) {
-        //   toast.success("OTP sent! Please verify.", { id: toastId });
-        //   form.reset();
-        //   setLoading(false);
-        //   setVerifyModal(true);
-        // } else if (res?.data?.user?.email_verified === true) {
-        //   const { user, token } = res?.data;
-        //   dispatch(setToken({ accessToken: token }));
-        //   dispatch(
-        //     setUserInfo({
-        //       email: user.email,
-        //       name: user.name,
-        //       category: user.category,
-        //       email_verified: user.email_verified,
-        //     })
-        //   );
-        //   form.reset();
-        //   toast.success("Login Successfully", { id: toastId, duration: 2000 });
-        //   const redirectRoute = sessionStorage.getItem("redirect_to");
-        //   if (redirectRoute) {
-        //     router.push(JSON.parse(redirectRoute));
-        //     return;
-        //   }
-        //   setLoading(false);
-        //   router.push("/dashboard");
-        // } else {
-        //   toast.error(res?.data?.message || "Valid Information Provide!", {
-        //     id: toastId,
-        //     duration: 2000,
-        //   });
-        //   setLoading(false);
-        // }
+
+        console.log({res});
+        // toast.success("Login Successfully", { id: toastId, duration: 2000 });
+        // form.reset();
+        // setLoading(false);
+        // router.push("/dashboard");
+        if (res?.data?.user?.emailVerified === true) {
+          const { user, accessToken } = res?.data;
+          dispatch(setToken({ accessToken: accessToken }));
+          dispatch(
+            setUserInfo({
+              email: user.email,
+              name: user.name,
+              role: user.role,
+              emailVerified: user.emailVerified,
+            })
+          );
+          form.reset();
+          toast.success("Login Successfully", { id: toastId, duration: 2000 });
+          const redirectRoute = sessionStorage.getItem("redirect_to");
+          if (redirectRoute) {
+            router.push(JSON.parse(redirectRoute));
+            return;
+          }
+          setLoading(false);
+          // router.push("/dashboard");
+        } else {
+          toast.error(res?.data?.message || "Valid Information Provide!", {
+            id: toastId,
+            duration: 2000,
+          });
+          setLoading(false);
+        }
       } catch (error: any) {
         console.log(`Login failed: ${error.message}`);
         setServerError(`Login failed: ${error.message}`);

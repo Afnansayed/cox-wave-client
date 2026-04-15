@@ -10,9 +10,7 @@ const getTokenSecondsRemaining =  (token: string): number => {
     if(!token) return 0;
 
     try {
-        const decoded = JWT_ACCESS_SECRET
-            ? jwt.verify(token, JWT_ACCESS_SECRET as string)
-            : jwt.decode(token);
+        const decoded =  jwt.decode(token);
 
         if (!decoded || typeof decoded === "string" || !("exp" in decoded)) {
             return 0;

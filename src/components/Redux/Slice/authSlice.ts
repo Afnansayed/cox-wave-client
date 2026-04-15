@@ -4,8 +4,8 @@ import { RootState } from "../store";
 type TUserInfo = {
   email: string;
   name: string;
-  category: string | null;
-  email_verified: boolean;
+  role: string | null;
+  emailVerified: boolean;  
 };
 
 type TAuthState = {
