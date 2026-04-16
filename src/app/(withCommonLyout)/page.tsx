@@ -1,7 +1,11 @@
+import Hero from "@/components/module/home/Hero";
+
 export default function Home() {
   return (
     <div className="w-full h-screen ">
-      <h1>This Is Home Page Information</h1>
+       <Hero />
     </div>
   );
 }
+
+
