@@ -86,3 +86,23 @@
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
+
+.container-max {
+  @apply max-w-[1444px] mx-auto px-4 sm:px-8;
+ }
+
+ @font-face {
+  font-family: "Amazon Ember Display";
+  src: url("/fonts/amazon-ember/Amazon_Ember_Bold.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+ }
+ 
+ @font-face {
+  font-family: "Amazon Ember Display";
+  src: url("/fonts/amazon-ember/Amazon_Ember_Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+ }

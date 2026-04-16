@@ -4,9 +4,12 @@ import React from "react";
 
 const layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div>
+    <div >
       <Header />
-      {children}
+      <div className="mt-[120px]">
+          {children}
+      </div>
+
       <Footer />
     </div>
   );

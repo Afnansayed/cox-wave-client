@@ -8,7 +8,7 @@ import QueryProviders from "./QueryPeovider";
 
 const Provider = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div>
+    <div >
       <ReduxProvider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <QueryProviders>
