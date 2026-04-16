@@ -13,7 +13,7 @@ export default function Hero() {
         <div className="absolute bottom-[10%] right-[-5%] w-[30%] h-[30%] rounded-full bg-secondary/5 blur-[100px]" />
       </div>
 
-      <div className="container-max grid grid-cols-1 lg:grid-cols-2 gap-12 items-center px-6">
+      <div className="container-max grid grid-cols-1 lg:grid-cols-2 gap-12">
         
         {/* LEFT CONTENT */}
         <div className="flex flex-col space-y-8 text-center lg:text-left order-2 lg:order-1">
