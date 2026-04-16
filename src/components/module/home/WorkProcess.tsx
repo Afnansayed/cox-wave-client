@@ -31,7 +31,7 @@ export default function WorkProcess() {
   const currentSteps = activeView === 'customer' ? customerSteps : ownerSteps;
 
   return (
-    <section className="py-16 md:py-24 bg-white relative overflow-hidden">
+    <section className="py-12 bg-white relative overflow-hidden">
       {/* Background Accent */}
       <div className="absolute top-0 right-0 w-1/3 h-full bg-neutral-50/50 -z-10" />
       

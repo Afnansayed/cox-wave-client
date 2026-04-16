@@ -33,7 +33,7 @@ const LOCATIONS = [
 
 export default function Locations() {
   return (
-    <section className="py-12 md:py-20 bg-white">
+    <section className="py-12  bg-white">
       <div className="container-max px-6">
         
         {/* COMPACT HEADER */}

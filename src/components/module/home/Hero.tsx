@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 
 export default function Hero() {
   return (
-    <section className="relative py-10 w-full flex items-center justify-center overflow-hidden bg-neutral-50">
+    <section className="relative py-12 w-full flex items-center justify-center overflow-hidden bg-neutral-50">
       {/* BACKGROUND DECORATION */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full -z-10">
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-primary/5 blur-[120px]" />

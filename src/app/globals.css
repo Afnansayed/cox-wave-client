@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+/* body {
+  font-family: "Amazon Ember Display", Arial, Helvetica, sans-serif;
+} */
+
 :root {
   --background: 0 0% 100%;
   --foreground: 222.2 84% 4.9%;
