@@ -1,186 +1,3 @@
-// 'use client';
-
-// import { useState, useEffect } from 'react';
-// import Link from 'next/link';
-// import { usePathname } from 'next/navigation';
-// import {
-//   Waves,
-//   Search,
-//   Menu,
-//   ChevronDown,
-//   CalendarDays,
-//   Palmtree,
-//   Ship,
-//   ArrowRight,
-//   X
-// } from 'lucide-react';
-
-// import { Button } from '@/components/ui/button';
-// import { cn } from '@/lib/utils';
-// import {
-//   DropdownMenu,
-//   DropdownMenuContent,
-//   DropdownMenuItem,
-//   DropdownMenuTrigger,
-// } from '@/components/ui/dropdown-menu';
-// import {
-//   Sheet,
-//   SheetContent,
-//   SheetHeader,
-//   SheetTitle,
-//   SheetTrigger,
-// } from '@/components/ui/sheet';
-
-// export default function Navbar() {
-//   const [isScrolled, setIsScrolled] = useState(false);
-//   const [isOpen, setIsOpen] = useState(false);
-//   const pathname = usePathname();
-
-//   useEffect(() => {
-//     const handleScroll = () => setIsScrolled(window.scrollY > 20);
-//     window.addEventListener('scroll', handleScroll);
-//     return () => window.removeEventListener('scroll', handleScroll);
-//   }, []);
-
-//   const links = [
-//     { 
-//       path: '/explore', 
-//       label: 'Explore',
-//       submenu: [
-//         { path: "/events/beach", label: "Beach Parties", icon: <Palmtree className="w-4 h-4" /> },
-//         { path: "/events/cruises", label: "Luxury Cruises", icon: <Ship className="w-4 h-4" /> },
-//         { path: "/events/calendar", label: "Seasonal Events", icon: <CalendarDays className="w-4 h-4" /> },
-//       ]
-//     },
-//     { path: '/destinations', label: 'Destinations' },
-//     { path: '/blog', label: 'Travel Guide' },
-//   ];
-
-//   return (
-//     <div className="fixed top-0 left-0 right-0 z-[999] ">
-//       <header
-//         className={cn(
-//           'w-full mx-auto transition-all duration-500 ease-in-out  border',
-//           isScrolled
-//             ? 'bg-white/70 backdrop-blur-2xl border-white/20 shadow-[0_8px_32px_rgba(2,132,199,0.08)] py-4 px-6'
-//             : 'bg-white border-transparent py-5 px-8 shadow-none'
-//         )}
-//       >
-//         <div className="container-max flex items-center justify-between gap-4">
-          
-//           {/* BRAND IDENTITY */}
-//           <Link href="/" className="flex items-center gap-2.5 group shrink-0">
-//             <div className="relative overflow-hidden bg-primary p-2.5 rounded-2xl shadow-lg shadow-primary/30 transition-all duration-500 group-hover:shadow-primary/50 group-hover:-translate-y-0.5">
-//               <Waves className="w-6 h-6 text-white relative z-10" />
-//               <div className="absolute inset-0 bg-gradient-to-tr from-primary-dark to-primary-light opacity-0 group-hover:opacity-100 transition-opacity" />
-//             </div>
-//             <div className="flex flex-col">
-//               <span className="text-xl font-black tracking-tight text-neutral-900 leading-none">
-//                 Cox<span className="text-primary italic">Wave</span>
-//               </span>
-//               <div className="flex items-center gap-1">
-//                 <span className="h-[1px] w-3 bg-secondary" />
-//                 <span className="text-[9px] font-black uppercase tracking-[0.3em] text-neutral-400">Premium</span>
-//               </div>
-//             </div>
-//           </Link>
-
-//           {/* NAV LINKS WITH INDICATORS */}
-//           <nav className="hidden lg:flex items-center bg-neutral-100/50 p-1.5 rounded-full border border-neutral-200/50">
-//             {links.map((link) => (
-//               <div key={link.path} className="relative group">
-//                 {'submenu' in link ? (
-//                   <DropdownMenu>
-//                     <DropdownMenuTrigger className={cn(
-//                       "flex items-center gap-1.5 px-5 py-2 text-[13px] font-bold text-neutral-600 hover:text-primary transition-all rounded-full outline-none",
-//                     )}>
-//                       {link.label} <ChevronDown className="w-3.5 h-3.5 opacity-40 group-hover:rotate-180 transition-transform duration-300" />
-//                     </DropdownMenuTrigger>
-//                     <DropdownMenuContent align="center" className="w-64 p-3 mt-4 rounded-[1.5rem] bg-white/90 backdrop-blur-xl border-neutral-100 shadow-2xl animate-in fade-in slide-in-from-top-2">
-//                       {link?.submenu?.map((sub) => (
-//                         <DropdownMenuItem key={sub.path} asChild>
-//                           <Link href={sub.path} className="flex items-center gap-3 w-full cursor-pointer rounded-xl p-3 font-bold text-neutral-600 hover:text-primary hover:bg-primary/5 transition-all">
-//                             <div className="bg-white shadow-sm p-1.5 rounded-lg border border-neutral-100">{sub.icon}</div>
-//                             {sub.label}
-//                           </Link>
-//                         </DropdownMenuItem>
-//                       ))}
-//                     </DropdownMenuContent>
-//                   </DropdownMenu>
-//                 ) : (
-//                   <Link
-//                     href={link.path}
-//                     className={cn(
-//                       'px-5 py-2 text-[13px] font-bold transition-all rounded-full relative',
-//                       pathname === link.path
-//                         ? 'text-white bg-primary shadow-md shadow-primary/20'
-//                         : 'text-neutral-500 hover:text-neutral-900'
-//                     )}
-//                   >
-//                     {link.label}
-//                   </Link>
-//                 )}
-//               </div>
-//             ))}
-//           </nav>
-
-//           {/* CTA & PROFILE */}
-//           <div className="flex items-center gap-3">
-//             <button className="h-10 w-10 flex items-center justify-center rounded-full bg-neutral-100 text-neutral-500 hover:bg-primary hover:text-white transition-all duration-300 active:scale-90">
-//               <Search className="w-4 h-4" />
-//             </button>
-            
-//             <div className="h-8 w-[1px] bg-neutral-200 mx-1 hidden sm:block" />
-
-//             <Button className="relative overflow-hidden bg-secondary hover:bg-secondary-dark text-white px-7 h-11 rounded-full font-black text-xs uppercase tracking-widest shadow-xl shadow-secondary/20 transition-all hover:-translate-y-0.5 active:scale-95 group">
-//               <span className="relative z-10 flex items-center gap-2">
-//                 Book Experience <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-//               </span>
-//             </Button>
-
-//             {/* MOBILE TRIGGER */}
-//             <Sheet open={isOpen} onOpenChange={setIsOpen}>
-//               <SheetTrigger asChild>
-//                 <button className="lg:hidden h-11 w-11 flex items-center justify-center rounded-2xl bg-neutral-900 text-white shadow-lg active:scale-90 transition-all">
-//                   <Menu className="w-5 h-5" />
-//                 </button>
-//               </SheetTrigger>
-//               <SheetContent side="right" className="w-full border-none bg-neutral-50 p-0">
-//                 <SheetHeader className="p-8 text-left bg-white border-b border-neutral-100">
-//                   <div className="flex justify-between items-center">
-//                     <SheetTitle className="flex items-center gap-3">
-//                        <div className="h-10 w-10 rounded-xl bg-primary p-2.5 text-white shadow-lg shadow-primary/30">
-//                         <Waves className="h-full w-full" />
-//                       </div>
-//                       <span className="font-black text-2xl tracking-tighter">CoxWave</span>
-//                     </SheetTitle>
-//                   </div>
-//                 </SheetHeader>
-
-//                 <div className="p-8 flex flex-col gap-6">
-//                   {links.map((link) => (
-//                     <Link key={link.path} href={link.path} onClick={() => setIsOpen(false)} className="text-3xl font-black text-neutral-900 hover:text-primary transition-colors flex items-center justify-between group">
-//                       {link.label}
-//                       <div className="h-10 w-10 rounded-full border border-neutral-200 flex items-center justify-center group-hover:bg-primary group-hover:border-primary group-hover:text-white transition-all">
-//                         <ArrowRight className="w-5 h-5" />
-//                       </div>
-//                     </Link>
-//                   ))}
-//                 </div>
-
-//                 <div className="absolute bottom-8 left-8 right-8">
-//                   <Button className="w-full h-16 rounded-[2rem] font-black text-lg bg-neutral-900 text-white shadow-2xl">
-//                     Start Your Journey
-//                   </Button>
-//                 </div>
-//               </SheetContent>
-//             </Sheet>
-//           </div>
-//         </div>
-//       </header>
-//     </div>
-//   );
-// }
 
 
 'use client';
@@ -197,7 +14,9 @@ import {
   Palmtree,
   Ship,
   ArrowRight,
-  X
+  X,
+  FileQuestion,
+  Contact
 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
@@ -234,8 +53,8 @@ export default function Navbar() {
       label: 'Explore',
       submenu: [
         { path: "/events/beach", label: "Beach Parties", icon: <Palmtree className="w-4 h-4" /> },
-        { path: "/events/cruises", label: "Luxury Cruises", icon: <Ship className="w-4 h-4" /> },
-        { path: "/events/calendar", label: "Seasonal Events", icon: <CalendarDays className="w-4 h-4" /> },
+        { path: "/faq", label: "FAQ", icon: <FileQuestion className="w-4 h-4" /> },
+        { path: "/contact", label: "Contact", icon: <Contact className="w-4 h-4" /> },
       ]
     },
     { path: '/destinations', label: 'Destinations' },
