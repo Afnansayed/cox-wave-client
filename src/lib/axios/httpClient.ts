@@ -12,9 +12,7 @@ if(!API_BASE_URL) {
 const axiosInstance = async () => {
  const cookieStore = await cookies();
     
- const cookieHeader = cookieStore.getAll()
-                                .map((cookie) => `${cookie.name}=${cookie.value}`)
-                                .join("; ");  
+ const cookieHeader = cookieStore.getAll().map((cookie) => `${cookie.name}=${cookie.value}`).join("; ");  
     
     const instance = axios.create({
         baseURL : API_BASE_URL,
