@@ -196,7 +196,7 @@ const ResetPasswordForm = () => {
           <button
             type="submit"
             disabled={loading || !form.state.canSubmit}
-            className="w-full py-2 px-4 bg-[#c48200] text-white rounded-md transition-colors disabled:opacity-60"
+            className="w-full py-2 px-4 bg-primary text-white rounded-md transition-colors disabled:opacity-60"
           >
             {loading ? "Resetting..." : "Reset Password"}
           </button>

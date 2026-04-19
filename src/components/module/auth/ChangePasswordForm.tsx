@@ -189,7 +189,7 @@ const ChangePasswordForm = () => {
         <button
           type="submit"
           disabled={loading || !form.state.canSubmit}
-          className="w-full rounded-md bg-[#c48200] px-4 py-2 font-medium text-white transition-colors disabled:opacity-60"
+          className="w-full rounded-md bg-primary px-4 py-2 font-medium text-white transition-colors disabled:opacity-60"
         >
           {loading ? "Updating..." : "Update Password"}
         </button>

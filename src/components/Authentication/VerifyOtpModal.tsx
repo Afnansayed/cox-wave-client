@@ -155,7 +155,7 @@ const VerifyOtpModal: React.FC<VerifyOtpModalProps> = ({
         <button
           disabled={otpLoading}
           onClick={handleVerifyOtp}
-          className=" w-[60%] mx-auto bg-yellow-700 text-white text-sm py-2 px-6 rounded-full"
+          className=" w-[60%] mx-auto bg-primary text-white text-sm py-2 px-6 rounded-full"
         >
           {otpLoading ? "Verifying..." : "Verify Code"}
         </button>
