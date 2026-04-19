@@ -1,4 +1,5 @@
 import { IOwner } from "./account.types";
+import { IReview } from "./review.types";
 
 export type EventStatus = "PENDING" | "APPROVED" | "REJECTED";
 
@@ -25,6 +26,7 @@ export interface IEvent {
   owner_id: string;
 
   owner : IOwner;
+  reviews?: IReview[];
 }
 
 
