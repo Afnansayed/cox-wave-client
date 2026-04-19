@@ -1,5 +1,5 @@
  export interface ApiResponse<TData = unknown> {
-    success: boolean;
+    success: true;
     message: string;
     data : TData;
     meta ?: PaginationMeta;
@@ -11,6 +11,6 @@ export interface PaginationMeta {
     total: number;
 }
 export interface ApiErrorResponse {
-    success: boolean;
+    success: false;
     message: string;
 }

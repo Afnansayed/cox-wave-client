@@ -78,6 +78,7 @@ export default function EventCard({ event }: EventCardProps) {
                 </span>
               </div>
             </div>
+          <Link href={`/booking?event_id=${event.id}`}>
             <Button className="h-11 px-6 rounded-full bg-secondary text-white hover:bg-primary transition-all font-black text-[10px] uppercase tracking-widest group">
               Book Now{" "}
               <ChevronRight
@@ -85,6 +86,7 @@ export default function EventCard({ event }: EventCardProps) {
                 className="ml-1 opacity-60 group-hover:translate-x-0.5 transition-transform"
               />
             </Button>
+          </Link>
           </div>
         </div>
       </div>
