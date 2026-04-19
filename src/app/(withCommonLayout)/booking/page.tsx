@@ -3,6 +3,8 @@
 
 
 import BookingForm from '@/components/module/booking/BookingForm';
+import { getEventsById } from '../event/_actions';
+import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 
 const BookingPage = async ({
   searchParams,
@@ -16,10 +18,19 @@ const BookingPage = async ({
     ? (rawEventId[0] ?? '')
     : (rawEventId ?? '');
 
+
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery({
+    queryKey: ["event", eventId],
+    queryFn: () => getEventsById(eventId),
+  });
   return (
-    <section className="min-h-[70vh] bg-neutral-50 py-12">
+    <section className="bg-neutral-50 py-12">
       <div className="container-max px-6">
+        <HydrationBoundary state={dehydrate(queryClient)}>
         <BookingForm defaultEventId={eventId} />
+        </HydrationBoundary>
       </div>
     </section>
   );

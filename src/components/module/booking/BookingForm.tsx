@@ -1,20 +1,44 @@
 "use client";
 
 import { useForm } from "@tanstack/react-form";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
+import Image from "next/image";
+import {
+  Ticket,
+  Calendar,
+  MapPin,
+  ShieldCheck,
+  CreditCard,
+  ChevronRight,
+  Info,
+  ArrowLeft,
+} from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { createBookingAction } from "@/app/(withCommonLayout)/booking/_action";
 import { createBookingZodSchema } from "@/zod/booking.validation";
 import { ICreateBookingPayload } from "@/types/booking.types";
+import { getEventsById } from "@/app/(withCommonLayout)/event/_actions";
+import { Skeleton } from "@/components/ui/skeleton";
+import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 const BookingForm = ({ defaultEventId }: { defaultEventId: string }) => {
   const [isRedirecting, setIsRedirecting] = useState(false);
 
+  const { data, isLoading } = useQuery({
+    queryKey: ["event", defaultEventId],
+    queryFn: () => getEventsById(defaultEventId),
+  });
+
+  const event = data?.data;
+
   const { mutateAsync, isPending } = useMutation({
-    mutationFn: (payload: ICreateBookingPayload) => createBookingAction(payload),
+    mutationFn: (payload: ICreateBookingPayload) =>
+      createBookingAction(payload),
   });
 
   const initialValues = useMemo(
@@ -28,119 +52,284 @@ const BookingForm = ({ defaultEventId }: { defaultEventId: string }) => {
   const form = useForm({
     defaultValues: initialValues,
     onSubmit: async ({ value }) => {
-      const toastId = toast.loading("Creating booking...");
-
+      const toastId = toast.loading("Securing your seats...");
       try {
         const res = await mutateAsync(value);
-
         if (res.success === false) {
           toast.error(res.message || "Booking failed", { id: toastId });
           return;
         }
-
         const paymentUrl = res.data?.paymentUrl;
-
         if (!paymentUrl) {
-          toast.error("Payment URL not found in response", { id: toastId });
+          toast.error("Payment gateway error", { id: toastId });
           return;
         }
-
-        toast.success("Booking created. Redirecting to payment...", { id: toastId });
+        toast.success("Booking secured. Redirecting...", { id: toastId });
         setIsRedirecting(true);
         window.location.href = paymentUrl;
       } catch (error: any) {
-        toast.error(error?.message || "Booking failed", { id: toastId });
+        toast.error(error?.message || "An error occurred", { id: toastId });
       }
     },
   });
 
+  if (isLoading) return <BookingSkeleton />;
+
   return (
-    <div className="w-full max-w-xl rounded-2xl border bg-white p-6 shadow-sm">
-      <h2 className="text-xl font-semibold text-neutral-900">Create Booking</h2>
-      <p className="mt-1 text-sm text-neutral-600">
-        Confirm your event id and choose seats to proceed to payment.
-      </p>
-
-      <form
-        className="mt-6 space-y-5"
-        onSubmit={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          form.handleSubmit();
-        }}
-      >
-        <form.Field
-          name="event_id"
-          validators={{
-            onChange: ({ value }) => {
-              const result = createBookingZodSchema.shape.event_id.safeParse(value);
-              return result.success ? undefined : result.error.issues[0]?.message;
-            },
-          }}
+    <div className=" bg-neutral-50/50  md:px-4">
+      <div className="max-w-5xl mx-auto space-y-6">
+        {/* Back Button */}
+        <Link
+          href={`/event/${defaultEventId}`}
+          className="inline-flex items-center text-sm font-bold text-neutral-500 hover:text-primary transition-colors"
         >
-          {(field) => (
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-neutral-800" htmlFor={field.name}>
-                Event ID
-              </label>
-              <Input
-                id={field.name}
-                name={field.name}
-                value={field.state.value}
-                onBlur={field.handleBlur}
-                onChange={(e) => field.handleChange(e.target.value)}
-                placeholder="Enter event id"
-                disabled={isPending || isRedirecting}
-              />
-              {field.state.meta.isTouched && field.state.meta.errors.length > 0 && (
-                <p className="text-xs text-red-500">{field.state.meta.errors.join(", ")}</p>
-              )}
+          <ArrowLeft size={16} className="mr-2" />
+          Back to Event Details
+        </Link>
+
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+          {/* LEFT: EVENT SUMMARY (2 Cols) */}
+          <div className="lg:col-span-2 space-y-6">
+            <div className="bg-white rounded-3xl border border-neutral-100 overflow-hidden shadow-sm">
+              <div className="relative aspect-video">
+                <Image
+                  src={event?.images?.[0] || "/placeholder.jpg"}
+                  alt="Event"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <div className="p-6 space-y-4">
+                <div>
+                  <h1 className="text-xl font-black text-neutral-900 leading-tight">
+                    {event?.title}
+                  </h1>
+                  <p className="text-sm text-neutral-500 flex items-center mt-1">
+                    <MapPin size={14} className="mr-1 text-primary" />{" "}
+                    {event?.location}
+                  </p>
+                </div>
+
+                <div className="pt-4 border-t border-neutral-50 space-y-3">
+                  <div className="flex justify-between text-sm font-medium">
+                    <span className="text-neutral-500">Price per seat</span>
+                    <span className="text-neutral-900 font-bold">
+                      ৳{event?.per_person_price}
+                    </span>
+                  </div>
+                  <div className="flex justify-between text-sm font-medium">
+                    <span className="text-neutral-500">Available Seats</span>
+                    <span className="text-secondary font-bold">
+                      {event?.remaining_seats}
+                    </span>
+                  </div>
+                </div>
+              </div>
             </div>
-          )}
-        </form.Field>
 
-        <form.Field
-          name="seats"
-          validators={{
-            onChange: ({ value }) => {
-              const result = createBookingZodSchema.shape.seats.safeParse(value);
-              return result.success ? undefined : result.error.issues[0]?.message;
-            },
-          }}
-        >
-          {(field) => (
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-neutral-800" htmlFor={field.name}>
-                Seats
-              </label>
-              <Input
-                id={field.name}
-                name={field.name}
-                type="number"
-                min={1}
-                value={String(field.state.value)}
-                onBlur={field.handleBlur}
-                onChange={(e) => field.handleChange(Number(e.target.value))}
-                placeholder="Enter seats"
-                disabled={isPending || isRedirecting}
-              />
-              {field.state.meta.isTouched && field.state.meta.errors.length > 0 && (
-                <p className="text-xs text-red-500">{field.state.meta.errors.join(", ")}</p>
-              )}
+            {/* Trust Badges */}
+            <div className="p-6 bg-primary/5 rounded-3xl border border-primary/10 space-y-4">
+              <div className="flex items-start gap-3">
+                <ShieldCheck className="text-primary mt-1" size={18} />
+                <div>
+                  <p className="text-xs font-black uppercase tracking-wider text-primary">
+                    Secure Transaction
+                  </p>
+                  <p className="text-[11px] text-neutral-600 leading-relaxed">
+                    Your data is encrypted using SSL technology.
+                  </p>
+                </div>
+              </div>
             </div>
-          )}
-        </form.Field>
+          </div>
 
-        <Button
-          type="submit"
-          disabled={isPending || isRedirecting}
-          className="w-full h-11 font-semibold"
-        >
-          {isPending || isRedirecting ? "Processing..." : "Confirm Booking"}
-        </Button>
-      </form>
+          {/* RIGHT: BOOKING FORM (3 Cols) */}
+          <div className="lg:col-span-3">
+            <div className="bg-white rounded-[2rem] border border-neutral-100 p-8 md:p-10 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.03)]">
+              <div className="mb-8">
+                <h2 className="text-2xl font-black text-neutral-900 tracking-tight">
+                  Complete Your Booking
+                </h2>
+                <p className="text-sm text-neutral-500 font-medium">
+                  Enter your details to finalize the reservation.
+                </p>
+              </div>
+
+              <form
+                className="space-y-6"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  form.handleSubmit();
+                }}
+              >
+                {/* Event ID (Read-Only Styled) */}
+                <form.Field name="event_id">
+                  {(field) => (
+                    <div className="space-y-2 opacity-60">
+                      <label className="text-[10px] font-black uppercase tracking-[0.1em] text-neutral-400">
+                        Reference Event ID
+                      </label>
+                      <Input
+                        className="bg-neutral-50 border-neutral-100 h-12 rounded-xl font-mono text-xs"
+                        value={field.state.value}
+                        readOnly
+                      />
+                    </div>
+                  )}
+                </form.Field>
+
+                {/* Seats Selection */}
+                <form.Field
+                  name="seats"
+                  validators={{
+                    onChange: ({ value }) => {
+                      const result =
+                        createBookingZodSchema.shape.seats.safeParse(value);
+                      return result.success
+                        ? undefined
+                        : result.error.issues[0]?.message;
+                    },
+                  }}
+                >
+                  {(field) => (
+                    <div className="space-y-3">
+                      <div className="flex justify-between items-end">
+                        <label className="text-sm font-bold text-neutral-800">
+                          Number of Seats
+                        </label>
+                        {field.state.meta.errors.length > 0 && (
+                          <span className="text-[10px] font-bold text-red-500 uppercase">
+                            {field.state.meta.errors[0]}
+                          </span>
+                        )}
+                      </div>
+                      <div className="relative group">
+                        <Ticket
+                          className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400 group-focus-within:text-primary transition-colors"
+                          size={18}
+                        />
+                        <Input
+                          id={field.name}
+                          type="number"
+                          min={1}
+                          max={event?.remaining_seats}
+                          className="pl-12 h-14 rounded-2xl border-neutral-100 focus:ring-primary focus:border-primary text-lg font-black"
+                          value={String(field.state.value)}
+                          onChange={(e) =>
+                            field.handleChange(Number(e.target.value))
+                          }
+                          disabled={isPending || isRedirecting}
+                        />
+                      </div>
+                    </div>
+                  )}
+                </form.Field>
+
+                {/* Total Preview */}
+                {/* 6. DYNAMIC TOTAL PREVIEW */}
+                <form.Subscribe selector={(state) => [state.values.seats]}>
+                  {([seats]) => {
+                    const currentSeats = Number(seats) || 0;
+                    const unitPrice = event?.per_person_price || 0;
+                    const calculatedTotal = unitPrice * currentSeats;
+
+                    return (
+                      <div className="space-y-6">
+                        {/* The Live Price Card */}
+                        <div className="p-6 rounded-2xl bg-neutral-950 text-white relative overflow-hidden group">
+                          {/* Subtle decorative glow */}
+                          <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 blur-[50px] rounded-full -mr-16 -mt-16 group-hover:bg-primary/20 transition-colors" />
+
+                          <div className="relative z-10 space-y-4">
+                            <div className="flex justify-between items-center border-b border-white/10 pb-3">
+                              <div className="space-y-0.5">
+                                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-neutral-500">
+                                  Total Investment
+                                </p>
+                                <p className="text-xs text-neutral-400 font-medium italic">
+                                  ৳{unitPrice.toLocaleString()} × {currentSeats}{" "}
+                                  {currentSeats === 1 ? "seat" : "seats"}
+                                </p>
+                              </div>
+                              <CreditCard
+                                size={20}
+                                className="text-primary/80"
+                              />
+                            </div>
+
+                            <div className="flex justify-between items-end">
+                              <div>
+                                <p className="text-4xl font-black tracking-tighter italic text-white">
+                                  ৳{calculatedTotal.toLocaleString()}
+                                </p>
+                                <p className="text-[9px] font-bold text-success uppercase tracking-widest mt-1">
+                                  • Instant Confirmation Included
+                                </p>
+                              </div>
+
+                              {/* Visual Seat Counter */}
+                              <div className="bg-white/5 px-3 py-1 rounded-lg border border-white/5">
+                                <span className="text-xs font-black text-primary uppercase leading-none">
+                                  {currentSeats.toString().padStart(2, "0")}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* 7. ACTION BUTTON */}
+                        <Button
+                          type="submit"
+                          disabled={
+                            isPending || isRedirecting || currentSeats < 1
+                          }
+                          className={cn(
+                            "w-full h-16 rounded-2xl font-black text-sm uppercase tracking-[0.2em] shadow-xl transition-all duration-500 group",
+                            currentSeats < 1
+                              ? "bg-neutral-100 text-neutral-400 cursor-not-allowed shadow-none"
+                              : "bg-primary hover:bg-primary-dark text-white shadow-primary/20",
+                          )}
+                        >
+                          {isPending || isRedirecting ? (
+                            <div className="flex items-center gap-3">
+                              <div className="h-4 w-4 border-2 border-white/30 border-t-white animate-spin rounded-full" />
+                              <span className="animate-pulse">
+                                Processing...
+                              </span>
+                            </div>
+                          ) : (
+                            <span className="flex items-center gap-2">
+                              Pay ৳{calculatedTotal.toLocaleString()}
+                              <ChevronRight className="group-hover:translate-x-1 transition-transform" />
+                            </span>
+                          )}
+                        </Button>
+                      </div>
+                    );
+                  }}
+                </form.Subscribe>
+
+                <p className="text-[10px] text-center text-neutral-400 font-bold uppercase tracking-tighter">
+                  By clicking, you agree to the Event Terms & Conditions
+                </p>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
+
+const BookingSkeleton = () => (
+  <div className="max-w-5xl mx-auto py-12 px-4 space-y-6">
+    <Skeleton className="h-4 w-32" />
+    <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+      <Skeleton className="lg:col-span-2 h-[400px] rounded-3xl" />
+      <Skeleton className="lg:col-span-3 h-[500px] rounded-[2rem]" />
+    </div>
+  </div>
+);
 
 export default BookingForm;
