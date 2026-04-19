@@ -1,20 +1,14 @@
 
-
 'use client';
-
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
   Waves,
-  Search,
   Menu,
   ChevronDown,
-  CalendarDays,
   Palmtree,
-  Ship,
   ArrowRight,
-  X,
   FileQuestion,
   Contact
 } from 'lucide-react';
@@ -34,11 +28,12 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
+import UserDropdown from './UserDropDown';
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [showSearch, setShowSearch] = useState(false);
+  // const [showSearch, setShowSearch] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -75,7 +70,7 @@ export default function Navbar() {
         <div className="container-max flex items-center justify-between gap-2 md:gap-4 relative">
           
           {/* SEARCH BAR OVERLAY (Slides from left) */}
-          <div className={cn(
+          {/* <div className={cn(
             "absolute inset-y-0 right-0 max-w-xl  bg-white z-50 flex items-center gap-3 transition-all duration-300 px-2 md:px-0",
             showSearch ? "opacity-100 visible translate-x-0" : "opacity-0 invisible -translate-x-4"
           )}>
@@ -94,7 +89,8 @@ export default function Navbar() {
             >
               <X className="w-5 h-5 text-neutral-500" />
             </button>
-          </div>
+          </div> */}
+          
 
           {/* BRAND IDENTITY */}
           <Link href="/" className="flex items-center gap-2 md:gap-2.5 group shrink-0">
@@ -152,26 +148,30 @@ export default function Navbar() {
 
           {/* CTA & PROFILE */}
           <div className="flex items-center gap-2 md:gap-3">
-            <button 
+            {/* <button 
               onClick={() => setShowSearch(true)}
               className="h-9 w-9 md:h-10 md:w-10 flex items-center justify-center rounded-full bg-neutral-100 text-neutral-500 hover:bg-primary hover:text-white transition-all duration-300 active:scale-90"
             >
               <Search className="w-4 h-4" />
-            </button>
+            </button> */}
+
+            <UserDropdown />
             
             <div className="h-6 md:h-8 w-[1px] bg-neutral-200 mx-0.5 md:mx-1 hidden sm:block" />
 
             {/* Desktop CTA */}
-            <Button className="hidden md:flex relative overflow-hidden bg-secondary hover:bg-secondary-dark text-white px-7 h-11 rounded-full font-black text-xs uppercase tracking-widest shadow-xl shadow-secondary/20 transition-all hover:-translate-y-0.5 active:scale-95 group">
-              <span className="relative z-10 flex items-center gap-2">
-                Book Experience <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </span>
-            </Button>
+            <Link href="/event">
+              <Button className="hidden md:flex relative overflow-hidden bg-secondary hover:bg-secondary-dark text-white px-7 h-11 rounded-full font-black text-xs uppercase tracking-widest shadow-xl shadow-secondary/20 transition-all hover:-translate-y-0.5 active:scale-95 group">
+                <span className="relative z-10 flex items-center gap-2">
+                  Book Experience <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </span>
+              </Button>
+            </Link>
 
             {/* MOBILE MENU TRIGGER */}
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
               <SheetTrigger asChild>
-                <button className="lg:hidden h-10 w-10 flex items-center justify-center rounded-xl bg-neutral-900 text-white shadow-lg active:scale-90 transition-all">
+                <button className="lg:hidden h-10 w-10 flex items-center justify-center rounded-xl bg-primary text-white shadow-lg active:scale-90 transition-all">
                   <Menu className="w-5 h-5" />
                 </button>
               </SheetTrigger>
@@ -210,9 +210,11 @@ export default function Navbar() {
                 </div>
 
                 <div className="absolute bottom-6 left-6 right-6">
-                  <Button className="w-full h-14 rounded-2xl font-bold text-base bg-primary text-white shadow-xl shadow-primary/20">
+                  <Link href="/event">
+                  <Button onClick={() => setIsOpen(false)} className="w-full h-14 rounded-2xl font-bold text-base bg-primary text-white shadow-xl shadow-primary/20">
                     Book Now
                   </Button>
+                  </Link>
                 </div>
               </SheetContent>
             </Sheet>
