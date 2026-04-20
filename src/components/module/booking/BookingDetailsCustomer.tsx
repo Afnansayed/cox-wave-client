@@ -4,10 +4,20 @@ import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { updateBookingStatus } from "@/components/services/booking.services";
 import { BookingStatus, IBookingDetailsData } from "@/types/booking.types";
+import { Roles } from "@/constants/role.type";
 import Link from "next/link";
 import { 
   ArrowLeft, 
@@ -25,11 +35,22 @@ import { cn } from "@/lib/utils";
 
 type BookingDetailsCustomerProps = {
   booking: IBookingDetailsData;
+  basePath?: string;
+  role?: (typeof Roles)[keyof typeof Roles];
 };
 
-const BookingDetailsCustomer = ({ booking }: BookingDetailsCustomerProps) => {
+const BookingDetailsCustomer = ({
+  booking,
+  basePath = "/customer-dashboard/booking",
+  role = Roles.customer,
+}: BookingDetailsCustomerProps) => {
   const router = useRouter();
   const [currentStatus, setCurrentStatus] = useState<BookingStatus>(booking.status);
+  const [selectedStatus, setSelectedStatus] = useState<BookingStatus>(booking.status);
+  const [isStatusModalOpen, setIsStatusModalOpen] = useState(false);
+
+  const isCustomer = role === Roles.customer;
+  const isOwnerOrAdmin = role === Roles.owner || role === Roles.admin;
 
   const { mutateAsync, isPending } = useMutation({
     mutationFn: (nextStatus: BookingStatus) => updateBookingStatus(booking.id, nextStatus),
@@ -44,14 +65,28 @@ const BookingDetailsCustomer = ({ booking }: BookingDetailsCustomerProps) => {
         return;
       }
       setCurrentStatus(nextStatus);
-      toast.success("Booking cancelled successfully.", { id: toastId });
+      setSelectedStatus(nextStatus);
+      setIsStatusModalOpen(false);
+      toast.success(response.message || "Booking status updated successfully.", { id: toastId });
       router.refresh();
     } catch (error: any) {
       toast.error(error.message || "An error occurred.", { id: toastId });
     }
   };
 
-  const canCancel = ["PENDING", "CONFIRMED"].includes(currentStatus);
+  const canCancelAsCustomer =
+    isCustomer && ["PENDING", "CONFIRMED"].includes(currentStatus);
+
+  const canOpenStatusModal =
+    isOwnerOrAdmin && currentStatus !== "CANCELLED" && currentStatus !== "COMPLETED";
+
+  const ownerAdminStatusOptions: BookingStatus[] = [
+    "PENDING",
+    "PROCESSING",
+    "CONFIRMED",
+    "CANCELLED",
+    "COMPLETED",
+  ];
 
   return (
     <section className="container-max mx-auto space-y-6 md:space-y-8 animate-in fade-in duration-500">
@@ -60,7 +95,7 @@ const BookingDetailsCustomer = ({ booking }: BookingDetailsCustomerProps) => {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div className="flex items-start md:items-center gap-3 md:gap-4">
           <Button asChild variant="ghost" size="icon" className="rounded-full hover:bg-secondary/20 flex-shrink-0">
-            <Link href="/customer-dashboard/booking">
+            <Link href={basePath}>
               <ArrowLeft size={20} className="text-text-secondary" />
             </Link>
           </Button>
@@ -74,7 +109,7 @@ const BookingDetailsCustomer = ({ booking }: BookingDetailsCustomerProps) => {
         </div>
 
         <div className="flex items-center gap-2 w-full md:w-auto">
-          {canCancel && (
+          {canCancelAsCustomer && (
             <Button
               variant="destructive"
               disabled={isPending}
@@ -84,8 +119,68 @@ const BookingDetailsCustomer = ({ booking }: BookingDetailsCustomerProps) => {
               {isPending ? "..." : "Cancel"}
             </Button>
           )}
+
+          {canOpenStatusModal && (
+            <Dialog open={isStatusModalOpen} onOpenChange={setIsStatusModalOpen}>
+              <DialogTrigger asChild>
+                <Button
+                  type="button"
+                  variant="default"
+                  disabled={isPending}
+                  className="flex-1 md:flex-none rounded-xl font-black text-[10px] uppercase tracking-widest px-4 md:px-6 h-11"
+                >
+                  Update Status
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-md">
+                <DialogHeader>
+                  <DialogTitle>Update Booking Status</DialogTitle>
+                  <DialogDescription>
+                    Select a new status for this booking.
+                  </DialogDescription>
+                </DialogHeader>
+
+                <div className="space-y-2">
+                  <p className="text-xs font-bold uppercase tracking-widest text-text-secondary">
+                    New Status
+                  </p>
+                  <select
+                    value={selectedStatus}
+                    onChange={(e) => setSelectedStatus(e.target.value as BookingStatus)}
+                    className="h-11 w-full rounded-xl border border-secondary/20 px-3 text-sm font-medium outline-none focus:border-primary"
+                    disabled={isPending}
+                  >
+                    {ownerAdminStatusOptions.map((status) => (
+                      <option key={status} value={status}>
+                        {status}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <DialogFooter>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => setIsStatusModalOpen(false)}
+                    disabled={isPending}
+                  >
+                    Close
+                  </Button>
+                  <Button
+                    type="button"
+                    onClick={() => handleStatusUpdate(selectedStatus)}
+                    disabled={isPending || selectedStatus === currentStatus}
+                  >
+                    {isPending ? "Updating..." : "Save Changes"}
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+          )}
+
           <Button asChild variant="outline" className="flex-1 md:flex-none rounded-xl border-secondary/20 h-11 font-black text-[10px] uppercase tracking-widest">
-            <Link href="/customer-dashboard/booking">Back</Link>
+            <Link href={basePath}>Back</Link>
           </Button>
         </div>
       </div>

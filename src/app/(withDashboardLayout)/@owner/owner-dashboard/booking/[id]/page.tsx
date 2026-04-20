@@ -1,13 +1,9 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { getBookingById } from "@/components/services/booking.services";
 import BookingDetailsCustomer from "@/components/module/booking/BookingDetailsCustomer";
+import { getBookingById } from "@/components/services/booking.services";
 import { Roles } from "@/constants/role.type";
 
-
-
-const BookingDetailsPage = async ({
+const OwnerBookingDetailsPage = async ({
   params,
 }: {
   params: Promise<{ id: string }>;
@@ -20,13 +16,13 @@ const BookingDetailsPage = async ({
     notFound();
   }
 
-  const booking = response.data;
-
   return (
-    <section className="space-y-4 p-4">
-      <BookingDetailsCustomer booking={booking} role={Roles.customer} />
-    </section>
+    <BookingDetailsCustomer
+      booking={response.data}
+      basePath="/owner-dashboard/booking"
+      role={Roles.owner}
+    />
   );
 };
 
-export default BookingDetailsPage;
+export default OwnerBookingDetailsPage;

@@ -1,5 +1,5 @@
 import { Route } from '@/types/route.type';
-import { KeyRound, User } from 'lucide-react';
+import { KeyRound, Ticket, User } from 'lucide-react';
 
 export const ownerRoutes: Route[] = [
   {
@@ -14,6 +14,11 @@ export const ownerRoutes: Route[] = [
         title: 'Change Password',
         url: '/owner-dashboard/change-password',
         icon: KeyRound,
+      },
+      {
+        title: 'Bookings',
+        url: '/owner-dashboard/booking',
+        icon: Ticket,
       },
       
     ],

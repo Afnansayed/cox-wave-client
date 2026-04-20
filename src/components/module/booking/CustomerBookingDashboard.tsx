@@ -41,7 +41,13 @@ const getSanitizedBookingQueryString = (queryString: string) => {
   return sanitizedParams.toString();
 };
 
-const CustomerBookingDashboard = () => {
+type CustomerBookingDashboardProps = {
+  basePath?: string;
+};
+
+const CustomerBookingDashboard = ({
+  basePath = "/customer-dashboard/booking",
+}: CustomerBookingDashboardProps) => {
   const searchParams = useSearchParams();
   const [searchInput, setSearchInput] = useState(searchParams.get("searchTerm") || "");
 
@@ -110,7 +116,7 @@ const CustomerBookingDashboard = () => {
                <p className="text-[9px] md:text-[10px] font-black text-text-secondary uppercase tracking-widest leading-tight">Total</p>
                <p className="text-xl md:text-2xl font-black text-text-primary leading-tight">{meta?.total ?? 0}</p>
             </div>
-            <Button asChild className="bg-primary hover:opacity-90 transition-opacity rounded-xl md:rounded-2xl h-10 md:h-14 px-6 md:px-8 shadow-lg shadow-primary/20 flex-shrink-0">
+            <Button asChild className="bg-primary hover:opacity-90 transition-opacity rounded-xl md:rounded-2xl h-10  px-6 md:px-8 shadow-lg shadow-primary/20 flex-shrink-0">
                 <Link href="/events" className="font-black text-[10px] md:text-xs uppercase tracking-widest text-white">Book Now</Link>
             </Button>
           </div>
@@ -248,7 +254,7 @@ const CustomerBookingDashboard = () => {
                       {/* Action - Simplified for mobile */}
                       <td className="px-6 md:px-8 py-4 md:py-6 text-right">
                         <Button asChild variant="ghost" className="rounded-full  h-8  px-3 md:px-6 hover:bg-primary hover:text-white transition-all group/btn">
-                          <Link href={`/customer-dashboard/booking/${row.id}`} className="flex items-center gap-1 md:gap-2 text-[9px] md:text-[10px] font-black uppercase tracking-[0.1em] md:tracking-[0.2em]">
+                          <Link href={`${basePath}/${row.id}`} className="flex items-center gap-1 md:gap-2 text-[9px] md:text-[10px] font-black uppercase tracking-[0.1em] md:tracking-[0.2em]">
                             <span className="hidden sm:inline">Details</span> <ArrowRight size={14} className="group-hover/btn:translate-x-0.5 transition-transform" />
                           </Link>
                         </Button>
