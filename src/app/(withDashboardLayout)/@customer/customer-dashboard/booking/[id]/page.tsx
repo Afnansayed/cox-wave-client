@@ -23,7 +23,6 @@ const BookingDetailsPage = async ({
 
   return (
     <section className="space-y-4 p-4">
-     
       <BookingDetailsCustomer booking={booking} />
     </section>
   );
