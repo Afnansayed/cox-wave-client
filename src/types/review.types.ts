@@ -14,6 +14,7 @@ export interface IReview {
   updatedAt: Date;
 
   customer: IReviewCustomer;
+  event: IReviewEvent;
 }
 
 export interface IReviewCustomer {
@@ -21,6 +22,12 @@ export interface IReviewCustomer {
   name: string;
   email: string;
   profile_picture?: string | null;
+}
+
+export interface IReviewEvent {
+  id: string;
+  title: string;
+  location: string;
 }
 
 export interface ICreateReview {
@@ -34,3 +41,13 @@ export interface IUpdateReview {
   comment?: string;
   status?: ReviewStatus; // admin use
 }
+
+export interface IReviewListData {
+  meta?: {
+    page: number;
+    limit: number;
+    total: number;
+  };
+  data: IReview[];
+}
+
