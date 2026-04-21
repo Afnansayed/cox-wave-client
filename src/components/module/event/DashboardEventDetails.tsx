@@ -1,13 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ArrowLeft, CalendarDays, Hash, ImageOff, MapPin, Star, Ticket, Users, Wallet } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { getOwnerEventById, updateActiveStatus } from "@/components/services/event.service";
+import { getOwnerEventById, updateActiveStatus, updateEventStatus } from "@/components/services/event.service";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { EventStatus } from "@/types/event.types";
+import { useState } from "react";
+import { UpdateEventStatusModal } from "./UpdateEventStatusModal";
 
 type DashboardEventDetailsProps = {
   id: string;
@@ -27,6 +30,12 @@ const statusClass = (status: string) => {
 
 const DashboardEventDetails = ({ id, basePath = "/owner-dashboard/event" }: DashboardEventDetailsProps) => {
   const router = useRouter();
+  const queryClient = useQueryClient();
+
+    // 1. State for Modal
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState<{id: string, status: EventStatus} | null>(null);
+
   const { data, isLoading, isFetching } = useQuery({
     queryKey: ["owner-event", id],
     queryFn: () => getOwnerEventById(id),
@@ -41,14 +50,7 @@ const DashboardEventDetails = ({ id, basePath = "/owner-dashboard/event" }: Dash
   const event = data?.data;
   const isBusy = isLoading || isFetching;
 
-  if (isBusy || !event) {
-    return (
-      <section className="space-y-6 p-4 md:p-8">
-        <div className="h-10 w-48 animate-pulse rounded-xl bg-secondary/20" />
-        <div className="h-[560px] animate-pulse rounded-2xl bg-secondary/10" />
-      </section>
-    );
-  }
+
 
     const handleActiveStatusUpdate = async () => {
     const toastId = toast.loading("Updating event active status...");
@@ -73,6 +75,40 @@ const DashboardEventDetails = ({ id, basePath = "/owner-dashboard/event" }: Dash
     }
   };
 
+
+
+
+
+  // 2. Mutation Logic
+  const { mutateAsync: eventStatusUpdate, isPending: inPendingTwo } = useMutation({
+    mutationFn: (newStatus: EventStatus) => updateEventStatus(selectedEvent!.id, newStatus),
+    onSuccess: (res) => {
+      toast.success("Status updated successfully");
+      queryClient.invalidateQueries({ queryKey: ["owner-event", selectedEvent!.id] });
+      setIsModalOpen(false);
+    },
+    onError: (err: any) => {
+      toast.error(err.message || "Failed to update status");
+    }
+  });
+
+  // 3. Open Modal Handler
+ const handleOpenModal = () => {
+  if (event) {
+    setSelectedEvent({ id: event.id, status: event.status });
+    setIsModalOpen(true);
+  }
+};
+
+
+  if (isBusy || !event) {
+    return (
+      <section className="space-y-6 p-4 md:p-8">
+        <div className="h-10 w-48 animate-pulse rounded-xl bg-secondary/20" />
+        <div className="h-[560px] animate-pulse rounded-2xl bg-secondary/10" />
+      </section>
+    );
+  }
   
 
   return (
@@ -85,12 +121,12 @@ const DashboardEventDetails = ({ id, basePath = "/owner-dashboard/event" }: Dash
         <div >
          {basePath === "/owner-dashboard/event" && (
            <Button onClick={() => handleActiveStatusUpdate()}  variant="outline" className="mr-2 bg-primary text-white hover:text-white hover:bg-primary/90">
-             Change Active Status
+            {isPending? "Changing Active Status..." : "Change Active Status"}
            </Button>
          )}
 
       {basePath === "/admin-dashboard/event" && (
-        <Button onClick={() => handleActiveStatusUpdate()}  variant="outline" className="mr-2 bg-primary text-white hover:text-white hover:bg-primary/90">
+        <Button onClick={handleOpenModal} variant="outline" className="mr-2 bg-primary text-white hover:text-white hover:bg-primary/90">
           Change Status
         </Button>
       )}
@@ -205,6 +241,19 @@ const DashboardEventDetails = ({ id, basePath = "/owner-dashboard/event" }: Dash
           </div>
         </div>
       ) : null}
+
+{selectedEvent && (
+  <UpdateEventStatusModal
+    isOpen={isModalOpen}
+    onClose={() => setIsModalOpen(false)}
+    currentStatus={selectedEvent.status}
+    // Wrap it in an arrow function to match the expected return type
+    onSubmit={async (status) => {
+      await eventStatusUpdate(status);
+    }}
+    isPending={inPendingTwo}
+  />
+)}
     </section>
   );
 };

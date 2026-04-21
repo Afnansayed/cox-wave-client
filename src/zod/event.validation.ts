@@ -79,3 +79,5 @@ export const updateEventValidationSchema = z.object({
 });
 
 export type UpdateEventFormData = z.infer<typeof updateEventValidationSchema>;
+
+
