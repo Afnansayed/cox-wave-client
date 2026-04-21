@@ -1,5 +1,5 @@
 import { Route } from '@/types/route.type';
-import { KeyRound, Ticket, User } from 'lucide-react';
+import { CalendarDays, KeyRound, Ticket, User } from 'lucide-react';
 
 export const ownerRoutes: Route[] = [
   {
@@ -19,6 +19,11 @@ export const ownerRoutes: Route[] = [
         title: 'Bookings',
         url: '/owner-dashboard/booking',
         icon: Ticket,
+      },
+      {
+        title: 'Events',
+        url: '/owner-dashboard/event',
+        icon: CalendarDays,
       },
       
     ],

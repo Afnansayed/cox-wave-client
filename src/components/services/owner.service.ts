@@ -32,6 +32,15 @@ export const updateOwnerApprovalStatus = async (id: string) => {
   }
 };
 
+export const getMyProfileOwner = async () => {
+  try {
+    return await httpClient.get<IOwner>(`/owner/profile`);
+  } catch (error) {
+    console.error("Error fetching owner profile:", error);
+    throw error;
+  }
+};
+
 export const createOwner = async (formData: FormData) => {
   try {
     return await httpClient.post<IOwner>("/user/create-owner", formData, {
@@ -39,15 +48,6 @@ export const createOwner = async (formData: FormData) => {
     });
   } catch (error) {
     console.error("Error creating owner:", error);
-    throw error;
-  }
-};
-
-export const getMyProfileOwner = async () => {
-  try {
-    return await httpClient.get<IOwner>(`/owner/profile`);
-  } catch (error) {
-    console.error("Error fetching owner profile:", error);
     throw error;
   }
 };
@@ -62,5 +62,3 @@ export const updateOwnerProfile = async (formData: FormData) => {
     throw error;
   }
 };
-
-

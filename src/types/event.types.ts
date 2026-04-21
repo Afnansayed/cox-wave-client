@@ -54,3 +54,12 @@ export interface IUpdateEvent {
   status?: EventStatus;
   isActive?: boolean;
 }
+
+export interface IEventsListData {
+    meta?: {
+    page: number;
+    limit: number;
+    total: number;
+  };
+  data: IEvent[];
+}
