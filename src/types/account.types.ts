@@ -59,3 +59,12 @@ export interface ICustomer {
 
   user_id: string;
 }
+
+export interface IOwnersListData {
+  meta?: {
+    page: number;
+    limit: number;
+    total: number;
+  };
+  data: IOwner[];
+}
