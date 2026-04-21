@@ -23,3 +23,12 @@ export const getOwnerEventById = async (id: string) => {
     throw error;
   }
 };
+
+export const updateActiveStatus = async (id: string) => {
+  try {
+    return await httpClient.patch<IEvent>(`event/${id}/active-status`, undefined);
+  } catch (error) {
+    console.error("Error updating event active status:", error);
+    throw error;
+  }
+};

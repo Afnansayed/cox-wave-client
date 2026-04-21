@@ -1,11 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { ArrowLeft, CalendarDays, Hash, ImageOff, MapPin, Star, Ticket, Users, Wallet } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { getOwnerEventById } from "@/components/services/event.service";
+import { getOwnerEventById, updateActiveStatus } from "@/components/services/event.service";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 type OwnerEventDetailsProps = {
   id: string;
@@ -24,10 +26,17 @@ const statusClass = (status: string) => {
 };
 
 const OwnerEventDetails = ({ id, basePath = "/owner-dashboard/event" }: OwnerEventDetailsProps) => {
+  const router = useRouter();
   const { data, isLoading, isFetching } = useQuery({
     queryKey: ["owner-event", id],
     queryFn: () => getOwnerEventById(id),
   });
+
+  const { mutateAsync, isPending } = useMutation({
+    mutationFn: () => updateActiveStatus(id),
+  });
+
+
 
   const event = data?.data;
   const isBusy = isLoading || isFetching;
@@ -41,6 +50,29 @@ const OwnerEventDetails = ({ id, basePath = "/owner-dashboard/event" }: OwnerEve
     );
   }
 
+    const handleActiveStatusUpdate = async () => {
+    const toastId = toast.loading("Updating event active status...");
+
+    try {
+      const response = await mutateAsync();
+
+      if (!response.success) {
+        toast.error(response.message || "Failed to update event status.", {
+          id: toastId,
+        });
+        return;
+      }
+      toast.success(response.message || "Event active status updated.", {
+        id: toastId,
+      });
+      router.refresh();
+    } catch (error: unknown) {
+      const message =
+        error instanceof Error ? error.message : "Failed to update event active status.";
+      toast.error(message, { id: toastId });
+    }
+  };
+
   return (
     <section className="space-y-6 p-4 md:p-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
@@ -48,12 +80,17 @@ const OwnerEventDetails = ({ id, basePath = "/owner-dashboard/event" }: OwnerEve
           <h1 className="text-2xl font-bold">Event Details</h1>
           <p className="text-sm text-muted-foreground">Event ID: {event.id}</p>
         </div>
+        <div >
+         <Button onClick={() => handleActiveStatusUpdate()}  variant="outline" className="mr-2 bg-primary text-white hover:text-white hover:bg-primary/90">
+           Change Event Status
+         </Button>
         <Button asChild variant="outline">
           <Link href={basePath}>
             <ArrowLeft className="mr-2 h-4 w-4" />
             Back to Events
           </Link>
         </Button>
+ </div>
       </div>
 
       <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
@@ -68,6 +105,12 @@ const OwnerEventDetails = ({ id, basePath = "/owner-dashboard/event" }: OwnerEve
         <div className="rounded-2xl border bg-white p-5 shadow-sm">
           <p className="text-xs text-muted-foreground">Status</p>
           <Badge className={statusClass(event.status)}>{event.status}</Badge>
+        </div>
+        <div className="rounded-2xl border bg-white p-5 shadow-sm">
+          <p className="text-xs text-muted-foreground">Active Status</p>
+          <Badge className={statusClass(event.isActive ? "APPROVED" : "REJECTED")}>
+            {event.isActive ? "Active" : "Inactive"}
+          </Badge>
         </div>
         <div className="rounded-2xl border bg-white p-5 shadow-sm">
           <p className="text-xs text-muted-foreground">Price</p>
