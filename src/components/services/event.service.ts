@@ -1,7 +1,7 @@
 "use server";
 
 import { httpClient } from "@/lib/axios/httpClient";
-import { IEvent, IEventsListData } from "@/types/event.types";
+import { EventStatus, IEvent, IEventsListData } from "@/types/event.types";
 
 
 export const getOwnerEvents = async (queryString?: string) => {
@@ -29,6 +29,43 @@ export const updateActiveStatus = async (id: string) => {
     return await httpClient.patch<IEvent>(`event/${id}/active-status`, undefined);
   } catch (error) {
     console.error("Error updating event active status:", error);
+    throw error;
+  }
+};
+
+export const updateEventStatus = async (id: string, status: EventStatus) => {
+  try {
+    return await httpClient.patch<IEvent>(`/event/${id}/status`, {
+      status,
+    });
+  } catch (error) {
+    console.log('Error updating event status:', error);
+    throw error;
+  }
+};
+
+export const createEvent = async (data: FormData) => {
+  try {
+    return await httpClient.post<IEvent>("/event", data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+  } catch (error) {
+    console.error("Error creating event:", error);
+    throw error;
+  }
+};
+
+export const updateEvent = async (id: string, data: FormData) => {
+  try {
+    return await httpClient.patch<IEvent>(`/event/${id}`, data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+  } catch (error) {
+    console.error("Error updating event:", error);
     throw error;
   }
 };

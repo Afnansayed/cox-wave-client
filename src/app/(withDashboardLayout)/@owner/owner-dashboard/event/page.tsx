@@ -1,7 +1,8 @@
-import EventDashboard from "@/components/module/event/EventDashboard";
+import EventDashboard from "@/components/module/event/OwnerEventDashboard";
+
 
 const OwnerEventPage = () => {
-  return <EventDashboard basePath="/owner-dashboard/event" />;
+  return <EventDashboard />;
 };
 
 export default OwnerEventPage;
