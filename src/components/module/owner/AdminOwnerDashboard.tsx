@@ -24,7 +24,7 @@ const OWNER_ALLOWED_QUERY_KEYS = new Set([
   "isApproved",
 ]);
 
-const getSanitizedOwnerQueryString = (queryString: string) => {
+export const getSanitizedOwnerQueryString = (queryString: string) => {
   const currentParams = new URLSearchParams(queryString);
   const sanitizedParams = new URLSearchParams();
 

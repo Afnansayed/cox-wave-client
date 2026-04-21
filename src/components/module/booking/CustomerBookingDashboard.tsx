@@ -9,10 +9,10 @@ import {
   Calendar, 
   Users, 
   RotateCcw,
-  LayoutGrid,
   ArrowRight,
   Hash,
-  Filter
+  ChevronRight,
+  Ticket
 } from "lucide-react";
 import { getBooking } from "@/components/services/booking.services";
 import { useServerManagedDataTable } from "@/hooks/useServerManagedDataTable";
@@ -41,13 +41,9 @@ const getSanitizedBookingQueryString = (queryString: string) => {
   return sanitizedParams.toString();
 };
 
-type CustomerBookingDashboardProps = {
-  basePath?: string;
-};
-
 const CustomerBookingDashboard = ({
   basePath = "/customer-dashboard/booking",
-}: CustomerBookingDashboardProps) => {
+}) => {
   const searchParams = useSearchParams();
   const [searchInput, setSearchInput] = useState(searchParams.get("searchTerm") || "");
 
@@ -97,196 +93,202 @@ const CustomerBookingDashboard = ({
   };
 
   return (
-    <div className="w-full min-h-screen bg-transparent">
-      <section className="container-max mx-auto space-y-6 md:space-y-8 p-4 md:p-8">
+    <div className="w-full  mx-auto space-y-8">
+      
+      {/* 1. HERO SECTION */}
+      <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+        <div className="space-y-1">
+          <h1 className="text-3xl font-semibold tracking-tight text-slate-900">My Bookings</h1>
+          <p className="text-slate-500 text-sm">Review your history and active reservations.</p>
+        </div>
         
-        {/* Header Section - Stacks on mobile */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-          <div className="space-y-1 md:space-y-2">
-            <div className="flex items-center gap-2 text-primary font-black text-[10px] md:text-xs uppercase tracking-[0.25em]">
-              <LayoutGrid size={14} />
-              Dashboard
-            </div>
-            <h1 className="text-3xl md:text-4xl font-black tracking-tighter text-text-primary leading-none">My Bookings</h1>
-            <p className="text-text-secondary text-xs md:text-sm font-medium">Manage your reservations and view updates.</p>
+        <div className="flex items-center justify-between p-4 bg-white rounded-2xl border border-slate-100 shadow-sm md:w-64">
+          <div>
+            <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">Total Orders</p>
+            <p className="text-2xl font-bold text-slate-900">{meta?.total ?? 0}</p>
           </div>
-          
-          <div className="flex items-center justify-between md:justify-end gap-4 bg-white/50 p-2 rounded-2xl md:rounded-[2rem] border border-secondary/20 shadow-sm">
-            <div className="px-4 md:px-6 py-1 md:py-2">
-               <p className="text-[9px] md:text-[10px] font-black text-text-secondary uppercase tracking-widest leading-tight">Total</p>
-               <p className="text-xl md:text-2xl font-black text-text-primary leading-tight">{meta?.total ?? 0}</p>
-            </div>
-            <Button asChild className="bg-primary hover:opacity-90 transition-opacity rounded-xl md:rounded-2xl h-10  px-6 md:px-8 shadow-lg shadow-primary/20 flex-shrink-0">
-                <Link href="/events" className="font-black text-[10px] md:text-xs uppercase tracking-widest text-white">Book Now</Link>
-            </Button>
-          </div>
+         {
+          basePath === "/customer-dashboard/booking" && (
+           <Button asChild size="sm" className="rounded-xl h-10 px-5 shadow-sm">
+            <Link href="/events">Book New</Link>
+          </Button>)
+         }
+        </div>
+      </div>
+
+      {/* 2. FILTER TOOLBAR */}
+      <div className="grid grid-cols-1 gap-3 lg:grid-cols-12">
+        <div className="relative lg:col-span-6">
+          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+          <Input
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+            placeholder="Search bookings..."
+            className="h-12 pl-11 pr-24 bg-white border-slate-200 rounded-2xl focus-visible:ring-primary/10 shadow-sm"
+          />
+          <button 
+            onClick={handleSearch}
+            className="absolute right-2 top-1/2 -translate-y-1/2 h-8 px-4 bg-slate-900 text-white text-xs font-medium rounded-xl hover:bg-slate-800 transition-colors"
+          >
+            Search
+          </button>
         </div>
 
-        {/* Filter Toolbar - Horizontal scroll on very small screens, wraps on mobile */}
-        <div className="bg-white rounded-2xl md:rounded-[2rem] border border-secondary/10 p-2 md:p-3 shadow-sm space-y-3 md:space-y-0 md:flex md:items-center md:gap-4">
-          <div className="flex-1 relative group">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-text-secondary group-focus-within:text-primary transition-colors" size={18} />
-            <Input
-              value={searchInput}
-              onChange={(e) => setSearchInput(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-              placeholder="Search bookings..."
-              className="h-11 md:h-12 pl-12 pr-20 bg-primary/5 border-none rounded-xl md:rounded-2xl text-sm font-medium placeholder:text-text-primary/40 focus-visible:ring-2 focus-visible:ring-primary/20"
-              disabled={isBusy}
-            />
-            <Button size="sm" onClick={handleSearch} disabled={isBusy} className="absolute right-1.5 top-1/2 -translate-y-1/2 rounded-lg bg-text-primary hover:bg-primary h-8 text-[9px] uppercase font-black tracking-widest">
-              Search
-            </Button>
+        <div className="flex gap-2 lg:col-span-6">
+          <select
+            value={currentStatus}
+            onChange={(e) => handleStatusChange(e.target.value)}
+            className="flex-1 h-12 px-4 bg-white border border-slate-200 rounded-2xl text-sm font-medium text-slate-600 outline-none focus:ring-2 focus:ring-primary/5 transition-all appearance-none"
+          >
+            <option value="ALL">Status: All</option>
+            <option value="PENDING">Pending</option>
+            <option value="CONFIRMED">Confirmed</option>
+            <option value="CANCELLED">Cancelled</option>
+            <option value="COMPLETED">Completed</option>
+            <option value="PROCESSING">Processing</option>
+          </select>
+
+          <select
+            value={sortValue}
+            onChange={(e) => handleSortChange(e.target.value)}
+            className="flex-1 h-12 px-4 bg-white border border-slate-200 rounded-2xl text-sm font-medium text-slate-600 outline-none focus:ring-2 focus:ring-primary/5 transition-all appearance-none"
+          >
+            <option value="default">Sort By</option>
+            <option value="createdAt:desc">Newest</option>
+            <option value="createdAt:asc">Oldest</option>
+            <option value="total_amount:desc">Highest Price</option>
+            <option value="total_amount:asc">Lowest Price</option>
+          </select>
+
+          <Button 
+            variant="outline" 
+            size="icon" 
+            onClick={clearAll} 
+            className="h-12 w-12 rounded-2xl border-slate-200 text-slate-400 hover:text-slate-900 transition-all flex-shrink-0"
+          >
+            <RotateCcw size={18} />
+          </Button>
+        </div>
+      </div>
+
+      {/* 3. CONTENT AREA: MOBILE CARDS / DESKTOP TABLE */}
+      <div className="relative min-h-[400px]">
+        {isBusy && (
+          <div className="absolute inset-0 z-10 bg-white/50 flex items-center justify-center backdrop-blur-[1px]">
+             <RotateCcw className="animate-spin text-primary" />
           </div>
+        )}
 
-          <div className="flex items-center gap-2 overflow-x-auto pb-1 md:pb-0 no-scrollbar">
-            <select
-              value={currentStatus}
-              onChange={(e) => handleStatusChange(e.target.value)}
-              className="h-11 md:h-12 px-3 md:px-4 bg-white border border-secondary/20 rounded-xl md:rounded-2xl text-[10px] font-black text-text-secondary uppercase tracking-widest cursor-pointer hover:border-primary transition-colors outline-none flex-shrink-0"
-            >
-              <option value="ALL">Status</option>
-              <option value="PENDING">Pending</option>
-              <option value="CONFIRMED">Confirmed</option>
-              <option value="CANCELLED">Cancelled</option>
-              <option value="PROCESSING">Processing</option>
-              <option value="CONFIRMED">Confirmed</option>
-            </select>
-
-            <select
-              value={sortValue}
-              onChange={(e) => handleSortChange(e.target.value)}
-              className="h-11 md:h-12 px-3 md:px-4 bg-white border border-secondary/20 rounded-xl md:rounded-2xl text-[10px] font-black text-text-secondary uppercase tracking-widest cursor-pointer hover:border-primary transition-colors outline-none flex-shrink-0"
-            >
-              <option value="default">Sort</option>
-              <option value="createdAt:desc">Newest</option>
-              <option value="total_amount:desc">Amount</option>
-            </select>
-
-            <Button 
-              variant="outline" 
-              size="icon" 
-              onClick={clearAll} 
-              className="rounded-xl md:rounded-2xl h-11 md:h-12 w-11 md:w-12 border-secondary/20 text-text-secondary hover:text-primary hover:border-primary transition-all flex-shrink-0"
-            >
-              <RotateCcw size={16} />
-            </Button>
-          </div>
+        {/* MOBILE LIST (Visible only on < 768px) */}
+        <div className="flex flex-col gap-4 md:hidden">
+          {rows.length === 0 && !isBusy ? (
+            <div className="text-center py-20 bg-slate-50 rounded-3xl border border-dashed border-slate-200">
+               <p className="text-slate-400 text-sm">No bookings found</p>
+            </div>
+          ) : (
+            rows.map((row) => (
+              <Link 
+                key={row.id} 
+                href={`${basePath}/${row.id}`}
+                className="bg-white p-5 rounded-[2rem] border border-slate-100 shadow-sm active:scale-[0.98] transition-transform"
+              >
+                <div className="flex justify-between items-start mb-4">
+                  <Badge variant="secondary" className={cn(
+                    "rounded-lg px-2 py-0.5 text-[10px] font-semibold tracking-wide",
+                    row.status === "CONFIRMED" ? "bg-emerald-50 text-emerald-700 border-emerald-100" : "bg-slate-100 text-slate-600"
+                  )}>
+                    {row.status}
+                  </Badge>
+                  <span className="text-lg font-bold text-slate-900">৳{row.total_amount.toLocaleString()}</span>
+                </div>
+                <h3 className="font-semibold text-slate-900 mb-1 line-clamp-1">{row.event?.title}</h3>
+                <div className="flex items-center gap-4 text-xs text-slate-500">
+                  <span className="flex items-center gap-1.5"><Calendar size={14} /> {new Date(row.createdAt).toLocaleDateString()}</span>
+                  <span className="flex items-center gap-1.5"><Users size={14} /> {row.seats} Guests</span>
+                </div>
+                <div className="mt-4 pt-4 border-t border-slate-50 flex items-center justify-between text-slate-400">
+                  <span className="text-[10px] font-mono tracking-tighter">ID: {row.id.slice(-8).toUpperCase()}</span>
+                  <span className="text-[10px] font-medium flex items-center gap-1">Details <ChevronRight size={12} /></span>
+                </div>
+              </Link>
+            ))
+          )}
         </div>
 
-        {/* Data Table - Selective columns on mobile */}
-        <div className="bg-white rounded-2xl md:rounded-[2.5rem] border border-secondary/10 overflow-hidden shadow-sm">
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
-              <thead>
-                <tr className="bg-primary/5 border-b border-secondary/10">
-                  <th className="hidden md:table-cell px-8 py-5 text-[10px] font-black uppercase tracking-[0.3em] text-text-secondary">Ref ID</th>
-                  <th className="px-6 md:px-8 py-4 md:py-5 text-[10px] font-black uppercase tracking-[0.3em] text-text-secondary">Event Details</th>
-                  <th className="hidden sm:table-cell px-8 py-5 text-[10px] font-black uppercase tracking-[0.3em] text-text-secondary text-center">Guests</th>
-                  <th className="px-4 md:px-8 py-5 text-[10px] font-black uppercase tracking-[0.3em] text-text-secondary text-center md:text-left">Status</th>
-                  <th className="px-6 md:px-8 py-5 text-[10px] font-black uppercase tracking-[0.3em] text-text-secondary">Amount</th>
-                  <th className="px-6 md:px-8 py-5 text-[10px] font-black uppercase tracking-[0.3em] text-text-secondary text-right">Action</th>
+        {/* DESKTOP TABLE (Visible only on >= 768px) */}
+        <div className="hidden md:block bg-white rounded-[2rem] border border-slate-100 shadow-sm overflow-hidden">
+          <table className="w-full border-collapse">
+            <thead>
+              <tr className="bg-slate-50/50 border-b border-slate-100">
+                <th className="pl-8 py-5 text-xs font-semibold text-slate-500 text-left">Event & Ref</th>
+                <th className="px-6 py-5 text-xs font-semibold text-slate-500 text-center">Status</th>
+                <th className="px-6 py-5 text-xs font-semibold text-slate-500 text-center">Guests</th>
+                <th className="px-6 py-5 text-xs font-semibold text-slate-500 text-left">Amount</th>
+                <th className="pr-8 py-5 text-xs font-semibold text-slate-500 text-right">Action</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-50">
+              {rows.map((row) => (
+                <tr key={row.id} className="group hover:bg-slate-50/50 transition-colors">
+                  <td className="pl-8 py-6">
+                    <div className="flex items-center gap-4">
+                      <div className="h-10 w-10 rounded-xl bg-slate-100 flex items-center justify-center text-slate-400">
+                        <Ticket size={20} />
+                      </div>
+                      <div>
+                        <p className="font-semibold text-slate-900 group-hover:text-primary transition-colors">{row.event?.title}</p>
+                        <p className="text-[11px] text-slate-400 font-mono mt-0.5">#{row.id.slice(-8).toUpperCase()} • {new Date(row.createdAt).toLocaleDateString()}</p>
+                      </div>
+                    </div>
+                  </td>
+                  <td className="px-6 py-6">
+                    <div className="flex flex-col items-center gap-1">
+                      <Badge className={cn(
+                        "rounded-full px-3 py-1 text-[10px] font-medium",
+                        row.status === "CONFIRMED" ? "bg-emerald-50 text-emerald-700" : "bg-slate-100 text-slate-600"
+                      )}>
+                        {row.status}
+                      </Badge>
+                    </div>
+                  </td>
+                  <td className="px-6 py-6 text-center">
+                    <span className="text-sm font-medium text-slate-700">{row.seats} Guests</span>
+                  </td>
+                  <td className="px-6 py-6">
+                    <span className="text-base font-bold text-slate-900">৳{row.total_amount.toLocaleString()}</span>
+                  </td>
+                  <td className="pr-8 py-6 text-right">
+                    <Button asChild variant="ghost" size="sm" className="rounded-xl hover:bg-slate-100">
+                      <Link href={`${basePath}/${row.id}`} className="flex items-center gap-2">
+                        View <ArrowRight size={14} />
+                      </Link>
+                    </Button>
+                  </td>
                 </tr>
-              </thead>
-              <tbody className="divide-y divide-primary/5">
-                {isBusy ? (
-                  [...Array(3)].map((_, i) => (
-                    <tr key={i} className="animate-pulse">
-                      <td colSpan={6} className="px-8 py-8 bg-primary/5" />
-                    </tr>
-                  ))
-                ) : rows.length === 0 ? (
-                  <tr>
-                    <td colSpan={6} className="px-8 py-20 md:py-32 text-center">
-                      <p className="text-text-secondary font-black uppercase text-[10px] md:text-xs tracking-[0.3em]">No Bookings Found</p>
-                    </td>
-                  </tr>
-                ) : (
-                  rows.map((row) => (
-                    <tr key={row.id} className="hover:bg-primary/5 transition-colors group">
-                      {/* Ref ID - Hidden on Mobile */}
-                      <td className="hidden md:table-cell px-8 py-6">
-                        <div className="flex items-center gap-1.5 font-mono text-xs font-black text-text-secondary/60 group-hover:text-primary transition-colors">
-                          <Hash size={12} /> {row.id.slice(-6).toUpperCase()}
-                        </div>
-                      </td>
-                      
-                      {/* Event Details - Main column */}
-                      <td className="px-6 md:px-8 py-4 md:py-6">
-                        <div className="flex flex-col">
-                          <span className="font-black text-text-primary text-sm md:text-base leading-tight line-clamp-1">{row.event?.title}</span>
-                          <span className="text-[9px] md:text-[10px] text-text-secondary font-black flex items-center gap-1.5 mt-1 uppercase tracking-widest">
-                            <Calendar size={10} className="text-primary" /> 
-                            {new Date(row.createdAt).toLocaleDateString()}
-                          </span>
-                          {/* Mobile-only guest count */}
-                          <span className="sm:hidden text-[9px] text-text-secondary/60 font-black flex items-center gap-1.5 uppercase mt-0.5 tracking-tighter">
-                            <Users size={10} /> {row.seats} Seats
-                          </span>
-                        </div>
-                      </td>
-
-                      {/* Guests - Hidden on Mobile */}
-                      <td className="hidden sm:table-cell px-8 py-6 text-center">
-                        <div className="inline-flex items-center gap-1.5 font-black text-text-primary text-sm">
-                           <Users size={14} className="text-text-secondary" /> {row.seats}
-                        </div>
-                      </td>
-
-                      {/* Status - Icons/Badges */}
-                      <td className="px-4 md:px-8 py-4 md:py-6 text-center md:text-left">
-                        <div className="flex flex-col items-center md:items-start gap-1">
-                          <Badge className={cn(
-                            "w-fit text-[8px] md:text-[10px] font-black uppercase px-2 md:px-3 py-0.5 md:py-1 rounded-full shadow-sm",
-                            row.status === "CONFIRMED" ? "bg-primary text-white" : "bg-secondary text-text-primary"
-                          )}>
-                            {row.status}
-                          </Badge>
-                          <span className="hidden md:block text-[9px] font-black text-text-secondary uppercase tracking-widest pl-1">{row.payment_status}</span>
-                        </div>
-                      </td>
-
-                      {/* Amount */}
-                      <td className="px-6 md:px-8 py-4 md:py-6">
-                        <span className="font-black text-text-primary text-sm md:text-lg tracking-tighter">৳{row.total_amount.toLocaleString()}</span>
-                      </td>
-
-                      {/* Action - Simplified for mobile */}
-                      <td className="px-6 md:px-8 py-4 md:py-6 text-right">
-                        <Button asChild variant="ghost" className="rounded-full  h-8  px-3 md:px-6 hover:bg-primary hover:text-white transition-all group/btn">
-                          <Link href={`${basePath}/${row.id}`} className="flex items-center gap-1 md:gap-2 text-[9px] md:text-[10px] font-black uppercase tracking-[0.1em] md:tracking-[0.2em]">
-                            <span className="hidden sm:inline">Details</span> <ArrowRight size={14} className="group-hover/btn:translate-x-0.5 transition-transform" />
-                          </Link>
-                        </Button>
-                      </td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
-          </div>
+              ))}
+            </tbody>
+          </table>
         </div>
+      </div>
 
-        {/* Footer - Stacks on mobile */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
-          <p className="text-[9px] md:text-[10px] font-black text-text-secondary uppercase tracking-[0.3em]">
-            Displaying {rows.length} records
-          </p>
-          <div className="w-full sm:w-auto">
-            <Pagination
-                currentPage={optimisticPaginationState.pageIndex + 1}
-                totalPages={totalPages}
-                isLoading={isBusy}
-                onPageChange={(page) => {
-                handlePaginationChange({
-                    pageIndex: page - 1,
-                    pageSize: optimisticPaginationState.pageSize,
-                });
-                }}
-            />
-          </div>
-        </div>
-      </section>
+      {/* 4. FOOTER / PAGINATION */}
+      <div className="flex flex-col md:flex-row items-center justify-between gap-6 pb-10">
+        <p className="text-xs font-medium text-slate-400">
+          Showing {rows.length} of {meta?.total ?? 0} results
+        </p>
+        <Pagination
+          currentPage={optimisticPaginationState.pageIndex + 1}
+          totalPages={totalPages}
+          isLoading={isBusy}
+          onPageChange={(page) => {
+            handlePaginationChange({
+              pageIndex: page - 1,
+              pageSize: optimisticPaginationState.pageSize,
+            });
+          }}
+        />
+      </div>
     </div>
   );
 };
