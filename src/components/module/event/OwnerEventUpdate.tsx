@@ -33,7 +33,6 @@ export function OwnerEventUpdate({ event }: OwnerEventUpdateProps) {
       location: event.location ?? "",
       capacity: event.capacity,
       per_person_price: event.per_person_price,
-      status: event.status,
       isActive: event.isActive,
     },
     onSubmit: async ({ value }) => {
@@ -69,17 +68,20 @@ export function OwnerEventUpdate({ event }: OwnerEventUpdateProps) {
           formData.append("per_person_price", String(parsed.data.per_person_price));
         }
 
-        if (parsed.data.status) {
-          formData.append("status", parsed.data.status);
-        }
-
         if (parsed.data.isActive !== undefined) {
           formData.append("isActive", String(parsed.data.isActive));
         }
 
-        imagesToDelete.forEach((url) => {
-          formData.append("imagesToDelete", url);
-        });
+        // Some multipart parsers return a plain string when a field appears once.
+        // Append twice for a single item so backend consistently receives an array.
+        if (imagesToDelete.length === 1) {
+          formData.append("imagesToDelete", imagesToDelete[0]);
+          formData.append("imagesToDelete", imagesToDelete[0]);
+        } else {
+          imagesToDelete.forEach((imageUrl) => {
+            formData.append("imagesToDelete", imageUrl);
+          });
+        }
 
         selectedFiles.forEach((file) => {
           formData.append("images", file);
@@ -103,7 +105,8 @@ export function OwnerEventUpdate({ event }: OwnerEventUpdateProps) {
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      setSelectedFiles(Array.from(e.target.files));
+      setSelectedFiles((prev) => [...prev, ...Array.from(e.target.files || [])]);
+      e.target.value = "";
     }
   };
 
@@ -228,7 +231,7 @@ export function OwnerEventUpdate({ event }: OwnerEventUpdateProps) {
                 id="capacity"
                 name={field.name}
                 type="number"
-                value={field.state.value}
+                value={field.state.value ?? ""}
                 onBlur={field.handleBlur}
                 onChange={(e) =>
                   field.handleChange(
@@ -262,7 +265,7 @@ export function OwnerEventUpdate({ event }: OwnerEventUpdateProps) {
                 id="per_person_price"
                 name={field.name}
                 type="number"
-                value={field.state.value}
+                value={field.state.value ?? ""}
                 onBlur={field.handleBlur}
                 onChange={(e) =>
                   field.handleChange(
@@ -281,42 +284,6 @@ export function OwnerEventUpdate({ event }: OwnerEventUpdateProps) {
           )}
         </form.Field>
 
-        <form.Field
-          name="status"
-          validators={{
-            onChange: ({ value }) => {
-              const result = updateEventValidationSchema.shape.status.safeParse(value || undefined);
-              return result.success ? undefined : result.error.issues[0]?.message;
-            },
-          }}
-        >
-          {(field) => (
-            <div className="space-y-2">
-              <Label htmlFor="status">Status</Label>
-              <select
-                id="status"
-                name={field.name}
-                value={field.state.value ?? ""}
-                onBlur={field.handleBlur}
-                onChange={(e) =>
-                  field.handleChange(
-                    (e.target.value ? (e.target.value as IEvent["status"]) : undefined) as any
-                  )
-                }
-                disabled={isLoading}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="">Select Status</option>
-                <option value="PENDING">Pending</option>
-                <option value="APPROVED">Approved</option>
-                <option value="REJECTED">Rejected</option>
-              </select>
-              {field.state.meta.isTouched && field.state.meta.errors.length > 0 && (
-                <p className="text-sm text-red-600">{getFieldMessage(field.state.meta.errors[0])}</p>
-              )}
-            </div>
-          )}
-        </form.Field>
 
         <form.Field
           name="isActive"
@@ -388,9 +355,21 @@ export function OwnerEventUpdate({ event }: OwnerEventUpdateProps) {
             disabled={isLoading}
           />
           {selectedFiles.length > 0 && (
-            <p className="text-sm text-gray-600">
-              {selectedFiles.length} new file(s) selected
-            </p>
+            <div className="space-y-2">
+              <p className="text-sm text-gray-600">
+                {selectedFiles.length} new file(s) selected
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {selectedFiles.map((file, index) => (
+                  <span
+                    key={`${file.name}-${index}`}
+                    className="rounded-md bg-muted px-2 py-1 text-xs"
+                  >
+                    {file.name}
+                  </span>
+                ))}
+              </div>
+            </div>
           )}
         </div>
 

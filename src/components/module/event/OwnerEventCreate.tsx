@@ -25,8 +25,8 @@ export function OwnerEventCreate() {
       title: "",
       description: "",
       location: "",
-      capacity: 0,
-      per_person_price: 0,
+      capacity: undefined as number | undefined,
+      per_person_price: undefined as number | undefined,
     },
     onSubmit: async ({ value }) => {
       const parsed = createEventValidationSchema.safeParse(value);
@@ -75,7 +75,8 @@ export function OwnerEventCreate() {
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      setSelectedFiles(Array.from(e.target.files));
+      setSelectedFiles((prev) => [...prev, ...Array.from(e.target.files || [])]);
+      e.target.value = "";
     }
   };
 
@@ -192,10 +193,14 @@ export function OwnerEventCreate() {
                 id="capacity"
                 name={field.name}
                 type="number"
-                value={field.state.value}
+                value={field.state.value ?? ""}
                 onBlur={field.handleBlur}
                 onChange={(e) =>
-                  field.handleChange(e.target.value ? Number(e.target.value) : 0)
+                  field.handleChange(
+                    e.target.value === ""
+                      ? undefined
+                      : Number(e.target.value)
+                  )
                 }
                 placeholder="Enter event capacity"
                 disabled={isLoading}
@@ -224,10 +229,14 @@ export function OwnerEventCreate() {
                 id="per_person_price"
                 name={field.name}
                 type="number"
-                value={field.state.value}
+                value={field.state.value ?? ""}
                 onBlur={field.handleBlur}
                 onChange={(e) =>
-                  field.handleChange(e.target.value ? Number(e.target.value) : 0)
+                  field.handleChange(
+                    e.target.value === ""
+                      ? undefined
+                      : Number(e.target.value)
+                  )
                 }
                 placeholder="Enter price per person"
                 disabled={isLoading}
@@ -252,9 +261,21 @@ export function OwnerEventCreate() {
             disabled={isLoading}
           />
           {selectedFiles.length > 0 && (
-            <p className="text-sm text-gray-600">
-              {selectedFiles.length} file(s) selected
-            </p>
+            <div className="space-y-2">
+              <p className="text-sm text-gray-600">
+                {selectedFiles.length} file(s) selected
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {selectedFiles.map((file, index) => (
+                  <span
+                    key={`${file.name}-${index}`}
+                    className="rounded-md bg-muted px-2 py-1 text-xs"
+                  >
+                    {file.name}
+                  </span>
+                ))}
+              </div>
+            </div>
           )}
         </div>
 
