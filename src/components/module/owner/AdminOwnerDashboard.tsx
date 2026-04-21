@@ -9,8 +9,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Pagination } from "@/components/Common/Pagination";
-import { getOwners } from "@/components/services/owner.service";
 import { useServerManagedDataTable } from "@/hooks/useServerManagedDataTable";
+import { getOwners } from "@/components/services/owner.service";
 
 const DEFAULT_PAGE = 1;
 const DEFAULT_LIMIT = 10;
@@ -88,7 +88,7 @@ const AdminOwnerDashboard = () => {
     });
   };
 
- 
+
 
   const handleSortChange = (value: string) => {
     if (value === "default") {
@@ -121,6 +121,11 @@ const AdminOwnerDashboard = () => {
         <div>
           <h1 className="text-2xl font-bold">Owner Management</h1>
           <p className="text-sm text-muted-foreground">Total Owners: {meta?.total ?? 0}</p>
+        </div>
+        <div className="flex items-center gap-2">
+          <Button asChild variant="outline" className="bg-primary text-white font-bold py-2" size="sm">
+            <Link href="/admin-dashboard/owner/create">Create New Owner</Link>
+          </Button>
         </div>
       </div>
 

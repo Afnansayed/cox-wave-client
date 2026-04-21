@@ -31,3 +31,14 @@ export const updateOwnerApprovalStatus = async (id: string) => {
     throw error;
   }
 };
+
+export const createOwner = async (formData: FormData) => {
+  try {
+    return await httpClient.post<IOwner>("/user/create-owner", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+  } catch (error) {
+    console.error("Error creating owner:", error);
+    throw error;
+  }
+};
