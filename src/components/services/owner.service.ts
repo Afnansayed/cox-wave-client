@@ -42,3 +42,25 @@ export const createOwner = async (formData: FormData) => {
     throw error;
   }
 };
+
+export const getMyProfileOwner = async () => {
+  try {
+    return await httpClient.get<IOwner>(`/owner/profile`);
+  } catch (error) {
+    console.error("Error fetching owner profile:", error);
+    throw error;
+  }
+};
+
+export const updateOwnerProfile = async (formData: FormData) => {
+  try {
+    return await httpClient.patch<IOwner>("/owner/profile", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+  } catch (error) {
+    console.error("Error updating owner profile:", error);
+    throw error;
+  }
+};
+
+
