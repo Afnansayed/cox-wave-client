@@ -15,7 +15,7 @@ import { EventStatus } from "@/types/event.types";
 const DEFAULT_PAGE = 1;
 const DEFAULT_LIMIT = 10;
 
-const OwnerEventDashboard = () => {
+const EventDashboard = ({ basePath }: { basePath: string }) => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
@@ -240,7 +240,7 @@ const OwnerEventDashboard = () => {
                     </td>
                     <td className="px-4 py-4 text-right">
                       <Button asChild size="sm" variant="outline">
-                        <Link href={`/owner-dashboard/event/${event.id}`}>
+                        <Link href={`${basePath}/${event.id}`}>
                           <CalendarDays className="mr-2 h-4 w-4" />
                           Details
                         </Link>
@@ -270,4 +270,4 @@ const OwnerEventDashboard = () => {
   );
 };
 
-export default OwnerEventDashboard;
+export default EventDashboard;

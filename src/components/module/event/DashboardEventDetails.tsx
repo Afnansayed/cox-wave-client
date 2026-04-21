@@ -9,7 +9,7 @@ import { getOwnerEventById, updateActiveStatus } from "@/components/services/eve
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
-type OwnerEventDetailsProps = {
+type DashboardEventDetailsProps = {
   id: string;
   basePath?: string;
 };
@@ -25,7 +25,7 @@ const statusClass = (status: string) => {
   }
 };
 
-const OwnerEventDetails = ({ id, basePath = "/owner-dashboard/event" }: OwnerEventDetailsProps) => {
+const DashboardEventDetails = ({ id, basePath = "/owner-dashboard/event" }: DashboardEventDetailsProps) => {
   const router = useRouter();
   const { data, isLoading, isFetching } = useQuery({
     queryKey: ["owner-event", id],
@@ -73,6 +73,8 @@ const OwnerEventDetails = ({ id, basePath = "/owner-dashboard/event" }: OwnerEve
     }
   };
 
+  
+
   return (
     <section className="space-y-6 p-4 md:p-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
@@ -81,9 +83,17 @@ const OwnerEventDetails = ({ id, basePath = "/owner-dashboard/event" }: OwnerEve
           <p className="text-sm text-muted-foreground">Event ID: {event.id}</p>
         </div>
         <div >
-         <Button onClick={() => handleActiveStatusUpdate()}  variant="outline" className="mr-2 bg-primary text-white hover:text-white hover:bg-primary/90">
-           Change Event Status
-         </Button>
+         {basePath === "/owner-dashboard/event" && (
+           <Button onClick={() => handleActiveStatusUpdate()}  variant="outline" className="mr-2 bg-primary text-white hover:text-white hover:bg-primary/90">
+             Change Active Status
+           </Button>
+         )}
+
+      {basePath === "/admin-dashboard/event" && (
+        <Button onClick={() => handleActiveStatusUpdate()}  variant="outline" className="mr-2 bg-primary text-white hover:text-white hover:bg-primary/90">
+          Change Status
+        </Button>
+      )}
         <Button asChild variant="outline">
           <Link href={basePath}>
             <ArrowLeft className="mr-2 h-4 w-4" />
@@ -199,4 +209,4 @@ const OwnerEventDetails = ({ id, basePath = "/owner-dashboard/event" }: OwnerEve
   );
 };
 
-export default OwnerEventDetails;
+export default DashboardEventDetails;

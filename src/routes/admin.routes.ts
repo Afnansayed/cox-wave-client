@@ -1,5 +1,5 @@
 import { Route } from '@/types/route.type';
-import { KeyRound, MessageSquare, ShieldCheck, Ticket, User } from 'lucide-react';
+import { CalendarDays, KeyRound, MessageSquare, ShieldCheck, Ticket, User } from 'lucide-react';
 
 export const adminRoutes: Route[] = [
   {
@@ -29,6 +29,11 @@ export const adminRoutes: Route[] = [
         title: 'Owners',
         url: '/admin-dashboard/owner',
         icon: ShieldCheck,
+      },
+       {
+        title: 'Events',
+        url: '/admin-dashboard/event',
+        icon: CalendarDays,
       },
       
     ],

@@ -1,4 +1,4 @@
-import OwnerEventDetails from "@/components/module/event/OwnerEventDetails";
+import DashboardEventDetails from "@/components/module/event/DashboardEventDetails";
 
 const OwnerEventDetailsPage = async ({
   params,
@@ -7,7 +7,7 @@ const OwnerEventDetailsPage = async ({
 }) => {
   const { id } = await params;
 
-  return <OwnerEventDetails id={id} />;
+  return <DashboardEventDetails id={id} basePath="/owner-dashboard/event" />;
 };
 
 export default OwnerEventDetailsPage;

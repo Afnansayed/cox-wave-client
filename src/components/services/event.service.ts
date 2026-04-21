@@ -7,7 +7,7 @@ import { IEvent, IEventsListData } from "@/types/event.types";
 export const getOwnerEvents = async (queryString?: string) => {
   try {
     return await httpClient.get<IEventsListData>(
-      queryString ? `/event/owner?${queryString}` : "/owner/events",
+      queryString ? `/event/auth?${queryString}` : "/owner/events",
     );
   } catch (error) {
     console.error("Error fetching owner events:", error);
