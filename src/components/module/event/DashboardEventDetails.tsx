@@ -1,38 +1,43 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { ArrowLeft, CalendarDays, Hash, ImageOff, MapPin, Star, Ticket, Users, Wallet } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { 
+  ArrowLeft, 
+  Users, 
+  Ticket, 
+  Star, 
+  ImageOff, 
+  MapPin, 
+  Calendar, 
+  Hash, 
+  Mail, 
+  Building2, 
+  Clock, 
+  ChevronRight,
+  ShieldCheck,
+  Power
+} from "lucide-react";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { getOwnerEventById, updateActiveStatus, updateEventStatus } from "@/components/services/event.service";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
 import { EventStatus } from "@/types/event.types";
-import { useState } from "react";
 import { UpdateEventStatusModal } from "./UpdateEventStatusModal";
+import { cn } from "@/lib/utils";
 
 type DashboardEventDetailsProps = {
   id: string;
   basePath?: string;
 };
 
-const statusClass = (status: string) => {
-  switch (status) {
-    case "APPROVED":
-      return "bg-green-100 text-green-700";
-    case "REJECTED":
-      return "bg-red-100 text-red-700";
-    default:
-      return "bg-yellow-100 text-yellow-700";
-  }
-};
-
 const DashboardEventDetails = ({ id, basePath = "/owner-dashboard/event" }: DashboardEventDetailsProps) => {
   const router = useRouter();
   const queryClient = useQueryClient();
 
-    // 1. State for Modal
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState<{id: string, status: EventStatus} | null>(null);
 
@@ -41,50 +46,15 @@ const DashboardEventDetails = ({ id, basePath = "/owner-dashboard/event" }: Dash
     queryFn: () => getOwnerEventById(id),
   });
 
-  const { mutateAsync, isPending } = useMutation({
+  const { mutateAsync: activeStatusUpdate, isPending: isUpdatingActive } = useMutation({
     mutationFn: () => updateActiveStatus(id),
   });
 
-
-
-  const event = data?.data;
-  const isBusy = isLoading || isFetching;
-
-
-
-    const handleActiveStatusUpdate = async () => {
-    const toastId = toast.loading("Updating event active status...");
-
-    try {
-      const response = await mutateAsync();
-
-      if (!response.success) {
-        toast.error(response.message || "Failed to update event status.", {
-          id: toastId,
-        });
-        return;
-      }
-      toast.success(response.message || "Event active status updated.", {
-        id: toastId,
-      });
-      router.refresh();
-    } catch (error: unknown) {
-      const message =
-        error instanceof Error ? error.message : "Failed to update event active status.";
-      toast.error(message, { id: toastId });
-    }
-  };
-
-
-
-
-
-  // 2. Mutation Logic
-  const { mutateAsync: eventStatusUpdate, isPending: inPendingTwo } = useMutation({
+  const { mutateAsync: eventStatusUpdate, isPending: isUpdatingStatus } = useMutation({
     mutationFn: (newStatus: EventStatus) => updateEventStatus(selectedEvent!.id, newStatus),
-    onSuccess: (res) => {
-      toast.success("Status updated successfully");
-      queryClient.invalidateQueries({ queryKey: ["owner-event", selectedEvent!.id] });
+    onSuccess: () => {
+      toast.success("Event status updated successfully");
+      queryClient.invalidateQueries({ queryKey: ["owner-event", id] });
       setIsModalOpen(false);
     },
     onError: (err: any) => {
@@ -92,169 +62,257 @@ const DashboardEventDetails = ({ id, basePath = "/owner-dashboard/event" }: Dash
     }
   });
 
-  // 3. Open Modal Handler
- const handleOpenModal = () => {
-  if (event) {
-    setSelectedEvent({ id: event.id, status: event.status });
-    setIsModalOpen(true);
-  }
-};
+  const event = data?.data;
+  const isBusy = isLoading || isFetching;
 
+  const handleActiveStatusUpdate = async () => {
+    const toastId = toast.loading("Updating visibility...");
+    try {
+      const response = await activeStatusUpdate();
+      if (!response.success) throw new Error(response.message);
+      toast.success("Event active status updated", { id: toastId });
+      router.refresh();
+    } catch (error: any) {
+      toast.error(error.message || "Update failed", { id: toastId });
+    }
+  };
+
+  const handleOpenModal = () => {
+    if (event) {
+      setSelectedEvent({ id: event.id, status: event.status });
+      setIsModalOpen(true);
+    }
+  };
 
   if (isBusy || !event) {
     return (
-      <section className="space-y-6 p-4 md:p-8">
-        <div className="h-10 w-48 animate-pulse rounded-xl bg-secondary/20" />
-        <div className="h-[560px] animate-pulse rounded-2xl bg-secondary/10" />
-      </section>
+      <div className="w-full max-w-7xl mx-auto space-y-8 p-4 md:p-6 animate-pulse">
+        <div className="h-20 bg-slate-100 rounded-3xl w-full" />
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-2 h-[600px] bg-slate-50 rounded-3xl" />
+          <div className="h-[400px] bg-slate-50 rounded-3xl" />
+        </div>
+      </div>
     );
   }
-  
+
+  const getStatusStyle = (status: string) => {
+    switch (status) {
+      case "APPROVED": return "bg-emerald-50 text-emerald-600 border-emerald-100";
+      case "REJECTED": return "bg-rose-50 text-rose-600 border-rose-100";
+      default: return "bg-amber-50 text-amber-600 border-amber-100";
+    }
+  };
 
   return (
-    <section className="space-y-6 p-4 md:p-6">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <h1 className="text-2xl font-bold">Event Details</h1>
-          <p className="text-sm text-muted-foreground">Event ID: {event.id}</p>
-        </div>
-        <div >
-         {basePath === "/owner-dashboard/event" && (
-           <Button onClick={() => handleActiveStatusUpdate()}  variant="outline" className="mr-2 bg-primary text-white hover:text-white hover:bg-primary/90">
-            {isPending? "Changing Active Status..." : "Change Active Status"}
-           </Button>
-         )}
-
-      {basePath === "/admin-dashboard/event" && (
-        <Button onClick={handleOpenModal} variant="outline" className="mr-2 bg-primary text-white hover:text-white hover:bg-primary/90">
-          Change Status
-        </Button>
-      )}
-        <Button asChild variant="outline">
-          <Link href={basePath}>
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Events
-          </Link>
-        </Button>
- </div>
-      </div>
-
-      <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-        <div className="rounded-2xl border bg-white p-5 shadow-sm">
-          <p className="text-xs text-muted-foreground">Title</p>
-          <p className="font-semibold">{event.title}</p>
-        </div>
-        <div className="rounded-2xl border bg-white p-5 shadow-sm">
-          <p className="text-xs text-muted-foreground">Location</p>
-          <p className="font-semibold">{event.location || "N/A"}</p>
-        </div>
-        <div className="rounded-2xl border bg-white p-5 shadow-sm">
-          <p className="text-xs text-muted-foreground">Status</p>
-          <Badge className={statusClass(event.status)}>{event.status}</Badge>
-        </div>
-        <div className="rounded-2xl border bg-white p-5 shadow-sm">
-          <p className="text-xs text-muted-foreground">Active Status</p>
-          <Badge className={statusClass(event.isActive ? "APPROVED" : "REJECTED")}>
-            {event.isActive ? "Active" : "Inactive"}
-          </Badge>
-        </div>
-        <div className="rounded-2xl border bg-white p-5 shadow-sm">
-          <p className="text-xs text-muted-foreground">Price</p>
-          <p className="font-semibold">${event.per_person_price}</p>
-        </div>
-      </div>
-
-      <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-        <div className="rounded-2xl border bg-white p-5 shadow-sm">
-          <p className="text-xs text-muted-foreground">Capacity</p>
-          <p className="font-semibold flex items-center gap-1"><Users className="h-4 w-4" /> {event.capacity}</p>
-        </div>
-        <div className="rounded-2xl border bg-white p-5 shadow-sm">
-          <p className="text-xs text-muted-foreground">Remaining Seats</p>
-          <p className="font-semibold flex items-center gap-1"><Ticket className="h-4 w-4" /> {event.remaining_seats}</p>
-        </div>
-        <div className="rounded-2xl border bg-white p-5 shadow-sm">
-          <p className="text-xs text-muted-foreground">Created At</p>
-          <p className="font-semibold">{new Date(event.createdAt).toLocaleString()}</p>
-        </div>
-        <div className="rounded-2xl border bg-white p-5 shadow-sm">
-          <p className="text-xs text-muted-foreground">Updated At</p>
-          <p className="font-semibold">{new Date(event.updatedAt).toLocaleString()}</p>
-        </div>
-      </div>
-
-      <div className="rounded-2xl border bg-white p-5 shadow-sm">
-        <p className="text-xs text-muted-foreground">Description</p>
-        <p className="mt-2 text-sm leading-relaxed">{event.description || "N/A"}</p>
-      </div>
-
-      <div className="rounded-2xl border bg-white p-5 shadow-sm">
-        <p className="mb-3 text-xs text-muted-foreground">Images</p>
-        {event.images?.length ? (
-          <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
-            {event.images.map((image, index) => (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                key={`${image}-${index}`}
-                src={image}
-                alt={`${event.title}-${index + 1}`}
-                className="h-28 w-full rounded-lg border object-cover"
-              />
-            ))}
-          </div>
-        ) : (
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <ImageOff className="h-4 w-4" /> No images available
-          </div>
-        )}
-      </div>
-
-      <div className="rounded-2xl border bg-white p-5 shadow-sm">
-        <p className="mb-3 text-xs text-muted-foreground">Owner</p>
-        <div className="grid gap-4 md:grid-cols-2">
-          <div>
-            <p className="text-xs text-muted-foreground">Name</p>
-            <p className="font-semibold">{event.owner?.business_name || event.owner?.name || "N/A"}</p>
-          </div>
-          <div>
-            <p className="text-xs text-muted-foreground">Email</p>
-            <p className="font-semibold">{event.owner?.email || "N/A"}</p>
+    <div className="w-full  mx-auto space-y-8 pb-12 p-4 md:p-6">
+      
+      {/* --- HEADER --- */}
+      <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+        <div className="flex items-center gap-4">
+          <Button asChild variant="outline" size="icon" className="rounded-xl border-slate-200 h-10 w-10 shrink-0">
+            <Link href={basePath}>
+              <ArrowLeft size={18} className="text-slate-600" />
+            </Link>
+          </Button>
+          <div className="space-y-0.5">
+            <h1 className="text-2xl md:text-3xl font-semibold tracking-tight text-slate-900">{event.title}</h1>
+            <div className="flex items-center gap-2 text-slate-500 font-mono text-xs">
+              <Hash size={14} className="text-slate-400" />
+              <span>{event.id.toUpperCase()}</span>
+            </div>
           </div>
         </div>
+
+        <div className="flex flex-wrap items-center gap-3">
+          {basePath === "/owner-dashboard/event" && (
+            <Button 
+              onClick={handleActiveStatusUpdate} 
+              disabled={isUpdatingActive}
+              className={cn(
+                "rounded-xl px-5 h-10 text-xs font-semibold transition-all",
+                event.isActive ? "bg-rose-50 text-rose-600 hover:bg-rose-100" : "bg-emerald-50 text-emerald-600 hover:bg-emerald-100"
+              )}
+            >
+              <Power size={14} className="mr-2" />
+              {isUpdatingActive ? "Processing..." : event.isActive ? "Deactivate Event" : "Activate Event"}
+            </Button>
+          )}
+
+          {basePath === "/admin-dashboard/event" && (
+            <Button onClick={handleOpenModal} className="rounded-xl px-5 h-10 text-xs font-semibold bg-primary hover:bg-primary/90 text-white transition-all">
+              <ShieldCheck size={14} className="mr-2" />
+              Change Approval Status
+            </Button>
+          )}
+        </div>
       </div>
 
-      {event.reviews?.length ? (
-        <div className="rounded-2xl border bg-white p-5 shadow-sm">
-          <p className="mb-3 text-xs text-muted-foreground">Latest Reviews</p>
-          <div className="space-y-3">
-            {event.reviews.slice(0, 5).map((review) => (
-              <div key={review.id} className="rounded-lg border p-3">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        
+        {/* --- LEFT COLUMN: DETAILS & CONTENT --- */}
+        <div className="lg:col-span-8 space-y-8">
+          
+          {/* Main Info Card */}
+          <div className="bg-white rounded-[2rem] border border-slate-100 shadow-sm overflow-hidden">
+            <div className="p-6 md:p-8 space-y-8">
+              
+              {/* Image Gallery Header */}
+              <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <p className="text-sm font-semibold">{review.customer?.name || "Guest"}</p>
-                  <span className="inline-flex items-center gap-1 text-xs">
-                    <Star className="h-3.5 w-3.5 text-amber-500" /> {review?.rating}
-                  </span>
+                  <h3 className="text-sm font-semibold text-slate-900 uppercase tracking-wider">Event Media</h3>
+                  <Badge variant="outline" className="rounded-md px-2 text-[10px] font-mono border-slate-100">
+                    {event.images?.length || 0} Files
+                  </Badge>
                 </div>
-                <p className="mt-1 text-sm text-muted-foreground">{review?.comment}</p>
+                
+                {event.images?.length ? (
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                    {event.images.map((image, index) => (
+                      <div key={index} className="aspect-video rounded-2xl overflow-hidden border border-slate-50 group relative">
+                        <img src={image} alt="" className="h-full w-full object-cover transition-transform group-hover:scale-105" />
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="h-32 flex flex-col items-center justify-center rounded-2xl border border-dashed border-slate-200 bg-slate-50 text-slate-400">
+                    <ImageOff size={24} className="mb-2 opacity-50" />
+                    <span className="text-xs">No event images uploaded</span>
+                  </div>
+                )}
               </div>
-            ))}
+
+              <div className="space-y-4">
+                <h3 className="text-sm font-semibold text-slate-900 uppercase tracking-wider">Description</h3>
+                <p className="text-slate-600 text-sm leading-relaxed whitespace-pre-wrap">
+                  {event.description || "No description provided for this event."}
+                </p>
+              </div>
+
+              {/* Reviews Section */}
+              {event?.reviews && event.reviews?.length > 0 ?(
+                <div className="pt-6 border-t border-slate-50 space-y-6">
+                  <h3 className="text-sm font-semibold text-slate-900 uppercase tracking-wider">Recent Reviews</h3>
+                  <div className="grid gap-4">
+                    {event.reviews.slice(0, 3).map((review) => (
+                      <div key={review.id} className="p-4 rounded-2xl bg-slate-50/50 border border-slate-100">
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-sm font-semibold text-slate-900">{review.customer?.name || "Verified Customer"}</span>
+                          <div className="flex items-center gap-1 text-amber-500 bg-amber-50 px-2 py-0.5 rounded-lg text-xs font-bold">
+                            <Star size={12} fill="currentColor" /> {review.rating}
+                          </div>
+                        </div>
+                        <p className="text-xs text-slate-500 leading-normal">{review.comment}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ):
+               <div className="pt-6 border-t border-slate-50 space-y-6">
+                  <h3 className="text-sm font-semibold text-slate-900 uppercase tracking-wider">Recent Reviews</h3>
+                  <div className="flex items-center gap-2 text-slate-400 text-xs">
+                    <Star size={14} />
+                    <span>No reviews for this event yet</span>
+                  </div>
+                </div>
+              }
+            </div>
           </div>
         </div>
-      ) : null}
 
-{selectedEvent && (
-  <UpdateEventStatusModal
-    isOpen={isModalOpen}
-    onClose={() => setIsModalOpen(false)}
-    currentStatus={selectedEvent.status}
-    // Wrap it in an arrow function to match the expected return type
-    onSubmit={async (status) => {
-      await eventStatusUpdate(status);
-    }}
-    isPending={inPendingTwo}
-  />
-)}
-    </section>
+        {/* --- RIGHT COLUMN: STATUS & STATS --- */}
+        <div className="lg:col-span-4 space-y-6">
+          
+          {/* Status & Pricing Card */}
+          <div className="bg-white rounded-[2rem] border border-slate-100 p-6 md:p-8 shadow-sm space-y-6">
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-medium text-slate-400 uppercase tracking-wider">Listing Status</span>
+                <Badge className={cn("rounded-lg px-3 py-1 text-[10px] font-bold uppercase", getStatusStyle(event.status))}>
+                  {event.status}
+                </Badge>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-medium text-slate-400 uppercase tracking-wider">Visibility</span>
+                <Badge className={cn(
+                  "rounded-lg px-3 py-1 text-[10px] font-bold uppercase",
+                  event.isActive ? "bg-emerald-50 text-emerald-600" : "bg-slate-100 text-slate-500"
+                )}>
+                  {event.isActive ? "Publicly Active" : "Private / Inactive"}
+                </Badge>
+              </div>
+            </div>
+
+            <div className="pt-6 border-t border-slate-50">
+              <p className="text-xs font-medium text-slate-400 uppercase tracking-wider mb-2">Pricing</p>
+              <div className="flex items-baseline gap-1">
+                <span className="text-3xl font-bold text-slate-900">৳{event.per_person_price}</span>
+                <span className="text-slate-400 text-xs">/ per seat</span>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div className="bg-slate-50 rounded-2xl p-4 border border-slate-100">
+                <Users size={16} className="text-slate-400 mb-2" />
+                <p className="text-[10px] font-bold text-slate-400 uppercase">Capacity</p>
+                <p className="text-sm font-semibold text-slate-900">{event.capacity}</p>
+              </div>
+              <div className="bg-slate-50 rounded-2xl p-4 border border-slate-100">
+                <Ticket size={16} className="text-slate-400 mb-2" />
+                <p className="text-[10px] font-bold text-slate-400 uppercase">Remaining</p>
+                <p className="text-sm font-semibold text-slate-900">{event.remaining_seats}</p>
+              </div>
+            </div>
+
+            <div className="space-y-3 pt-2">
+               <div className="flex items-center gap-3 text-sm text-slate-600">
+                <MapPin size={16} className="text-slate-400 shrink-0" />
+                <span>{event.location || "Location not specified"}</span>
+              </div>
+              <div className="flex items-center gap-3 text-sm text-slate-600">
+                <Clock size={16} className="text-slate-400 shrink-0" />
+                <span>Created {new Date(event.createdAt).toLocaleDateString()}</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Owner Info Card */}
+          <div className="bg-slate-50 rounded-[2rem] border border-slate-100 p-6 md:p-8 space-y-6">
+            <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider">Event Provider</h3>
+            <div className="space-y-4">
+              <div className="flex items-center gap-4">
+                <div className="h-10 w-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-primary">
+                  <Building2 size={20} />
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-slate-900">{event.owner?.business_name || event.owner?.name}</p>
+                  <p className="text-[11px] text-slate-500">Professional Host</p>
+                </div>
+              </div>
+              <div className="space-y-3 pt-2 border-t border-slate-200/60">
+                <div className="flex items-center gap-3 text-xs text-slate-600">
+                  <Mail size={14} className="text-slate-400 shrink-0" />
+                  <span className="truncate">{event.owner?.email}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* --- MODAL --- */}
+      {selectedEvent && (
+        <UpdateEventStatusModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          currentStatus={selectedEvent.status}
+          onSubmit={async (status) => {
+            await eventStatusUpdate(status);
+          }}
+          isPending={isUpdatingStatus}
+        />
+      )}
+    </div>
   );
 };
 
