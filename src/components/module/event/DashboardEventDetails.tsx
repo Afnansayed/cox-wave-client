@@ -71,7 +71,7 @@ const DashboardEventDetails = ({ id, basePath = "/owner-dashboard/event" }: Dash
       const response = await activeStatusUpdate();
       if (!response.success) throw new Error(response.message);
       toast.success("Event active status updated", { id: toastId });
-      router.refresh();
+      queryClient.invalidateQueries({ queryKey: ["owner-event", id] });
     } catch (error: any) {
       toast.error(error.message || "Update failed", { id: toastId });
     }
