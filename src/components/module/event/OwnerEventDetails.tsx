@@ -143,10 +143,10 @@ const OwnerEventDetails = ({ id, basePath = "/owner-dashboard/event" }: OwnerEve
                 <div className="flex items-center justify-between">
                   <p className="text-sm font-semibold">{review.customer?.name || "Guest"}</p>
                   <span className="inline-flex items-center gap-1 text-xs">
-                    <Star className="h-3.5 w-3.5 text-amber-500" /> {review.rating}
+                    <Star className="h-3.5 w-3.5 text-amber-500" /> {review?.rating}
                   </span>
                 </div>
-                <p className="mt-1 text-sm text-muted-foreground">{review.comment}</p>
+                <p className="mt-1 text-sm text-muted-foreground">{review?.comment}</p>
               </div>
             ))}
           </div>
