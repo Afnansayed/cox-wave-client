@@ -14,6 +14,7 @@ import {
 import { IAdmin } from "@/types/account.types";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 const AdminProfile = ({ admin }: { admin: IAdmin }) => {
   
@@ -73,9 +74,11 @@ const AdminProfile = ({ admin }: { admin: IAdmin }) => {
             </div>
 
             {/* Actions */}
-            <Button className="w-full md:w-auto rounded-xl h-11 md:h-10 bg-slate-900 hover:bg-slate-800 text-white gap-2 px-6 mb-2">
+       <Link href="/admin-dashboard/account/update" className="w-full md:w-auto">
+            <Button className="w-full md:w-auto rounded-xl h-11 md:h-10 bg-primary hover:bg-primary/90 text-white gap-2 px-6 mb-2">
               <Edit3 size={16} /> Edit Profile
             </Button>
+       </Link>
           </div>
         </div>
       </div>

@@ -1,3 +1,4 @@
+'use server';
 import { httpClient } from "@/lib/axios/httpClient";
 import { IAdmin, ICustomer } from "@/types/account.types";
 
