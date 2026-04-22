@@ -18,7 +18,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
-import { updateAdminProfile } from "@/components/services/user.service";
+import { updateAdminProfile, updateCustomerProfile } from "@/components/services/user.service";
 import { updateProfileSchema } from "@/zod/user.validation";
 import { useRouter } from "next/navigation";
 
@@ -37,9 +37,9 @@ const getFieldError = (error: unknown) => {
 
 
 
-const UpdateAdminProfile = ({ admin }: { admin: IAdmin }) => {
+const UpdateCommonProfile = ({ user, role }: { user: IAdmin; role: string }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(admin?.profile_picture || null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(user?.profile_picture || null);
   const [profilePictureFile, setProfilePictureFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
@@ -47,9 +47,9 @@ const UpdateAdminProfile = ({ admin }: { admin: IAdmin }) => {
   // 2. TanStack Form Setup
   const form = useForm({
     defaultValues: {
-      name: admin.name || "",
-      phone_number: admin.phone_number || "",
-      address: admin.address || "",
+      name: user.name || "",
+      phone_number: user.phone_number || "",
+      address: user.address || "",
     },
     onSubmit: async ({ value }) => {
       try {
@@ -66,7 +66,14 @@ const UpdateAdminProfile = ({ admin }: { admin: IAdmin }) => {
         }
 
         // Replace with your actual API service call
-        const response = await updateAdminProfile(formData);
+        let response;
+        if (role === "ADMIN") {
+           response = await updateAdminProfile(formData);
+        }else{
+           response = await updateCustomerProfile(formData);
+        }
+
+        
 
         if (!response.success) {
            toast.error(response.message || "Failed to update profile");
@@ -76,7 +83,7 @@ const UpdateAdminProfile = ({ admin }: { admin: IAdmin }) => {
         // Simulating API call
         await new Promise((resolve) => setTimeout(resolve, 2000));
 
-        router.push("/admin-dashboard/account");
+        router.push(role === "ADMIN" ? "/admin-dashboard/account" : "/customer-dashboard/account");
     
       } catch (error) {
         toast.error("Failed to update profile");
@@ -98,7 +105,7 @@ const UpdateAdminProfile = ({ admin }: { admin: IAdmin }) => {
 
   const removeSelectedImage = () => {
     setProfilePictureFile(null);
-    setPreviewUrl(admin?.profile_picture || null);
+    setPreviewUrl(user?.profile_picture || null);
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
@@ -293,4 +300,4 @@ const UpdateAdminProfile = ({ admin }: { admin: IAdmin }) => {
   );
 };
 
-export default UpdateAdminProfile;
+export default UpdateCommonProfile;

@@ -13,10 +13,9 @@ import {
 } from "lucide-react";
 import { IAdmin } from "@/types/account.types";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 import Link from "next/link";
 
-const AdminProfile = ({ admin }: { admin: IAdmin }) => {
+const UserCommonProfile = ({ user  , role }: { user: IAdmin; role: string }) => {
   
   // Robust date formatting
   const formatDate = (dateValue: string | Date | null) => {
@@ -43,10 +42,10 @@ const AdminProfile = ({ admin }: { admin: IAdmin }) => {
             {/* Avatar Section */}
             <div className="relative group">
               <div className="h-24 w-24 md:h-28 md:w-28 rounded-[2rem] border-4 border-white bg-slate-100 overflow-hidden shadow-md">
-                {admin.profile_picture ? (
+                {user.profile_picture ? (
                   <img 
-                    src={admin.profile_picture} 
-                    alt={admin.name} 
+                    src={user.profile_picture} 
+                    alt={user.name} 
                     className="h-full w-full object-cover"
                   />
                 ) : (
@@ -63,18 +62,18 @@ const AdminProfile = ({ admin }: { admin: IAdmin }) => {
             {/* Info Section */}
             <div className="flex-1 text-center md:text-left space-y-1 mb-2">
               <div className="flex flex-col md:flex-row items-center gap-2">
-                <h1 className="text-xl md:text-2xl font-bold text-slate-900">{admin.name}</h1>
+                <h1 className="text-xl md:text-2xl font-bold text-slate-900">{user.name}</h1>
                 <span className="px-2.5 py-0.5 bg-emerald-50 text-emerald-600 text-[10px] font-bold uppercase tracking-wider rounded-full border border-emerald-100 flex items-center gap-1">
-                  <ShieldCheck size={10} /> Admin
+                  <ShieldCheck size={10} />  {role}
                 </span>
               </div>
               <p className="text-slate-500 text-sm flex items-center justify-center md:justify-start gap-2">
-                <Mail size={14} /> {admin.email}
+                <Mail size={14} /> {user.email}
               </p>
             </div>
 
             {/* Actions */}
-       <Link href="/admin-dashboard/account/update" className="w-full md:w-auto">
+       <Link href={role === "ADMIN" ? "/admin-dashboard/account/update" : "/customer-dashboard/account/update"} className="w-full md:w-auto">
             <Button className="w-full md:w-auto rounded-xl h-11 md:h-10 bg-primary hover:bg-primary/90 text-white gap-2 px-6 mb-2">
               <Edit3 size={16} /> Edit Profile
             </Button>
@@ -93,17 +92,17 @@ const AdminProfile = ({ admin }: { admin: IAdmin }) => {
             </h3>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8">
-              <LabelItem label="Full Name" icon={<User size={14} />} value={admin.name} />
-              <LabelItem label="Email Address" icon={<Mail size={14} />} value={admin.email} />
+              <LabelItem label="Full Name" icon={<User size={14} />} value={user.name} />
+              <LabelItem label="Email Address" icon={<Mail size={14} />} value={user.email} />
               <LabelItem 
                 label="Phone Number" 
                 icon={<Phone size={14} />} 
-                value={admin.phone_number ?? "Not provided"} 
+                value={user.phone_number ?? "Not provided"} 
               />
               <LabelItem 
                 label="Location" 
                 icon={<MapPin size={14} />} 
-                value={admin.address ?? "Not provided"} 
+                value={user.address ?? "Not provided"} 
               />
             </div>
           </div>
@@ -122,7 +121,7 @@ const AdminProfile = ({ admin }: { admin: IAdmin }) => {
                 </div>
                 <div>
                   <p className="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">Member Since</p>
-                  <p className="text-sm font-medium">{formatDate(admin.createdAt)}</p>
+                  <p className="text-sm font-medium">{formatDate(user.createdAt)}</p>
                 </div>
               </div>
 
@@ -132,7 +131,7 @@ const AdminProfile = ({ admin }: { admin: IAdmin }) => {
                 </div>
                 <div>
                   <p className="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">Last Updated</p>
-                  <p className="text-sm font-medium">{formatDate(admin.updatedAt)}</p>
+                  <p className="text-sm font-medium">{formatDate(user.updatedAt)}</p>
                 </div>
               </div>
 
@@ -140,7 +139,7 @@ const AdminProfile = ({ admin }: { admin: IAdmin }) => {
                 <p className="text-[10px] font-bold text-slate-500 uppercase px-1">Internal Reference</p>
                 <div className="bg-white/5 rounded-xl p-4 flex flex-col gap-1 border border-white/5">
                   <span className="text-[10px] text-slate-400 uppercase">System User ID</span>
-                  <code className="text-xs text-primary truncate break-all">{admin.user_id}</code>
+                  <code className="text-xs text-primary truncate break-all">{user.user_id}</code>
                 </div>
               </div>
             </div>
@@ -175,4 +174,4 @@ const LabelItem = ({ label, value, icon }: { label: string, value: string, icon:
   </div>
 );
 
-export default AdminProfile;
+export default UserCommonProfile;

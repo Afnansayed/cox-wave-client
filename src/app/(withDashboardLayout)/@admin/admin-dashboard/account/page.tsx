@@ -1,4 +1,5 @@
-import AdminProfile from "@/components/module/user/AdminProfile";
+
+import UserCommonProfile from "@/components/module/user/UserCommonProfile";
 import { getAdminProfile } from "@/components/services/user.service";
 
 
@@ -10,7 +11,7 @@ const AdminAccountPage = async () => {
   console.log("Admin Profile Data", data);
    return (
     <section className="p-6">
-      <AdminProfile admin={data} />
+      <UserCommonProfile user={data}  role="ADMIN"/>
     </section>
   );
 };
