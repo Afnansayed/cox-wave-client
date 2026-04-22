@@ -1,13 +1,16 @@
+import AdminProfile from "@/components/module/user/AdminProfile";
+import { getAdminProfile } from "@/components/services/user.service";
 
 
 
-const AdminAccountPage = () => {
-  return (
+const AdminAccountPage = async () => {
+
+  const  {data }=  await getAdminProfile();
+
+  console.log("Admin Profile Data", data);
+   return (
     <section className="p-6">
-      <h1 className="text-2xl font-semibold">Admin Account</h1>
-      <p className="mt-2 text-gray-600">
-        Manage your admin account settings and preferences.
-      </p>
+      <AdminProfile admin={data} />
     </section>
   );
 };

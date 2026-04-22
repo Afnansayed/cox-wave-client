@@ -110,3 +110,31 @@ export interface DecodedToken {
   exp: number; // Expiration (Unix timestamp)
 }
 
+
+export interface IAdmin {
+        id: string;
+        name: string;
+        email: string;
+        profile_picture: string | null;
+        phone_number: string | null;
+        address: string | null;
+        isDeleted: boolean;
+        deletedAt: string | null;
+        createdAt: string;
+        updatedAt: string;
+        user_id: string;
+}
+export interface ICustomer {
+        id: string;
+        name: string;
+        email: string;
+        profile_picture: string | null;
+        phone_number: string | null;
+        address: string | null;
+        isDeleted: boolean;
+        deletedAt: string | null;
+        createdAt: string;
+        updatedAt: string;
+        user_id: string;
+}
+
