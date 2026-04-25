@@ -46,15 +46,15 @@ const BookingDetailsCustomer = ({
   role = Roles.customer,
 }: BookingDetailsCustomerProps) => {
   const router = useRouter();
-  const [currentStatus, setCurrentStatus] = useState<BookingStatus>(booking.status);
-  const [selectedStatus, setSelectedStatus] = useState<BookingStatus>(booking.status);
+  const [currentStatus, setCurrentStatus] = useState<BookingStatus>(booking?.status);
+  const [selectedStatus, setSelectedStatus] = useState<BookingStatus>(booking?.status);
   const [isStatusModalOpen, setIsStatusModalOpen] = useState(false);
 
   const isCustomer = role === Roles.customer;
   const isOwnerOrAdmin = role === Roles.owner || role === Roles.admin;
 
   const { mutateAsync, isPending } = useMutation({
-    mutationFn: (nextStatus: BookingStatus) => updateBookingStatus(booking.id, nextStatus),
+    mutationFn: (nextStatus: BookingStatus) => updateBookingStatus(booking?.id, nextStatus),
   });
 
   const handleStatusUpdate = async (nextStatus: BookingStatus) => {
@@ -104,7 +104,7 @@ const BookingDetailsCustomer = ({
             <h1 className="text-2xl md:text-3xl font-semibold tracking-tight text-slate-900">Booking Details</h1>
             <div className="flex items-center gap-2 text-slate-500 font-mono text-xs">
               <Hash size={14} className="text-slate-400" />
-              <span>{booking.id.toUpperCase()}</span>
+              <span>{booking?.id.toUpperCase()}</span>
             </div>
           </div>
         </div>
@@ -180,7 +180,7 @@ const BookingDetailsCustomer = ({
                     Reserved Event
                   </Badge>
                   <h2 className="text-2xl font-semibold text-slate-900 leading-tight">
-                    {booking.event?.title || "Unknown Event"}
+                    {booking?.event?.title || "Unknown Event"}
                   </h2>
                 </div>
                 <div className="flex flex-col sm:items-end gap-1">
@@ -196,9 +196,9 @@ const BookingDetailsCustomer = ({
               </div>
 
               {/* Images */}
-              {Array.isArray(booking.event?.images) && booking.event.images.length > 0 && (
+              {Array.isArray(booking?.event?.images) && booking?.event.images.length > 0 && (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {booking.event.images.slice(0, 2).map((image, index) => (
+                  {booking?.event.images.slice(0, 2).map((image, index) => (
                     <div key={index} className="aspect-[16/9] rounded-2xl overflow-hidden border border-slate-50">
                       <img src={image} alt="Event" className="w-full h-full object-cover" />
                     </div>
@@ -213,21 +213,21 @@ const BookingDetailsCustomer = ({
                     <MapPin size={14} />
                     <span className="text-[11px] font-medium uppercase tracking-wider">Location</span>
                   </div>
-                  <p className="font-medium text-slate-700 text-sm">{booking.event?.location || "TBD"}</p>
+                  <p className="font-medium text-slate-700 text-sm">{booking?.event?.location || "TBD"}</p>
                 </div>
                 <div className="space-y-1">
                   <div className="flex items-center gap-1.5 text-slate-400">
                     <Users size={14} />
                     <span className="text-[11px] font-medium uppercase tracking-wider">Capacity</span>
                   </div>
-                  <p className="font-medium text-slate-700 text-sm">{booking.seats} Seats Booked</p>
+                  <p className="font-medium text-slate-700 text-sm">{booking?.seats} Seats Booked</p>
                 </div>
                 <div className="space-y-1">
                   <div className="flex items-center gap-1.5 text-slate-400">
                     <Ticket size={14} />
                     <span className="text-[11px] font-medium uppercase tracking-wider">Price per Seat</span>
                   </div>
-                  <p className="font-medium text-slate-700 text-sm">৳{booking.event?.per_person_price?.toLocaleString()}</p>
+                  <p className="font-medium text-slate-700 text-sm">৳{booking?.event?.per_person_price?.toLocaleString()}</p>
                 </div>
               </div>
             </div>
@@ -242,28 +242,28 @@ const BookingDetailsCustomer = ({
               </h3>
               <Badge className={cn(
                 "rounded-md px-3 font-medium text-[11px]",
-                booking.payment_status === "PAID" ? "bg-emerald-50 text-emerald-600" : "bg-amber-50 text-amber-600"
+                booking?.payment_status === "PAID" ? "bg-emerald-50 text-emerald-600" : "bg-amber-50 text-amber-600"
               )}>
-                {booking.payment_status}
+                {booking?.payment_status}
               </Badge>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
               <div className="md:col-span-5 bg-slate-50 rounded-2xl p-6 border border-slate-100 flex flex-col justify-center">
                 <p className="text-[11px] font-medium text-slate-500 uppercase tracking-wider mb-1">Total Paid</p>
-                <p className="text-3xl font-bold text-slate-900 tracking-tight">৳{booking.total_amount.toLocaleString()}</p>
+                <p className="text-3xl font-bold text-slate-900 tracking-tight">৳{booking?.total_amount.toLocaleString()}</p>
               </div>
 
               <div className="md:col-span-7 space-y-4">
-                {booking.payment ? (
+                {booking?.payment ? (
                   <>
                     <div className="flex justify-between items-center text-sm">
                       <span className="text-slate-500">Transaction ID</span>
-                      <span className="font-mono text-slate-900 font-medium">{booking.payment.transaction_id}</span>
+                      <span className="font-mono text-slate-900 font-medium">{booking?.payment.transaction_id}</span>
                     </div>
                     <div className="flex justify-between items-center text-sm">
                       <span className="text-slate-500">Paid On</span>
-                      <span className="font-medium text-slate-900">{new Date(booking.payment.createdAt).toLocaleDateString(undefined, { dateStyle: 'long' })}</span>
+                      <span className="font-medium text-slate-900">{new Date(booking?.payment.createdAt).toLocaleDateString(undefined, { dateStyle: 'long' })}</span>
                     </div>
                   </>
                 ) : (
@@ -287,12 +287,12 @@ const BookingDetailsCustomer = ({
               <div className="relative pl-8">
                 <div className="absolute left-0 top-1.5 w-4 h-4 rounded-full bg-slate-900 border-4 border-white shadow-sm" />
                 <p className="text-[11px] font-medium text-slate-500 uppercase tracking-wider">Created</p>
-                <p className="text-sm font-semibold text-slate-900">{new Date(booking.createdAt).toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' })}</p>
+                <p className="text-sm font-semibold text-slate-900">{new Date(booking?.createdAt).toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' })}</p>
               </div>
               <div className="relative pl-8">
                 <div className="absolute left-0 top-1.5 w-4 h-4 rounded-full bg-slate-200 border-4 border-white shadow-sm" />
                 <p className="text-[11px] font-medium text-slate-500 uppercase tracking-wider">Updated</p>
-                <p className="text-sm font-semibold text-slate-900">{new Date(booking.updatedAt).toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' })}</p>
+                <p className="text-sm font-semibold text-slate-900">{new Date(booking?.updatedAt).toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' })}</p>
               </div>
             </div>
           </div>

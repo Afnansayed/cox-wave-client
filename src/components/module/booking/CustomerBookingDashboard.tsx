@@ -87,10 +87,13 @@ const CustomerBookingDashboard = ({
     const [sortBy, sortOrder] = value.split(":");
     handleSortingChange([{ id: sortBy, desc: sortOrder === "desc" }]);
   };
+
   const clearAll = () => {
     setSearchInput("");
     updateParams({ searchTerm: undefined, status: undefined, sortBy: undefined, sortOrder: undefined, limit: String(DEFAULT_LIMIT), page: "1" }, false);
   };
+
+
 
   return (
     <div className="w-full  mx-auto space-y-8">

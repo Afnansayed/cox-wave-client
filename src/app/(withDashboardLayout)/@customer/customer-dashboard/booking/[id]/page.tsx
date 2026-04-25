@@ -20,7 +20,7 @@ const BookingDetailsPage = async ({
     notFound();
   }
 
-  const booking = response.data;
+  const booking = response?.data;
 
   return (
     <section className="space-y-4 p-4">
