@@ -19,6 +19,7 @@ import { Route } from '@/types/route.type';
 import { adminRoutes } from '@/routes/admin.routes';
 import { ownerRoutes } from '@/routes/owner.routes';
 import { customerRoutes } from '@/routes/customer.routes';
+import Image from 'next/image';
 
 
 
@@ -45,12 +46,12 @@ export function AppSidebar({ user, ...props }: any) {
               className="hover:bg-transparent focus:bg-transparent"
             >
               <Link href="/" className="flex items-center gap-3">
-                <div className="flex aspect-square size-9 items-center justify-center rounded-xl bg-primary shadow-lg shadow-primary/20 text-primary-foreground">
-                  <GraduationCap className="size-6" />
+                <div className="flex aspect-square size-9 items-center justify-center rounded-xl shadow-lg shadow-primary/20 text-primary-foreground">
+                  <Image src="/cox-wave-icon.png" alt="CoxWave Logo" width={100} height={100} />
                 </div>
                 <div className="flex flex-col gap-0.5 leading-none group-data-[collapsible=icon]:hidden">
-                  <span className="font-bold text-lg tracking-tight">
-                    TutorFlow
+                  <span className="font-bold text-lg tracking-tight text-primary">
+                    CoxWave
                   </span>
                   <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">
                     Platform v1.0

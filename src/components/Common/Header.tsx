@@ -29,6 +29,7 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet';
 import UserDropdown from './UserDropDown';
+import Image from 'next/image';
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -94,10 +95,9 @@ export default function Navbar() {
 
           {/* BRAND IDENTITY */}
           <Link href="/" className="flex items-center gap-2 md:gap-2.5 group shrink-0">
-            <div className="relative overflow-hidden bg-primary p-2 md:p-2.5 rounded-xl md:rounded-2xl shadow-lg shadow-primary/30 transition-all duration-500 group-hover:shadow-primary/50 group-hover:-translate-y-0.5">
-              <Waves className="w-5 h-5 md:w-6 md:h-6 text-white relative z-10" />
-              <div className="absolute inset-0 bg-gradient-to-tr from-primary-dark to-primary-light opacity-0 group-hover:opacity-100 transition-opacity" />
-            </div>
+          <div className="flex aspect-square size-10 items-center justify-center rounded-xl shadow-lg shadow-primary/20 text-primary-foreground">
+             <Image src="/cox-wave-icon.png" alt="CoxWave Logo" width={100} height={100} />
+          </div>
             <div className="flex flex-col">
               <span className="text-lg md:text-xl font-black tracking-tight text-neutral-900 leading-none">
                 Cox<span className="text-primary italic">Wave</span>

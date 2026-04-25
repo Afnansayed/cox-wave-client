@@ -11,6 +11,7 @@ import {
   Send
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import Image from 'next/image';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -53,9 +54,9 @@ export default function Footer() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 pb-16 border-b border-white/10">
           <div className="space-y-6">
             <Link href="/" className="flex items-center gap-2.5 group w-fit">
-              <div className="bg-primary p-2 rounded-xl">
-                <Waves className="w-6 h-6 text-white" />
-              </div>
+             <div className="flex aspect-square size-10 items-center justify-center rounded-xl shadow-lg shadow-primary/20 text-primary-foreground">
+                     <Image src="/cox-wave-icon.png" alt="CoxWave Logo" width={100} height={100} />
+                  </div>
               <span className="text-2xl font-black tracking-tight text-white leading-none">
                 Cox<span className="text-primary italic">Wave</span>
               </span>
