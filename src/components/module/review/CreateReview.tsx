@@ -20,6 +20,9 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
+import { getFirstError } from "@/lib/getFirstError";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { createReview } from "@/components/services/review.service";
 
 // 1. Zod Validation Schema
 const reviewSchema = z.object({
@@ -28,45 +31,59 @@ const reviewSchema = z.object({
 });
 
 interface ICreateReviewProps {
-  eventId: string;
-  title: string;
+  eventId?: string;
+  title?: string;
 }
 
 const CreateReview: React.FC<ICreateReviewProps> = ({ eventId, title }) => {
-  const [isExpanded, setIsExpanded] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+const [isExpanded, setIsExpanded] = useState(false);
   const userInfo = useAppSelector(useCurrentUserInfo);
+  const queryClient = useQueryClient();
 
-  // 2. TanStack Form Setup
+  const mutation = useMutation({
+    mutationFn: createReview,
+    onSuccess: () => {
+      // 1. Success feedback
+      toast.success("Review published successfully!");
+      // 2. Clear and close form
+      form.reset();
+      setIsExpanded(false);
+      // 3. Refresh the event data so the new review shows up in the list
+      queryClient.invalidateQueries({ queryKey: ['event', eventId] });
+    },
+    onError: (error: any) => {
+      // Single source of truth for error toasts
+      const message = error?.response?.data?.message || error.message || "Failed to post review.";
+      toast.error(message);
+    },
+  });
+
   const form = useForm({
     defaultValues: {
       rating: 0,
       comment: "",
     },
     onSubmit: async ({ value }) => {
+      if (!eventId) {
+        toast.error("Event information is missing.");
+        return;
+      }
+
+      // Prepare the payload
+      const payload = {
+        event_id: eventId,
+        rating: value.rating,
+        comment: value.comment,
+      };
+
+      // mutateAsync will throw the error to the catch block, 
+      // but we let the mutation's onError handle the TOAST.
       try {
-        setIsLoading(true);
-        
-        // Prepare the payload
-        const payload = {
-          eventId,
-          rating: value.rating,
-          comment: value.comment,
-        };
-
-        // Replace with your actual API call
-        // await createReviewApi(payload);
-        
-        console.log("Submitting Review:", payload);
-        await new Promise((resolve) => setTimeout(resolve, 1500));
-
-        toast.success("Review published successfully!");
-        form.reset();
-        setIsExpanded(false);
+        await mutation.mutateAsync(payload);
       } catch (error) {
-        toast.error("Failed to post review. Please try again.");
-      } finally {
-        setIsLoading(false);
+        // We catch it here simply to prevent the form from 
+        // crashing or doing something unintended, but we DO NOT fire a toast.
+        console.error("Mutation failed:", error);
       }
     },
   });
@@ -147,7 +164,7 @@ const CreateReview: React.FC<ICreateReviewProps> = ({ eventId, title }) => {
                   </div>
                   {field.state.meta.errors.length > 0 && (
                     <p className="text-[10px] font-medium text-rose-500 px-1">
-                      {field.state.meta.errors[0]?.toString()}
+                      {getFirstError(field.state.meta.errors[0])}
                     </p>
                   )}
                 </div>
@@ -177,7 +194,7 @@ const CreateReview: React.FC<ICreateReviewProps> = ({ eventId, title }) => {
                   <div className="flex justify-between items-center px-1">
                     {field.state.meta.errors.length > 0 ? (
                       <p className="text-[10px] font-medium text-rose-500">
-                        {field.state.meta.errors[0]?.toString()}
+                       {getFirstError(field.state.meta.errors[0])}
                       </p>
                     ) : (
                       <div />
@@ -194,10 +211,10 @@ const CreateReview: React.FC<ICreateReviewProps> = ({ eventId, title }) => {
             <div className="flex flex-col md:flex-row gap-3 pt-2">
               <Button
                 type="submit"
-                disabled={isLoading || !form.state.canSubmit}
+                disabled={ mutation.isPending || !form.state.canSubmit}
                 className="flex-1 h-12 rounded-2xl bg-primary text-white hover:bg-primary/90 transition-all font-bold gap-2 shadow-lg shadow-slate-100"
               >
-                {isLoading ? (
+                { mutation.isPending ? (
                   <Loader2 className="h-5 w-5 animate-spin" />
                 ) : (
                   <>

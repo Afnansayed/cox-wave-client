@@ -24,3 +24,25 @@ export const updateReviewStatus = async (id: string, status: ReviewStatus) => {
 		throw error;
 	}
 };
+
+export const createReview = async ({
+	event_id,
+	rating,
+	comment,
+}: {
+	event_id: string;
+	rating: number;
+	comment: string;
+}) => {
+	try {
+	 return await httpClient.post<IReview>(`/review`, {
+		    event_id,
+			rating,
+			comment,
+		});
+	} catch (error : any) {
+		const message = error?.response?.data?.message || "Failed to create review. Please try again.";
+		console.error("Error creating review:", message);
+		throw new Error(message);
+	}
+};

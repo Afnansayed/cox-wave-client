@@ -16,19 +16,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { createEvent } from "@/components/services/event.service";
 import { createEventValidationSchema } from "@/zod/event.validation";
 import { cn } from "@/lib/utils";
+import { getFirstError } from "@/lib/getFirstError";
 
-const getFirstError = (errorMessage: unknown) => {
-  if (!errorMessage) return "";
-  if (typeof errorMessage === "string") return errorMessage;
-  if (errorMessage instanceof Error) return errorMessage.message;
 
-  if (typeof errorMessage === "object") {
-    const maybeMessage = (errorMessage as { message?: unknown }).message;
-    if (typeof maybeMessage === "string") return maybeMessage;
-  }
-
-  return "Invalid input";
-};
 
 export function OwnerEventCreate() {
   const router = useRouter();
