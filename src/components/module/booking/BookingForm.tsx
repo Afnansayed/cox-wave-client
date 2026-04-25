@@ -26,7 +26,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
-const BookingForm = ({ defaultEventId }: { defaultEventId: string }) => {
+const BookingForm = ({ defaultEventId, defaultGuestCount }: { defaultEventId: string; defaultGuestCount: number }) => {
   const [isRedirecting, setIsRedirecting] = useState(false);
 
   const { data, isLoading } = useQuery({
@@ -44,9 +44,9 @@ const BookingForm = ({ defaultEventId }: { defaultEventId: string }) => {
   const initialValues = useMemo(
     () => ({
       event_id: defaultEventId,
-      seats: 1,
+      seats: defaultGuestCount,
     }),
-    [defaultEventId],
+    [defaultEventId, defaultGuestCount],
   );
 
   const form = useForm({

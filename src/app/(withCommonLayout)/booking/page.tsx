@@ -14,6 +14,12 @@ const BookingPage = async ({
   const resolvedParams = await searchParams;
 
   const rawEventId = resolvedParams.event_id;
+  const rawGuestCount = resolvedParams.no_of_guests;
+
+  const guestCount = Array.isArray(rawGuestCount)
+    ? parseInt(rawGuestCount[0] ?? '1')
+    : parseInt(rawGuestCount ?? '1');
+
   const eventId = Array.isArray(rawEventId)
     ? (rawEventId[0] ?? '')
     : (rawEventId ?? '');
@@ -29,7 +35,7 @@ const BookingPage = async ({
     <section className="bg-neutral-50 py-12">
       <div className="container-max px-6">
         <HydrationBoundary state={dehydrate(queryClient)}>
-        <BookingForm defaultEventId={eventId} />
+        <BookingForm defaultEventId={eventId} defaultGuestCount={guestCount} />
         </HydrationBoundary>
       </div>
     </section>

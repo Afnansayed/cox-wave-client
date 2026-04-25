@@ -7,7 +7,10 @@ import Autoplay from "embla-carousel-autoplay";
 import { 
   MapPin, Users, Ticket, 
   ChevronLeft, Share2, Heart, Star, ChevronRight,
-  ShieldCheck, CheckCircle2, Phone, Mail, Building2, BadgeCheck
+  ShieldCheck, CheckCircle2, Phone, Mail, Building2, BadgeCheck,
+  Calendar,
+  Info,
+  ArrowRight
 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
@@ -22,6 +25,7 @@ import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { getEventsById } from '@/app/(withCommonLayout)/event/_actions';
 import Link from 'next/link';
+import CreateReview from '../review/CreateReview';
 
 export default function EventDetails({ id }: { id: string }) {
   const { data, isLoading } = useQuery({
@@ -43,156 +47,263 @@ export default function EventDetails({ id }: { id: string }) {
     mainApi.on("select", () => setSelectedIndex(mainApi.selectedScrollSnap()));
   }, [mainApi]);
 
-  if (isLoading) return <div className="min-h-screen flex items-center justify-center text-xs font-bold tracking-widest animate-pulse">LOADING...</div>;
-  if (!event) return <p className="container-max py-6 text-sm">Event not found.</p>;
+  if (isLoading) return (
+    <div className="min-h-screen flex flex-col items-center justify-center space-y-4">
+      <div className="h-12 w-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin" />
+      <span className="text-[10px] font-bold tracking-[0.3em] text-slate-400 uppercase">Loading Experience</span>
+    </div>
+  );
+
+  if (!event) return (
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="text-center space-y-4">
+        <p className="text-slate-500 font-medium">Event not found.</p>
+        <Link href="/event">
+          <Button variant="outline" className="rounded-xl">Return to Gallery</Button>
+        </Link>
+      </div>
+    </div>
+  );
 
   return (
-    <main className="min-h-screen bg-white pb-12 selection:bg-primary/20">
-      {/* 1. COMPACT NAV */}
-      <nav className="sticky top-0 z-50 w-full bg-white/80 backdrop-blur-md border-b border-neutral-100">
-        <div className="max-w-5xl mx-auto h-14 px-4 flex justify-between items-center">
-     <Link href="/event">
-          <Button variant="ghost" size="sm" className="font-bold text-[10px] uppercase tracking-wider text-neutral-500 gap-1.5">
-            <ChevronLeft size={14} /> Back
-          </Button>
+    <main className="min-h-screen bg-[#FAFAFA] selection:bg-primary/20">
+      {/* 1. PREMIUM STICKY NAV */}
+      <nav className="sticky top-0 z-[60] w-full bg-white/70 backdrop-blur-xl border-b border-slate-100">
+        <div className="max-w-7xl mx-auto h-16 px-4 md:px-8 flex justify-between items-center">
+          <Link href="/event">
+            <Button variant="ghost" size="sm" className="font-bold text-[10px] uppercase tracking-wider text-slate-500 hover:text-primary gap-2 bg-slate-50/50 rounded-full pr-4">
+              <ChevronLeft size={16} /> Back to Events
+            </Button>
           </Link>
-          <div className="flex gap-1.5">
-            <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full border border-neutral-100"><Share2 size={14} /></Button>
-            <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full border border-neutral-100 hover:text-red-500"><Heart size={14} /></Button>
+          <div className="flex gap-2">
+            <Button variant="outline" size="icon" className="h-9 w-9 rounded-full border-slate-200 hover:bg-white hover:shadow-sm"><Share2 size={15} /></Button>
+            <Button variant="outline" size="icon" className="h-9 w-9 rounded-full border-slate-200 hover:bg-white hover:text-rose-500 hover:shadow-sm"><Heart size={15} /></Button>
           </div>
         </div>
       </nav>
 
-      <div className="max-w-4xl mx-auto px-4 pt-6 space-y-10">
-        
-        {/* 2. GALLERY */}
-        <section className="relative group">
-          <Carousel setApi={setMainApi} plugins={[plugin.current]} className="w-full">
-            <CarouselContent>
-              {event.images.map((src, index) => (
-                <CarouselItem key={index}>
-                  <div className="relative aspect-[21/10] overflow-hidden rounded-3xl shadow-md border border-neutral-100">
-                    <Image src={src} alt={event.title} fill className="object-cover" priority={index === 0} />
-                  </div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-          </Carousel>
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-1.5 px-3 py-1.5 bg-black/10 backdrop-blur-sm rounded-full">
-            {event.images.map((_, i) => (
-              <button key={i} onClick={() => mainApi?.scrollTo(i)}
-                className={cn("h-1 transition-all rounded-full", selectedIndex === i ? "w-4 bg-white" : "w-1 bg-white/50")} />
-            ))}
-          </div>
-        </section>
-
-        {/* 3. HEADER & QUICK INFO */}
-        <section className="space-y-4">
-          <div className="flex items-center gap-2">
-            <Badge className="bg-primary/10 text-primary border-none text-[9px] uppercase font-bold tracking-tight px-2.5">
-              {event.status}
-            </Badge>
-            <div className="flex items-center gap-1 text-[11px] font-bold text-neutral-600">
-              <Star size={12} className="fill-secondary text-secondary" /> {event.owner.rating || "New"}
-              <span className="text-neutral-400 font-medium">({reviews.length} reviews)</span>
-            </div>
-          </div>
-
-          <h1 className="text-3xl md:text-5xl font-black text-neutral-900 tracking-tight leading-tight">
-            {event.title}
-          </h1>
-
-          <div className="flex flex-wrap gap-2">
-            {[
-              { icon: MapPin, text: event.location, color: "text-blue-500" },
-              { icon: Users, text: `${event.capacity} Capacity`, color: "text-primary" },
-              { icon: Ticket, text: `${event.remaining_seats} Left`, color: "text-secondary" },
-            ].map((pill, i) => (
-              <div key={i} className="flex items-center gap-1.5 bg-neutral-50 px-3 py-1.5 rounded-xl border border-neutral-100 text-[11px] font-bold text-neutral-600">
-                <pill.icon size={13} className={pill.color} />
-                {pill.text}
+      <div className="max-w-7xl mx-auto px-4 md:px-8 pt-6 pb-20">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+          
+          {/* LEFT COLUMN: CONTENT */}
+          <div className="lg:col-span-8 space-y-12">
+            
+            {/* 2. GALLERY COMPONENT */}
+            <section className="relative group rounded-[2.5rem] overflow-hidden shadow-2xl shadow-slate-200">
+              <Carousel setApi={setMainApi} plugins={[plugin.current]} className="w-full">
+                <CarouselContent>
+                  {event?.images.map((src, index) => (
+                    <CarouselItem key={index}>
+                      <div className="relative aspect-[16/9] md:aspect-[21/9] overflow-hidden">
+                        <Image src={src} alt={event?.title} fill className="object-cover transition-transform duration-700 group-hover:scale-105" priority={index === 0} />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+                      </div>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+              </Carousel>
+              
+              {/* Custom Navigation Dots */}
+              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 px-4 py-2 bg-white/10 backdrop-blur-md rounded-full border border-white/20">
+                {event?.images.map((_, i) => (
+                  <button 
+                    key={i} 
+                    onClick={() => mainApi?.scrollTo(i)}
+                    className={cn(
+                      "h-1.5 transition-all duration-300 rounded-full", 
+                      selectedIndex === i ? "w-6 bg-white" : "w-1.5 bg-white/40 hover:bg-white/60"
+                    )} 
+                  />
+                ))}
               </div>
-            ))}
-          </div>
-        </section>
+            </section>
 
-        {/* 4. DESCRIPTION */}
-        <section className="space-y-3">
-          <h3 className="text-sm font-black text-neutral-900 uppercase tracking-widest border-l-4 border-primary pl-3">Description</h3>
-          <p className="text-sm text-neutral-600 leading-relaxed font-medium max-w-3xl">
-            {event.description}
-          </p>
-        </section>
+            {/* 3. HEADER & QUICK INFO */}
+            <section className="space-y-6">
+              <div className="flex flex-wrap items-center gap-3">
+                <Badge className="bg-slate-900 text-white border-none text-[10px] uppercase font-bold tracking-[0.15em] px-3 py-1 rounded-lg">
+                  {event?.status}
+                </Badge>
+                <div className="flex items-center gap-1.5 px-3 py-1 bg-amber-50 text-amber-700 rounded-lg border border-amber-100/50 text-xs font-bold">
+                  <Star size={14} className="fill-amber-400 text-amber-400" /> 
+                  {event?.owner.rating || "5.0"}
+                  <span className="text-amber-800/40 font-medium ml-1">({reviews.length} reviews)</span>
+                </div>
+              </div>
 
-        {/* 5. OWNER SECTION (COMPACT) */}
-        <section className="p-6 rounded-3xl bg-neutral-900 text-white flex flex-col md:flex-row gap-6 items-center shadow-lg">
-          <div className="h-16 w-16 rounded-2xl relative border border-white/10 overflow-hidden flex-shrink-0">
-            <Image src={event.owner.profile_picture || '/default-avatar.png'} alt="Owner" fill className="object-cover" />
-          </div>
-          <div className="flex-1 space-y-2 text-center md:text-left">
-            <div className="flex items-center justify-center md:justify-start gap-2">
-              <h4 className="text-lg font-bold tracking-tight">{event.owner.business_name || event.owner.name}</h4>
-              <BadgeCheck className="text-primary" size={16} />
-            </div>
-            <p className="text-xs text-neutral-400 leading-snug line-clamp-2 italic">"{event.owner.description}"</p>
-            <div className="flex flex-wrap justify-center md:justify-start gap-4 pt-1 text-[10px] text-neutral-500 font-bold uppercase tracking-tighter">
-              <span className="flex items-center gap-1"><Mail size={12}/> {event.owner.email}</span>
-              <span className="flex items-center gap-1"><Building2 size={12}/> {event.owner.business_address || "Private"}</span>
-            </div>
-          </div>
-        </section>
+              <h1 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight leading-[1.1]">
+                {event?.title}
+              </h1>
 
-        {/* 6. REVIEWS (TIGHTER GRID) */}
-        <section className="space-y-6 pt-4 border-t border-neutral-100">
-          <div className="flex items-center justify-between">
-            <h3 className="text-lg font-black text-neutral-900 tracking-tight">Reviews</h3>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {reviews.slice(0, 4).map((review) => (
-              <div key={review.id} className="bg-neutral-50 p-5 rounded-2xl border border-neutral-100/50 space-y-3">
-                <div className="flex justify-between items-center">
-                  <p className="font-bold text-xs text-neutral-800">{review.customer?.name}</p>
-                  <div className="flex gap-0.5">
-                    {Array.from({ length: 5 }).map((_, i) => (
-                      <Star key={i} size={10} className={cn(i < review.rating ? "fill-secondary text-secondary" : "text-neutral-200")} />
-                    ))}
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                {[
+                  { icon: MapPin, text: event?.location, color: "bg-blue-50 text-blue-600", label: "Location" },
+                  { icon: Users, text: `${event?.capacity} Capacity`, color: "bg-emerald-50 text-emerald-600", label: "Group Size" },
+                  { icon: Ticket, text: `${event?.remaining_seats} Left`, color: "bg-rose-50 text-rose-600", label: "Availability" },
+                ].map((pill, i) => (
+                  <div key={i} className="flex flex-col p-4 bg-white rounded-2xl border border-slate-100 shadow-sm transition-hover hover:shadow-md">
+                    <div className={cn("w-8 h-8 rounded-lg flex items-center justify-center mb-3", pill.color)}>
+                      <pill.icon size={16} />
+                    </div>
+                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{pill.label}</span>
+                    <span className="text-sm font-bold text-slate-900 truncate">{pill.text}</span>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            {/* 4. DESCRIPTION */}
+            <section className="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-sm space-y-4">
+              <h3 className="text-xs font-bold text-slate-400 uppercase tracking-[0.2em] flex items-center gap-2">
+                <Info size={14} className="text-primary" /> About the Event
+              </h3>
+              <p className="text-md text-slate-600 leading-relaxed font-medium">
+                {event?.description}
+              </p>
+            </section>
+
+            {/* 5. OWNER CARD (ADMIN STYLE) */}
+            <section className="overflow-hidden rounded-[2rem] bg-slate-900 shadow-xl">
+              <div className="p-1 px-8 pt-8 flex items-center gap-2">
+                <span className="text-[10px] font-bold text-primary uppercase tracking-[0.3em]">Verified Organizer</span>
+              </div>
+              <div className="p-8 flex flex-col md:flex-row gap-8 items-center">
+                <div className="h-24 w-24 rounded-[2rem] relative border-4 border-white/5 overflow-hidden flex-shrink-0 shadow-2xl">
+                  <Image src={event?.owner.profile_picture || '/default-avatar.png'} alt="Owner" fill className="object-cover" />
+                </div>
+                <div className="flex-1 space-y-4 text-center md:text-left">
+                  <div>
+                    <div className="flex items-center justify-center md:justify-start gap-2 mb-1">
+                      <h4 className="text-2xl font-bold text-white tracking-tight">{event?.owner.business_name || event?.owner.name}</h4>
+                      <BadgeCheck className="text-primary" size={24} />
+                    </div>
+                    <p className="text-sm text-slate-400 italic">"{event?.owner.description}"</p>
+                  </div>
+                  
+                  <div className="flex flex-wrap justify-center md:justify-start gap-6 text-[11px] text-slate-500 font-bold uppercase tracking-tight">
+                    <span className="flex items-center gap-2"><Mail size={14} className="text-primary"/> {event?.owner.email}</span>
+                    <span className="flex items-center gap-2"><Building2 size={14} className="text-primary"/> {event?.owner.business_address || "Private Listing"}</span>
                   </div>
                 </div>
-                <p className="text-xs text-neutral-500 leading-relaxed italic line-clamp-2">"{review.comment}"</p>
               </div>
-            ))}
-          </div>
-        </section>
+            </section>
 
-        {/* 7. BOOKING AREA (COMPACT) */}
-        <section className="pt-6">
-          <div className="bg-white border border-neutral-200 rounded-[2.5rem] p-6 md:p-10 shadow-xl grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-            <div className="space-y-6">
-              <div className="space-y-1">
-                <h2 className="text-xl font-black text-neutral-900 tracking-tight">Reserve Tickets</h2>
-                <p className="text-[11px] text-neutral-400 font-medium">Select group size for final pricing.</p>
+            {/* 6. REVIEWS */}
+            <section className="space-y-8">
+              <div className="flex items-center justify-between px-2">
+                <h3 className="text-2xl font-black text-slate-900 tracking-tight">Guest Experiences</h3>
+                <Badge variant="outline" className="rounded-full px-4">{reviews.length} total</Badge>
               </div>
-              <div className="space-y-4">
-                <div className="flex justify-between items-end">
-                  <span className="text-4xl font-black text-primary leading-none">{guestCount[0]} <span className="text-xs text-neutral-400 not-italic tracking-normal">Guests</span></span>
-                  <span className="text-[11px] font-bold text-neutral-400 uppercase">৳{event.per_person_price} / each</span>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {reviews.length > 0 ? (
+                  reviews.slice(0, 4).map((review) => (
+                    <div key={review.id} className="bg-white p-6 rounded-[1.5rem] border border-slate-100 shadow-sm space-y-4 hover:border-primary/20 transition-colors">
+                      <div className="flex justify-between items-start">
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-xs font-bold text-slate-400 uppercase">
+                            {review.customer?.name.charAt(0)}
+                          </div>
+                          <div>
+                            <p className="font-bold text-sm text-slate-900">{review.customer?.name}</p>
+                            <p className="text-[10px] text-slate-400 font-bold uppercase tracking-tighter">Verified Guest</p>
+                          </div>
+                        </div>
+                        <div className="flex gap-0.5">
+                          {Array.from({ length: 5 }).map((_, i) => (
+                            <Star key={i} size={10} className={cn(i < review.rating ? "fill-amber-400 text-amber-400" : "text-slate-200")} />
+                          ))}
+                        </div>
+                      </div>
+                      <p className="text-sm text-slate-600 leading-relaxed italic">"{review.comment}"</p>
+                    </div>
+                  ))
+                ) : (
+                  <div className="col-span-full py-10 text-center bg-slate-50 rounded-3xl border border-dashed border-slate-200">
+                    <p className="text-sm text-slate-400 font-medium italic">Be the first to share an experience.</p>
+                  </div>
+                )}
+              </div>
+              <CreateReview eventId={event?.id} title={event?.title} /> 
+            </section>
+          </div>
+
+          {/* RIGHT COLUMN: STICKY BOOKING CARD */}
+          <div className="lg:col-span-4">
+            <aside className="sticky top-24 space-y-6">
+              <div className="bg-white border-2 border-slate-100 rounded-[2.5rem] p-8 shadow-2xl shadow-slate-200 relative overflow-hidden">
+                {/* Decorative Accent */}
+                <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -mr-16 -mt-16" />
+                
+                <div className="relative space-y-8">
+                  <div className="space-y-2">
+                    <h2 className="text-2xl font-black text-slate-900 tracking-tight">Reserve Spot</h2>
+                    <p className="text-xs text-slate-400 font-bold uppercase tracking-widest">Instant Confirmation</p>
+                  </div>
+
+                  <div className="space-y-6">
+                    <div className="flex justify-between items-center">
+                      <div className="flex flex-col">
+                         <span className="text-4xl font-black text-slate-900 leading-none">৳{event?.per_person_price}</span>
+                         <span className="text-[10px] font-bold text-slate-400 uppercase mt-1">per person</span>
+                      </div>
+                      <Badge className="h-fit bg-emerald-50 text-emerald-600 border-emerald-100 rounded-lg">Available</Badge>
+                    </div>
+
+                    <div className="space-y-4 bg-slate-50 p-6 rounded-2xl border border-slate-100">
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="text-xs font-bold text-slate-900 uppercase">Attendees</span>
+                        <span className="text-sm font-black text-primary bg-white px-3 py-1 rounded-lg border border-slate-200 shadow-sm">
+                          {guestCount[0]} Guests
+                        </span>
+                      </div>
+                      <Slider 
+                        defaultValue={[1]} 
+                        max={event?.remaining_seats} 
+                        min={1} 
+                        step={1} 
+                        onValueChange={setGuestCount} 
+                        className="py-4"
+                      />
+                      <div className="flex justify-between text-[10px] font-bold text-slate-400 uppercase">
+                        <span>Min: 1</span>
+                        <span>Max: {event?.remaining_seats}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-4 pt-4 border-t border-slate-100">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm font-bold text-slate-500 uppercase tracking-tight">Subtotal</span>
+                      <span className="text-lg font-bold text-slate-900">৳{totalPrice.toLocaleString()}</span>
+                    </div>
+                    
+                    <Link href={`/booking?event_id=${event?.id}&no_of_guests=${guestCount[0]}`}>
+                    <Button className="w-full h-14 rounded-2xl bg-primary hover:bg-slate-900 text-white font-black text-sm uppercase tracking-widest transition-all group shadow-xl shadow-primary/20">
+                      Booking Now
+                      <ArrowRight size={18} className="ml-2 group-hover:translate-x-1 transition-transform" />
+                    </Button>
+                    </Link>
+                    
+                    <p className="text-[10px] text-center text-slate-400 font-medium">
+                      You won't be charged until the final step.
+                    </p>
+                  </div>
                 </div>
-                <Slider defaultValue={[1]} max={event.remaining_seats} min={1} step={1} onValueChange={setGuestCount} />
               </div>
-            </div>
 
-            <div className="bg-neutral-50 rounded-3xl p-6 space-y-4 border border-neutral-100">
-              <div className="text-center">
-                <p className="text-[10px] font-black text-neutral-400 uppercase tracking-widest">Total to Pay</p>
-                <p className="text-4xl font-black text-neutral-900 tracking-tight">৳{totalPrice.toLocaleString()}</p>
+              {/* Secondary Trust Card */}
+              <div className="bg-emerald-50/50 border border-emerald-100 rounded-2xl p-4 flex items-center gap-4">
+                <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-emerald-600 shrink-0 shadow-sm">
+                  <ShieldCheck size={20} />
+                </div>
+                <div className="space-y-0.5">
+                  <p className="text-xs font-bold text-emerald-900 uppercase tracking-tight">Secure Transaction</p>
+                  <p className="text-[10px] text-emerald-700 leading-snug">Encrypted payments and verified ticket fulfillment.</p>
+                </div>
               </div>
-              <Button className="w-full h-14 rounded-2xl bg-secondary hover:bg-primary text-white font-black text-xs uppercase tracking-[0.1em] transition-all group">
-                Confirm Booking
-                <ChevronRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
-              </Button>
-            </div>
+            </aside>
           </div>
-        </section>
+        </div>
       </div>
     </main>
   );
