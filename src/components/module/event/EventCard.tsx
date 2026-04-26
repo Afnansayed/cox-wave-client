@@ -30,8 +30,8 @@ export default function EventCard({ event }: EventCardProps) {
           {/* FLOAT BADGES */}
           <div className="absolute top-4 left-4 flex gap-2">
             <div className="bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-xl flex items-center gap-1.5 shadow-sm">
-              <Star size={12} className="text-secondary fill-secondary" />
-              {/* <span className="text-[10px] font-black">{event.rating || "4.9"}</span> */}
+          <Star size={12} className="text-secondary fill-secondary" />
+              <span className="text-[10px] font-black">{event?.average_rating|| "4.9"}</span>
             </div>
           </div>
         </div>
@@ -45,7 +45,7 @@ export default function EventCard({ event }: EventCardProps) {
                 {event.location}
               </span>
             </div>
-            <h3 className="text-xl font-black text-neutral-900 tracking-tight leading-tight group-hover:text-primary transition-colors">
+            <h3 className="text-xl min-h-12 font-black text-neutral-900 tracking-tight leading-tight group-hover:text-primary transition-colors">
               {event.title}
             </h3>
             <p className="text-[10px] font-bold text-neutral-500 uppercase tracking-widest">

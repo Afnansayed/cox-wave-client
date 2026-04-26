@@ -14,6 +14,8 @@ export interface IEvent {
   capacity: number;
   remaining_seats: number;
   per_person_price: number;
+  average_rating?: number;
+  total_reviews?: number;
 
   status: EventStatus;
   isActive: boolean;
