@@ -48,14 +48,14 @@ export default function Navbar() {
       path: '/explore', 
       label: 'Explore',
       submenu: [
-        { path: "/events/beach", label: "Beach Parties", icon: <Palmtree className="w-4 h-4" /> },
+        // { path: "/events/beach", label: "Beach Parties", icon: <Palmtree className="w-4 h-4" /> },
         { path: "/faq", label: "FAQ", icon: <FileQuestion className="w-4 h-4" /> },
         { path: "/contact", label: "Contact", icon: <Contact className="w-4 h-4" /> },
       ]
     },
     // { path: '/destinations', label: 'Destinations' },
     { path: '/event', label: 'Events' },
-    { path: '/blog', label: 'Travel Guide' },
+    { path: '/contact', label: 'contact' },
   ];
 
   return (

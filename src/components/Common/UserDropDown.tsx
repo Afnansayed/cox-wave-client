@@ -112,7 +112,7 @@ export default function UserDropdown() {
                   </Link>
 
                   <Link
-                    href="/dashboard/bookings"
+                    href="/customer-dashboard/booking"
                     className="flex items-center gap-3 px-4 py-2 text-body_text hover:bg-primary_light transition-colors"
                     onClick={() => setIsOpen(false)}
                   >
@@ -153,6 +153,15 @@ export default function UserDropdown() {
                   >
                     <User className="w-5 h-5" />
                     <span>Dashboard</span>
+                  </Link>
+
+                <Link
+                    href="/owner-dashboard/booking"
+                    className="flex items-center gap-3 px-4 py-2 text-body_text hover:bg-primary_light transition-colors"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    <BookIcon className="w-5 h-5" />
+                    <span className="font-medium">My Bookings</span>
                   </Link>
                 </div>
               )}

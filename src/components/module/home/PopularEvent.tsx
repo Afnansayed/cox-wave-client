@@ -16,9 +16,12 @@ import { getEvents } from '@/app/(withCommonLayout)/event/_actions';
 import { useQuery } from '@tanstack/react-query';
 import { IEvent } from '@/types/event.types';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+
 
 export default function EventSlider() {
   const sliderRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
   const { data: eventsResponse, isLoading, isFetching } = useQuery({
     queryFn: () => getEvents(undefined),
@@ -36,6 +39,10 @@ export default function EventSlider() {
       sliderRef.current.scrollTo({ left: scrollLeft + move, behavior: 'smooth' });
     }
   };
+
+  const handleRedirect = (id: string) => {
+     router.push(`/event/${id}`);
+  }
 
   return (
     <section className="py-12 bg-neutral-50 overflow-hidden">
@@ -70,7 +77,8 @@ export default function EventSlider() {
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
           {events.map((event: IEvent) => (
-            <div key={event.id} className="min-w-[90%] md:min-w-[48%] lg:min-w-[32%] snap-start group">
+           
+            <div onClick={() => handleRedirect(event.id)} key={event.id} className="min-w-[90%] md:min-w-[48%] lg:min-w-[32%] snap-start group cursor-pointer">
               <div className="bg-white rounded-[2rem] border border-neutral-100 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.1)]">
                 
                 {/* 1. VISUAL LAYER (Compact Ratio) */}

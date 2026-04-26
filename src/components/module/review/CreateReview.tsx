@@ -42,17 +42,18 @@ const [isExpanded, setIsExpanded] = useState(false);
 
   const mutation = useMutation({
     mutationFn: createReview,
-    onSuccess: () => {
-      // 1. Success feedback
+    onSuccess: (response) => {
+      if (!response.success) {
+        toast.error(response.message || "Failed to post review.");
+        return;
+      }
+
       toast.success("Review published successfully!");
-      // 2. Clear and close form
       form.reset();
       setIsExpanded(false);
-      // 3. Refresh the event data so the new review shows up in the list
       queryClient.invalidateQueries({ queryKey: ['event', eventId] });
     },
     onError: (error: any) => {
-      // Single source of truth for error toasts
       const message = error?.response?.data?.message || error.message || "Failed to post review.";
       toast.error(message);
     },
@@ -76,13 +77,9 @@ const [isExpanded, setIsExpanded] = useState(false);
         comment: value.comment,
       };
 
-      // mutateAsync will throw the error to the catch block, 
-      // but we let the mutation's onError handle the TOAST.
       try {
         await mutation.mutateAsync(payload);
       } catch (error) {
-        // We catch it here simply to prevent the form from 
-        // crashing or doing something unintended, but we DO NOT fire a toast.
         console.error("Mutation failed:", error);
       }
     },

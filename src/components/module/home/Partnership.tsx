@@ -10,6 +10,7 @@ import {
   Plus
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useRouter } from 'next/navigation';
 
 const BENEFITS = [
   {
@@ -34,7 +35,13 @@ const BENEFITS = [
   }
 ];
 
+
+
 export default function Partnership() {
+  const router = useRouter();
+  const handleRedirect = () => {
+     router.push(`/contact`);
+  }
   return (
     <section className="py-12 bg-neutral-900 overflow-hidden relative">
       {/* Background Subtle Gradient */}
@@ -60,10 +67,10 @@ export default function Partnership() {
             </div>
 
             <div className="flex flex-col sm:flex-row items-center gap-4">
-              <Button className="w-full sm:w-auto bg-primary hover:bg-primary-dark text-white h-14 px-10 rounded-full font-black text-xs uppercase tracking-widest shadow-2xl shadow-primary/20 transition-all active:scale-95">
+              <Button onClick={handleRedirect} className="w-full sm:w-auto bg-primary hover:bg-primary-dark text-white h-14 px-10 rounded-full font-black text-xs uppercase tracking-widest shadow-2xl shadow-primary/20 transition-all active:scale-95">
                  Contact With Us
               </Button>
-              <button className="flex items-center gap-3 px-6 py-3 text-w  text-sm group text-primary transition-colors">
+              <button onClick={handleRedirect} className="flex items-center gap-3 px-6 py-3 text-w  text-sm group text-primary transition-colors">
                 <div className="h-10 w-10 rounded-full border border-white/10 flex items-center justify-center bg-white/5 group-hover:border-primary transition-all">
                   <MessageCircle className="w-4 h-4" />
                 </div>

@@ -1,6 +1,7 @@
 "use server";
 
 import { httpClient } from "@/lib/axios/httpClient";
+import { ApiErrorResponse, ApiResponse } from "@/types/api.types";
 import { IReview, IReviewListData, ReviewStatus } from "@/types/review.types";
 
 export const getReviews = async (queryString?: string) => {
@@ -33,7 +34,7 @@ export const createReview = async ({
 	event_id: string;
 	rating: number;
 	comment: string;
-}) => {
+}): Promise<ApiResponse<IReview> | ApiErrorResponse> => {
 	try {
 	 return await httpClient.post<IReview>(`/review`, {
 		    event_id,
@@ -43,6 +44,9 @@ export const createReview = async ({
 	} catch (error : any) {
 		const message = error?.response?.data?.message || "Failed to create review. Please try again.";
 		console.error("Error creating review:", message);
-		throw new Error(message);
+		return {
+			success: false,
+			message,
+		};
 	}
 };
