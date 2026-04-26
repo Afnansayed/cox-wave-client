@@ -21,6 +21,7 @@ import { cn } from "@/lib/utils";
 import { updateAdminProfile, updateCustomerProfile } from "@/components/services/user.service";
 import { updateProfileSchema } from "@/zod/user.validation";
 import { useRouter } from "next/navigation";
+import { removeEmptyFields } from "@/lib/removeEmptyFields";
 
 const getFieldError = (error: unknown) => {
   if (!error) return "";
@@ -57,9 +58,9 @@ const UpdateCommonProfile = ({ user, role }: { user: IAdmin; role: string }) => 
 
         // 3. Prepare FormData according to your API requirements
         const formData = new FormData();
-        
+        const cleanedData = removeEmptyFields(value); // ✅ NEW
         // Nested JSON data as requested: { "data": "{...}" }
-        formData.append("data", JSON.stringify(value));
+        formData.append("data", JSON.stringify(cleanedData));
 
         if (profilePictureFile) {
           formData.append("profile_picture", profilePictureFile);

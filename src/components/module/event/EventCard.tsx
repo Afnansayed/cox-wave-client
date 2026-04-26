@@ -12,7 +12,7 @@ interface EventCardProps {
 
 export default function EventCard({ event }: EventCardProps) {
   return (
-<Link href={`/event/${event.id}`}>
+   <Link href={`/event/${event?.id}`}>
     <div
       key={event.id}
       className="min-w-[90%] md:min-w-[48%] lg:min-w-[32%] snap-start group"

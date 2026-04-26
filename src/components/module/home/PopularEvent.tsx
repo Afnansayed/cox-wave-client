@@ -12,9 +12,22 @@ import {
   Ticket 
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { getEvents } from '@/app/(withCommonLayout)/event/_actions';
+import { useQuery } from '@tanstack/react-query';
+import { IEvent } from '@/types/event.types';
+import Link from 'next/link';
 
 export default function EventSlider() {
   const sliderRef = useRef<HTMLDivElement>(null);
+
+  const { data: eventsResponse, isLoading, isFetching } = useQuery({
+    queryFn: () => getEvents(undefined),
+    queryKey: ["events", "popular"],
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 20,
+  });
+
+  const events = Array.isArray(eventsResponse?.data?.data) ? eventsResponse.data.data : [];
 
   const scroll = (direction: 'left' | 'right') => {
     if (sliderRef.current) {
@@ -56,7 +69,7 @@ export default function EventSlider() {
           className="flex gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-hide "
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
-          {MOCK_EVENTS.map((event, i) => (
+          {events.map((event: IEvent) => (
             <div key={event.id} className="min-w-[90%] md:min-w-[48%] lg:min-w-[32%] snap-start group">
               <div className="bg-white rounded-[2rem] border border-neutral-100 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.1)]">
                 
@@ -111,9 +124,11 @@ export default function EventSlider() {
                         <span className="text-2xl font-black text-neutral-900">৳{event.per_person_price}</span>
                       </div>
                     </div>
+                    <Link href={`/booking?event_id=${event.id}`}>
                     <Button className="h-11 px-6 rounded-full bg-secondary text-white hover:bg-primary transition-all font-black text-[10px] uppercase tracking-widest group">
-                      Details <ChevronRight size={14} className="ml-1 opacity-60 group-hover:translate-x-0.5 transition-transform" />
+                      Book Now <ChevronRight size={14} className="ml-1 opacity-60 group-hover:translate-x-0.5 transition-transform" />
                     </Button>
+                    </Link>
                   </div>
                 </div>
               </div>

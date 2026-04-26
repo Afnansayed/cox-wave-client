@@ -8,7 +8,7 @@ interface IGetEventsResponse {
     data: IEvent[];
     meta?: PaginationMeta;
 }
-export const getEvents = async (queryString: string) => {
+export const getEvents = async (queryString: string | undefined) => {
     try {
         const response = await httpClient.get<IGetEventsResponse>(
             queryString
