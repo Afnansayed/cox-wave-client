@@ -51,9 +51,10 @@ export const createEvent = async (data: FormData) => {
         "Content-Type": "multipart/form-data",
       },
     });
-  } catch (error) {
+  } catch (error: any) {
+    const message = error?.response?.data?.message || "Failed to create event. Please try again.";
     console.error("Error creating event:", error);
-    throw error;
+    throw new Error(message);
   }
 };
 
@@ -64,8 +65,9 @@ export const updateEvent = async (id: string, data: FormData) => {
         "Content-Type": "multipart/form-data",
       },
     });
-  } catch (error) {
+  } catch (error: any) {
+    const message = error?.response?.data?.message || "Failed to update event. Please try again.";
     console.error("Error updating event:", error);
-    throw error;
+    throw new Error(message);
   }
 };

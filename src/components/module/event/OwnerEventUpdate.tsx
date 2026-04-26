@@ -33,6 +33,7 @@ import {
 } from "@/zod/event.validation";
 import { IEvent } from "@/types/event.types";
 import { cn } from "@/lib/utils";
+import { useQueryClient } from "@tanstack/react-query";
 
 type OwnerEventUpdateProps = {
   event: IEvent;
@@ -57,6 +58,7 @@ export function OwnerEventUpdate({ event }: OwnerEventUpdateProps) {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [imagesToDelete, setImagesToDelete] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const queryClient = useQueryClient();
 
   const form = useForm({
     defaultValues: {
@@ -98,10 +100,15 @@ export function OwnerEventUpdate({ event }: OwnerEventUpdateProps) {
 
         const response = await updateEvent(event.id, formData);
 
-        if (response.data) {
+        if (response.success) {
+          await Promise.all([
+            queryClient.invalidateQueries({ queryKey: ["events"] }),
+            queryClient.invalidateQueries({ queryKey: ["event", event.id] }),
+            queryClient.invalidateQueries({ queryKey: ["owner-events"] }),
+            queryClient.invalidateQueries({ queryKey: ["owner-event", event.id] }),
+          ]);
           toast.success("Event updated successfully!");
           router.push("/owner-dashboard/event");
-          setTimeout(() => router.refresh(), 100);
         }
       } catch (error) {
         console.error("Error updating event:", error);
