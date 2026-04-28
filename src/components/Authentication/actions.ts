@@ -20,7 +20,7 @@ export const verifyAction = async (payload : IVerifyOtpPayload ) : Promise<ApiRe
     try {
 
         const response = await httpClient.post<IVerifyOtpResponse>("/auth/verify-email", parsedPayload.data);
-        console.log(response.data);
+        // console.log(response.data);
 
         const { token , user} = response.data;
         return response;

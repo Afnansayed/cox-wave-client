@@ -15,7 +15,7 @@ export const getEvents = async (queryString: string | undefined) => {
                 ? `/event?${queryString}`
                 : "/event",
         );
-        console.log({response})
+        // console.log({response})
         return response;
     } catch (error) {
         console.log("Error fetching events:", error);
@@ -25,6 +25,6 @@ export const getEvents = async (queryString: string | undefined) => {
 
 export const getEventsById = async (id: string) => {
     const event = await httpClient.get<IEvent>(`/event/${id}`);
-    console.log(event, "server");
+    // console.log(event, "server");
     return event;
 }

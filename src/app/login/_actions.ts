@@ -21,7 +21,7 @@ export const loginAction = async (payload : ILoginPayload ) : Promise<ApiRespons
     try {
 
         const response = await httpClient.post<ILoginResponse>("/auth/login", parsedPayload.data);
-        console.log(response.data);
+        // console.log(response.data);
 
         const { accessToken, refreshToken, token , user} = response.data;
         await setTokenInCookies("accessToken", accessToken);

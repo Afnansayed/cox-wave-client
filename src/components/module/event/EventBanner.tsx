@@ -7,6 +7,7 @@ import { useServerManagedDataTable } from "@/hooks/useServerManagedDataTable";
 import { useEffect, useState, useTransition } from "react";
 import { cn } from "@/lib/utils";
 
+
 const EVENT_SORT_OPTIONS = [
   { value: "default", label: "Default" },
   { value: "createdAt:desc", label: "Newest" },
@@ -113,7 +114,7 @@ export default function EventBanner() {
     {/* Background Glow Effect */}
     <div className="absolute -inset-1 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-[2rem] blur-xl opacity-50 group-hover:opacity-100 transition duration-1000" />
 
-    <div className="relative bg-white border border-neutral-100 rounded-full shadow-[0_20px_50px_-12px_rgba(0,0,0,0.08)] p-2 flex flex-col md:flex-row items-center gap-2">
+    <div className="relative bg-white border border-neutral-100 rounded-md md:rounded-full shadow-[0_20px_50px_-12px_rgba(0,0,0,0.08)] p-2 flex flex-col md:flex-row items-center gap-2">
       
       {/* 1. SEARCH INPUT SECTION + COMPACT FIND BUTTON */}
       <div className="flex items-center gap-2 px-2 flex-1 w-full bg-neutral-50/50 rounded-full border border-neutral-100/50 ml-1">

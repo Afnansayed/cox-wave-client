@@ -58,11 +58,11 @@ const VerifyOtpModal: React.FC<VerifyOtpModalProps> = ({
       otp: value,
     };
 
-    console.log("Verify Data", verifyData);
+    // console.log("Verify Data", verifyData);
 
     try {
       const response = await verifyAction(verifyData);
-      console.log("Verify Code  Response", response);
+      //console.log("Verify Code  Response", response);
       if (!("data" in response)) {
         toast.error(response.message || "OTP verification failed.", {
           id: toastId,
