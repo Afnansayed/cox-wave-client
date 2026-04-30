@@ -9,7 +9,6 @@ const layout = ({ children }: { children: React.ReactNode }) => {
       <div className="mt-[94px]">
           {children}
       </div>
-
       <Footer />
     </div>
   );
