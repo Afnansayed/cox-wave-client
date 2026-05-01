@@ -1,3 +1,4 @@
+
 import Hero from "@/components/module/home/Hero";
 import LiveFeed from "@/components/module/home/LiveFeed";
 import Locations from "@/components/module/home/Location";
@@ -16,7 +17,6 @@ export default function Home() {
        <Partnership/>
        <LiveFeed/>
        <ReviewSlider/>
-      
     </div>
   );
 }
