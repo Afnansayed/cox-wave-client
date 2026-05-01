@@ -38,10 +38,10 @@ export default function Footer() {
     {
       title: "Support",
       links: [
-        { label: "Help Center", path: "/help" },
-        { label: "Booking Guide", path: "/guide" },
-        { label: "Refund Policy", path: "/refunds" },
-        { label: "Privacy Policy", path: "/privacy" },
+        { label: "Help Center", path: "/contact" },
+        { label: "Terms & Conditions", path: "/terms-and-conditions" },
+        { label: "Refund Policy", path: "/refund-policy" },
+        { label: "Privacy Policy", path: "/privacy-policy" },
       ]
     }
   ];
