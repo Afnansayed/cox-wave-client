@@ -92,7 +92,7 @@
 }
 
 .container-max {
-  @apply max-w-[1444px] mx-auto px-4 sm:px-8;
+  @apply w-full max-w-[1444px] mx-auto px-4 sm:px-8;
  }
 
  @font-face {

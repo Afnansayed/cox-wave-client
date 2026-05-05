@@ -14,7 +14,7 @@ export default function Hero() {
       </div>
 
       <div className="container-max grid grid-cols-1 lg:grid-cols-2 gap-12">
-        
+
         {/* LEFT CONTENT */}
         <div className="flex flex-col space-y-8 text-center lg:text-left order-2 lg:order-1">
           <div className="inline-flex items-center justify-center lg:justify-start gap-2 self-center lg:self-start bg-muted/50 border border-border px-4 py-2 rounded-full shadow-sm">
@@ -28,12 +28,12 @@ export default function Hero() {
           </div>
 
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-foreground leading-[1.1] tracking-tighter">
-            Chase the <span className="text-primary italic">Perfect</span> <br className="hidden md:block" /> 
+            Chase the <span className="text-primary italic">Perfect</span> <br className="hidden md:block" />
             Wave in Cox's Bazar.
           </h1>
 
           <p className="text-base md:text-lg text-muted-foreground max-w-xl mx-auto lg:mx-0 leading-relaxed font-medium">
-            From luxury private cruises to high-octane surf festivals. Discover 
+            From luxury private cruises to high-octane surf festivals. Discover
             the hidden gems of the world's longest natural sea beach with premium curated experiences.
           </p>
 
@@ -69,7 +69,7 @@ export default function Hero() {
         {/* RIGHT VISUAL - Cinematic Image Composition */}
         <div className="relative order-1 lg:order-2 px-4 md:px-0">
           <div className="relative z-10 aspect-[4/5] md:aspect-square w-full max-w-[550px] mx-auto overflow-hidden rounded-[2.5rem] md:rounded-[4rem] shadow-2xl shadow-primary/10">
-            <Image 
+            <Image
               src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=1200"
               alt="Cox's Bazar Beach Luxury"
               fill

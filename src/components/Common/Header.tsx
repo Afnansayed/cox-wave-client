@@ -45,8 +45,8 @@ export default function Navbar() {
   }, []);
 
   const links = [
-    { 
-      path: '/explore', 
+    {
+      path: '/explore',
       label: 'Explore',
       submenu: [
         { path: "/about", label: "About Us", icon: <Waves className="w-4 h-4" /> },
@@ -65,40 +65,16 @@ export default function Navbar() {
         className={cn(
           'w-full mx-auto transition-all duration-500 ease-in-out border-b lg:border',
           isScrolled
-            ? 'bg-background/80 backdrop-blur-2xl border-border/50 shadow-sm py-3 px-4 md:px-6'
-            : 'bg-background border-transparent py-4 px-5 md:py-5 md:px-8'
+            ? 'bg-background/80 backdrop-blur-2xl border-border/50 shadow-sm py-3'
+            : 'bg-background border-transparent py-4 md:py-5'
         )}
       >
-        <div className="container-max flex items-center justify-between gap-2 md:gap-4 relative">
-          
-          {/* SEARCH BAR OVERLAY (Slides from left) */}
-          {/* <div className={cn(
-            "absolute inset-y-0 right-0 max-w-xl  bg-white z-50 flex items-center gap-3 transition-all duration-300 px-2 md:px-0",
-            showSearch ? "opacity-100 visible translate-x-0" : "opacity-0 invisible -translate-x-4"
-          )}>
-            <div className="flex flex-1 items-center bg-neutral-100 rounded-full px-4 py-2">
-              <Search className="w-4 h-4 text-neutral-400 shrink-0" />
-              <input 
-                autoFocus={showSearch}
-                type="text" 
-                placeholder="Search events, cruises..." 
-                className="w-full bg-transparent border-none outline-none focus:ring-none text-sm px-2 text-neutral-900 placeholder:text-neutral-500"
-              />
-            </div>
-            <button 
-              onClick={() => setShowSearch(false)}
-              className="p-2 hover:bg-neutral-100 rounded-full transition-colors"
-            >
-              <X className="w-5 h-5 text-neutral-500" />
-            </button>
-          </div> */}
-          
-
+        <div className="container-max  flex items-center justify-between gap-2 md:gap-4 relative  ">
           {/* BRAND IDENTITY */}
           <Link href="/" className="flex items-center gap-2 md:gap-2.5 group shrink-0">
-          <div className="flex aspect-square size-10 items-center justify-center rounded-xl shadow-lg shadow-primary/20 text-primary-foreground">
-             <Image src="/cox-wave-icon.png" alt="CoxWave Logo" width={100} height={100} />
-          </div>
+            <div className="flex aspect-square size-10 items-center justify-center rounded-xl shadow-lg shadow-primary/20 text-primary-foreground">
+              <Image src="/cox-wave-icon.png" alt="CoxWave Logo" width={100} height={100} />
+            </div>
             <div className="flex flex-col">
               <span className="text-lg md:text-xl font-black tracking-tight text-foreground leading-none">
                 Cox<span className="text-primary italic">Wave</span>
@@ -150,11 +126,11 @@ export default function Navbar() {
           {/* CTA & PROFILE */}
           <div className="flex items-center gap-2 md:gap-3">
             <ThemeToggle />
-            
+
             <div className="h-6 md:h-8 w-[1px] bg-border mx-0.5 md:mx-1 hidden sm:block" />
 
             <UserDropdown />
-            
+
             <div className="h-6 md:h-8 w-[1px] bg-border mx-0.5 md:mx-1 hidden sm:block" />
 
             {/* Desktop CTA */}
@@ -176,10 +152,10 @@ export default function Navbar() {
               <SheetContent side="right" className="w-full border-none bg-background p-0">
                 <SheetHeader className="p-6 text-left border-b border-border">
                   <SheetTitle className="flex items-center gap-3">
-                     <div className="h-9 w-9 rounded-xl bg-primary p-2 text-white shadow-lg">
-                        <Waves className="h-full w-full" />
-                      </div>
-                      <span className="font-bold text-xl tracking-tighter text-foreground">CoxWave</span>
+                    <div className="h-9 w-9 rounded-xl bg-primary p-2 text-white shadow-lg">
+                      <Waves className="h-full w-full" />
+                    </div>
+                    <span className="font-bold text-xl tracking-tighter text-foreground">CoxWave</span>
                   </SheetTitle>
                 </SheetHeader>
 
@@ -209,9 +185,9 @@ export default function Navbar() {
 
                 <div className="absolute bottom-6 left-6 right-6">
                   <Link href="/event">
-                  <Button onClick={() => setIsOpen(false)} className="w-full h-14 rounded-2xl font-bold text-base bg-primary text-white shadow-xl shadow-primary/20">
-                    Book Now
-                  </Button>
+                    <Button onClick={() => setIsOpen(false)} className="w-full h-14 rounded-2xl font-bold text-base bg-primary text-white shadow-xl shadow-primary/20">
+                      Book Now
+                    </Button>
                   </Link>
                 </div>
               </SheetContent>
