@@ -26,15 +26,15 @@ const PaymentSuccessPage = () => {
   if (!isOpen) return null;
 
   return (
-    <div className="min-h-screen ] bg-[#f9f9f8]">
+    <div className="min-h-screen bg-background">
       <div
         className="  flex justify-center items-center  bg-opacity-50 z-[1000] min-h-[100vh]"
         onClick={handleOverlayClick}
         // style={{ background: 'linear-gradient(180deg, #3A72FF 0%, #0A44D9 50%, #0835A8 100%)' }}
       >
-        <div className="flex flex-col items-stretch w-[90%] sm:w-[80%] md:w-[60%] lg:w-[50%] max-w-[800px] h-auto m-4 p-4 bg-white rounded-md shadow-lg relative mt-12">
+        <div className="flex flex-col items-stretch w-[90%] sm:w-[80%] md:w-[60%] lg:w-[50%] max-w-[800px] h-auto m-4 p-4 bg-card text-foreground rounded-md shadow-lg border border-border relative mt-12">
           {/* Form */}
-          <div className="flex flex-col justify-center items-center p-4 bg-[#FFFFFF] text-[#263238]">
+          <div className="flex flex-col justify-center items-center p-4 bg-transparent text-foreground">
             <Image
               src="/module/payment/success.svg"
               alt="logo"
@@ -42,7 +42,7 @@ const PaymentSuccessPage = () => {
               height={200}
               className="mx-auto mb-4"
             />
-            <h2 className="mb-3 text-lg sm:text-xl md:text-2xl font-semibold text-center text-[#0835A8]">
+            <h2 className="mb-3 text-lg sm:text-xl md:text-2xl font-semibold text-center text-primary">
               Congratulations! <br />
               Your Payment Was Successful!
             </h2>

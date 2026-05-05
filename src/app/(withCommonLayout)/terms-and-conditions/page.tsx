@@ -48,9 +48,9 @@ const TermsAndConditions = () => {
   ];
 
   return (
-    <main className="bg-white min-h-screen ">
+    <main className="bg-background min-h-screen ">
       {/* Simple Header */}
-      <header className="bg-neutral-50 py-12 border-b border-neutral-100 flex items-center justify-center">
+      <header className="bg-muted/50 py-12 border-b border-border flex items-center justify-center">
         <div className="container-max px-6 flex flex-col items-center text-center">
           <motion.div
             initial={{ opacity: 0, y: 10 }}
@@ -59,12 +59,12 @@ const TermsAndConditions = () => {
           >
             <div className="flex items-center justify-center gap-2 mb-4">
               <Gavel size={18} className="text-primary" />
-              <span className="text-[10px] font-black uppercase tracking-[0.4em] text-neutral-400">Legal Standard</span>
+              <span className="text-[10px] font-black uppercase tracking-[0.4em] text-muted-foreground">Legal Standard</span>
             </div>
-            <h1 className="text-4xl md:text-6xl font-black text-neutral-900 tracking-tighter leading-none mb-6">
+            <h1 className="text-4xl md:text-6xl font-black text-foreground tracking-tighter leading-none mb-6">
               Terms & <span className="italic text-primary">Conditions.</span>
             </h1>
-            <p className="text-neutral-500 font-medium text-sm md:text-base max-w-xl mx-auto">
+            <p className="text-muted-foreground font-medium text-sm md:text-base max-w-xl mx-auto">
               Comprehensive guidelines governing your relationship with Cox Wave. Please review these terms carefully to ensure a seamless experience.
             </p>
           </motion.div>
@@ -83,19 +83,19 @@ const TermsAndConditions = () => {
               transition={{ delay: index * 0.1 }}
               className="space-y-4"
             >
-              <h2 className="text-xl md:text-2xl font-black text-neutral-900 tracking-tight flex items-center justify-center md:justify-start gap-3">
+              <h2 className="text-xl md:text-2xl font-black text-foreground tracking-tight flex items-center justify-center md:justify-start gap-3">
                 <span className="h-1.5 w-1.5 rounded-full bg-primary hidden md:block" />
                 {section.title}
               </h2>
-              <p className="text-neutral-500 text-sm md:text-base leading-relaxed font-medium">
+              <p className="text-muted-foreground text-sm md:text-base leading-relaxed font-medium">
                 {section.content}
               </p>
             </motion.div>
           ))}
 
           {/* Simple Footer Note */}
-          <div className="pt-12 border-t border-neutral-100 flex flex-col items-center">
-            <div className="flex items-center gap-3 text-neutral-400">
+          <div className="pt-12 border-t border-border flex flex-col items-center">
+            <div className="flex items-center gap-3 text-muted-foreground">
               <CheckCircle2 size={16} className="text-primary" />
               <p className="text-[10px] font-black uppercase tracking-widest">Last Updated: May 01, 2026</p>
             </div>

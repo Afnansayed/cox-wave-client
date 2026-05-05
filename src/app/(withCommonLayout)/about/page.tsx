@@ -8,7 +8,7 @@ import FinalCta from '@/components/module/about/FinalCta';
 
 export default function AboutPage() {
   return (
-    <div className="flex flex-col w-full overflow-hidden bg-white">
+    <div className="flex flex-col w-full overflow-hidden bg-background">
       {/* HERO SECTION - Unique "Glassmorphism Overlay" Design */}
       <AboutBanner />
       {/* OUR STORY - Matching Home Grid Pattern */}

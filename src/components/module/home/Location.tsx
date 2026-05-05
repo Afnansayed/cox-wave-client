@@ -33,7 +33,7 @@ const LOCATIONS = [
 
 export default function Locations() {
   return (
-    <section className="py-12  bg-white">
+    <section className="py-12 bg-background">
       <div className="container-max px-6">
         
         {/* COMPACT HEADER */}
@@ -41,13 +41,13 @@ export default function Locations() {
           <div className="max-w-xl">
             <div className="flex items-center gap-2 mb-2">
               <Compass className="w-4 h-4 text-primary" />
-              <span className="text-[10px] md:text-xs font-bold uppercase tracking-widest text-neutral-400">Popular Destinations</span>
+              <span className="text-[10px] md:text-xs font-bold uppercase tracking-widest text-muted-foreground">Popular Destinations</span>
             </div>
-            <h2 className="text-2xl md:text-4xl font-black text-neutral-900 tracking-tight">
+            <h2 className="text-2xl md:text-4xl font-black text-foreground tracking-tight">
               Where to <span className="text-primary">Go Next</span>
             </h2>
           </div>
-          <p className="text-sm md:text-base text-neutral-500 md:max-w-xs font-medium">
+          <p className="text-sm md:text-base text-muted-foreground md:max-w-xs font-medium">
             Explore 150+ curated beach experiences across 6 premium coastal locations.
           </p>
         </div>
@@ -58,7 +58,7 @@ export default function Locations() {
             <div 
               key={loc.name}
               className={cn(
-                "group relative overflow-hidden rounded-2xl md:rounded-[2.5rem] bg-neutral-100",
+                "group relative overflow-hidden rounded-2xl md:rounded-[2.5rem] bg-muted",
                 loc.className
               )}
             >

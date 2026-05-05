@@ -129,7 +129,7 @@ const AdminOwnerDashboard = () => {
         </div>
       </div>
 
-      <div className="rounded-2xl border bg-white p-3 shadow-sm">
+      <div className="rounded-2xl border border-border bg-card p-3 shadow-sm">
         <div className="flex flex-col gap-3 md:flex-row md:items-center">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
@@ -151,7 +151,7 @@ const AdminOwnerDashboard = () => {
             <select
               value={sortValue}
               onChange={(e) => handleSortChange(e.target.value)}
-              className="h-10 rounded-md border border-input bg-background px-3 text-sm"
+              className="h-10 rounded-md border border-input bg-background px-3 text-sm text-foreground"
             >
               <option value="default">Sort</option>
               <option value="createdAt:desc">Newest</option>
@@ -168,7 +168,7 @@ const AdminOwnerDashboard = () => {
         </div>
       </div>
 
-      <div className="overflow-hidden rounded-2xl border bg-white shadow-sm">
+      <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
         <div className="overflow-x-auto">
           <table className="w-full min-w-[980px] text-left">
             <thead className="bg-muted/50">
@@ -186,7 +186,7 @@ const AdminOwnerDashboard = () => {
             <tbody>
               {isBusy ? (
                 [...Array(4)].map((_, index) => (
-                  <tr key={index} className="border-t">
+                  <tr key={index} className="border-t border-border">
                     <td className="px-4 py-4" colSpan={8}>
                       <div className="h-10 animate-pulse rounded bg-muted/40" />
                     </td>
@@ -200,7 +200,7 @@ const AdminOwnerDashboard = () => {
                 </tr>
               ) : (
                 owners.map((owner) => (
-                  <tr key={owner.id} className="border-t align-top">
+                  <tr key={owner.id} className="border-t border-border align-top">
                     <td className="px-4 py-4">
                       <p className="font-medium">{owner.name}</p>
                       <p className="text-xs text-muted-foreground">{owner.email}</p>

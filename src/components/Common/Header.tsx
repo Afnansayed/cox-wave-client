@@ -30,6 +30,7 @@ import {
 } from '@/components/ui/sheet';
 import UserDropdown from './UserDropDown';
 import Image from 'next/image';
+import { ThemeToggle } from './ThemeToggle';
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -64,8 +65,8 @@ export default function Navbar() {
         className={cn(
           'w-full mx-auto transition-all duration-500 ease-in-out border-b lg:border',
           isScrolled
-            ? 'bg-white/80 backdrop-blur-2xl border-neutral-200/50 shadow-sm py-3 px-4 md:px-6'
-            : 'bg-white border-transparent py-4 px-5 md:py-5 md:px-8'
+            ? 'bg-background/80 backdrop-blur-2xl border-border/50 shadow-sm py-3 px-4 md:px-6'
+            : 'bg-background border-transparent py-4 px-5 md:py-5 md:px-8'
         )}
       >
         <div className="container-max flex items-center justify-between gap-2 md:gap-4 relative">
@@ -99,30 +100,30 @@ export default function Navbar() {
              <Image src="/cox-wave-icon.png" alt="CoxWave Logo" width={100} height={100} />
           </div>
             <div className="flex flex-col">
-              <span className="text-lg md:text-xl font-black tracking-tight text-neutral-900 leading-none">
+              <span className="text-lg md:text-xl font-black tracking-tight text-foreground leading-none">
                 Cox<span className="text-primary italic">Wave</span>
               </span>
               <div className="flex items-center gap-1">
                 <span className="h-[1px] w-2 md:w-3 bg-secondary" />
-                <span className="text-[8px] md:text-[9px] font-bold md:font-black uppercase tracking-[0.2em] md:tracking-[0.3em] text-neutral-400">Premium</span>
+                <span className="text-[8px] md:text-[9px] font-bold md:font-black uppercase tracking-[0.2em] md:tracking-[0.3em] text-muted-foreground">Premium</span>
               </div>
             </div>
           </Link>
 
           {/* DESKTOP NAV (Hidden on Mobile) */}
-          <nav className="hidden lg:flex items-center bg-neutral-100/50 p-1.5 rounded-full border border-neutral-200/50">
+          <nav className="hidden lg:flex items-center bg-muted/50 p-1.5 rounded-full border border-border/50">
             {links.map((link) => (
               <div key={link.path} className="relative group">
                 {'submenu' in link ? (
                   <DropdownMenu>
-                    <DropdownMenuTrigger className="flex items-center gap-1.5 px-5 py-2 text-[13px] font-bold text-neutral-600 hover:text-primary transition-all rounded-full outline-none">
+                    <DropdownMenuTrigger className="flex items-center gap-1.5 px-5 py-2 text-[13px] font-bold text-muted-foreground hover:text-primary transition-all rounded-full outline-none">
                       {link.label} <ChevronDown className="w-3.5 h-3.5 opacity-40 group-hover:rotate-180 transition-transform duration-300" />
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="center" className="w-64 p-3 mt-4 rounded-[1.5rem] bg-white/90 backdrop-blur-xl border-neutral-100 shadow-2xl">
+                    <DropdownMenuContent align="center" className="w-64 p-3 mt-4 rounded-[1.5rem] bg-background/90 backdrop-blur-xl border-border shadow-2xl">
                       {link?.submenu?.map((sub) => (
                         <DropdownMenuItem key={sub.path} asChild>
-                          <Link href={sub.path} className="flex items-center gap-3 w-full cursor-pointer rounded-xl p-3 font-bold text-neutral-600 hover:text-primary hover:bg-primary/5 transition-all">
-                            <div className="bg-white shadow-sm p-1.5 rounded-lg border border-neutral-100">{sub.icon}</div>
+                          <Link href={sub.path} className="flex items-center gap-3 w-full cursor-pointer rounded-xl p-3 font-bold text-muted-foreground hover:text-primary hover:bg-primary/5 transition-all">
+                            <div className="bg-background shadow-sm p-1.5 rounded-lg border border-border">{sub.icon}</div>
                             {sub.label}
                           </Link>
                         </DropdownMenuItem>
@@ -135,8 +136,8 @@ export default function Navbar() {
                     className={cn(
                       'px-5 py-2 text-[13px] font-bold transition-all rounded-full relative',
                       pathname === link.path
-                        ? 'text-white bg-primary shadow-md shadow-primary/20'
-                        : 'text-neutral-500 hover:text-neutral-900'
+                        ? 'text-primary-foreground bg-primary shadow-md shadow-primary/20'
+                        : 'text-muted-foreground hover:text-foreground'
                     )}
                   >
                     {link.label}
@@ -148,16 +149,13 @@ export default function Navbar() {
 
           {/* CTA & PROFILE */}
           <div className="flex items-center gap-2 md:gap-3">
-            {/* <button 
-              onClick={() => setShowSearch(true)}
-              className="h-9 w-9 md:h-10 md:w-10 flex items-center justify-center rounded-full bg-neutral-100 text-neutral-500 hover:bg-primary hover:text-white transition-all duration-300 active:scale-90"
-            >
-              <Search className="w-4 h-4" />
-            </button> */}
+            <ThemeToggle />
+            
+            <div className="h-6 md:h-8 w-[1px] bg-border mx-0.5 md:mx-1 hidden sm:block" />
 
             <UserDropdown />
             
-            <div className="h-6 md:h-8 w-[1px] bg-neutral-200 mx-0.5 md:mx-1 hidden sm:block" />
+            <div className="h-6 md:h-8 w-[1px] bg-border mx-0.5 md:mx-1 hidden sm:block" />
 
             {/* Desktop CTA */}
             <Link href="/event">
@@ -175,13 +173,13 @@ export default function Navbar() {
                   <Menu className="w-5 h-5" />
                 </button>
               </SheetTrigger>
-              <SheetContent side="right" className="w-full border-none bg-white p-0">
-                <SheetHeader className="p-6 text-left border-b border-neutral-50">
+              <SheetContent side="right" className="w-full border-none bg-background p-0">
+                <SheetHeader className="p-6 text-left border-b border-border">
                   <SheetTitle className="flex items-center gap-3">
                      <div className="h-9 w-9 rounded-xl bg-primary p-2 text-white shadow-lg">
                         <Waves className="h-full w-full" />
                       </div>
-                      <span className="font-bold text-xl tracking-tighter">CoxWave</span>
+                      <span className="font-bold text-xl tracking-tighter text-foreground">CoxWave</span>
                   </SheetTitle>
                 </SheetHeader>
 
@@ -190,17 +188,17 @@ export default function Navbar() {
                     <div key={link.path}>
                       {'submenu' in link ? (
                         <div className="space-y-3">
-                          <p className="text-[10px] font-bold uppercase tracking-widest text-neutral-400 px-1">{link.label}</p>
+                          <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground px-1">{link.label}</p>
                           <div className="grid grid-cols-1 gap-2">
                             {link?.submenu?.map((sub) => (
-                              <Link key={sub.path} href={sub.path} onClick={() => setIsOpen(false)} className="flex items-center gap-3 p-3 rounded-xl bg-neutral-50 font-medium text-neutral-700 text-sm">
+                              <Link key={sub.path} href={sub.path} onClick={() => setIsOpen(false)} className="flex items-center gap-3 p-3 rounded-xl bg-muted/50 font-medium text-foreground text-sm">
                                 {sub.icon} {sub.label}
                               </Link>
                             ))}
                           </div>
                         </div>
                       ) : (
-                        <Link href={link.path} onClick={() => setIsOpen(false)} className="flex items-center justify-between py-3 px-1 border-b border-neutral-50 font-semibold text-neutral-800 text-lg">
+                        <Link href={link.path} onClick={() => setIsOpen(false)} className="flex items-center justify-between py-3 px-1 border-b border-border font-semibold text-foreground text-lg">
                           {link.label}
                           <ArrowRight className="w-4 h-4 text-primary/40" />
                         </Link>

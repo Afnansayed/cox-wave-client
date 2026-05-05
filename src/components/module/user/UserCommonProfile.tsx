@@ -36,12 +36,12 @@ const UserCommonProfile = ({ user  , role }: { user: IAdmin; role: string }) => 
         {/* Decorative Header Background */}
         <div className="h-24 w-full bg-slate-900 rounded-t-[1.5rem] md:rounded-t-[2rem]" />
         
-        <div className="bg-white rounded-b-[1.5rem] md:rounded-b-[2rem] border border-slate-100 px-4 pb-6 md:px-8 shadow-sm border-t-0">
+        <div className="bg-card rounded-b-[1.5rem] md:rounded-b-[2rem] border border-border px-4 pb-6 md:px-8 shadow-sm border-t-0">
           <div className="flex flex-col md:flex-row items-center md:items-end gap-4 md:gap-6 -mt-12">
             
             {/* Avatar Section */}
             <div className="relative group">
-              <div className="h-24 w-24 md:h-28 md:w-28 rounded-[2rem] border-4 border-white bg-slate-100 overflow-hidden shadow-md">
+              <div className="h-24 w-24 md:h-28 md:w-28 rounded-[2rem] border-4 border-background bg-muted overflow-hidden shadow-md">
                 {user.profile_picture ? (
                   <img 
                     src={user.profile_picture} 
@@ -54,7 +54,7 @@ const UserCommonProfile = ({ user  , role }: { user: IAdmin; role: string }) => 
                   </div>
                 )}
               </div>
-              <button className="absolute bottom-1 right-1 p-2 bg-primary text-white rounded-xl border-2 border-white shadow-sm hover:scale-110 transition-transform">
+              <button className="absolute bottom-1 right-1 p-2 bg-primary text-white rounded-xl border-2 border-background shadow-sm hover:scale-110 transition-transform">
                 <Camera size={14} />
               </button>
             </div>
@@ -62,12 +62,12 @@ const UserCommonProfile = ({ user  , role }: { user: IAdmin; role: string }) => 
             {/* Info Section */}
             <div className="flex-1 text-center md:text-left space-y-1 mb-2">
               <div className="flex flex-col md:flex-row items-center gap-2">
-                <h1 className="text-xl md:text-2xl font-bold text-slate-900">{user.name}</h1>
+                <h1 className="text-xl md:text-2xl font-bold text-foreground">{user.name}</h1>
                 <span className="px-2.5 py-0.5 bg-emerald-50 text-emerald-600 text-[10px] font-bold uppercase tracking-wider rounded-full border border-emerald-100 flex items-center gap-1">
                   <ShieldCheck size={10} />  {role}
                 </span>
               </div>
-              <p className="text-slate-500 text-sm flex items-center justify-center md:justify-start gap-2">
+              <p className="text-muted-foreground text-sm flex items-center justify-center md:justify-start gap-2">
                 <Mail size={14} /> {user.email}
               </p>
             </div>
@@ -86,8 +86,8 @@ const UserCommonProfile = ({ user  , role }: { user: IAdmin; role: string }) => 
         
         {/* Left Side: Personal Information */}
         <div className="lg:col-span-7 space-y-6 order-2 lg:order-1">
-          <div className="bg-white rounded-[1.5rem] md:rounded-[2rem] border border-slate-100 p-5 md:p-8 shadow-sm space-y-6">
-            <h3 className="text-xs font-bold text-slate-900 uppercase tracking-widest border-b border-slate-50 pb-3">
+          <div className="bg-card rounded-[1.5rem] md:rounded-[2rem] border border-border p-5 md:p-8 shadow-sm space-y-6">
+            <h3 className="text-xs font-bold text-foreground uppercase tracking-widest border-b border-border pb-3">
               Personal Information
             </h3>
             
@@ -145,13 +145,13 @@ const UserCommonProfile = ({ user  , role }: { user: IAdmin; role: string }) => 
             </div>
           </div>
 
-          <div className="bg-rose-50 rounded-[1.5rem] p-5 border border-rose-100 flex items-start gap-4">
-            <div className="h-8 w-8 rounded-lg bg-white flex items-center justify-center text-rose-600 shrink-0 shadow-sm">
+          <div className="bg-destructive/10 rounded-[1.5rem] p-5 border border-destructive/20 flex items-start gap-4">
+            <div className="h-8 w-8 rounded-lg bg-background flex items-center justify-center text-destructive shrink-0 shadow-sm">
                <ShieldCheck size={18} />
             </div>
             <div>
-              <p className="text-xs font-bold text-rose-700 uppercase tracking-wider mb-1">Security Policy</p>
-              <p className="text-[11px] text-rose-600 leading-relaxed">
+              <p className="text-xs font-bold text-destructive uppercase tracking-wider mb-1">Security Policy</p>
+              <p className="text-[11px] text-destructive/80 leading-relaxed">
                 Administrative access requires periodic password rotations and active 2FA. Report any unauthorized system changes.
               </p>
             </div>
@@ -168,7 +168,7 @@ const LabelItem = ({ label, value, icon }: { label: string, value: string, icon:
     <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
       {icon} {label}
     </p>
-    <div className="text-sm font-semibold text-slate-700 bg-slate-50/50 p-4 rounded-xl border border-slate-100 transition-colors hover:bg-slate-50">
+    <div className="text-sm font-semibold text-foreground bg-muted p-4 rounded-xl border border-border transition-colors hover:bg-muted/80">
       {value}
     </div>
   </div>

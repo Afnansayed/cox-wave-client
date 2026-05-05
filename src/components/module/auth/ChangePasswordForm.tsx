@@ -67,9 +67,9 @@ const ChangePasswordForm = () => {
   });
 
   return (
-    <section className="mx-auto w-full max-w-lg rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-      <h2 className="text-xl font-semibold text-gray-900">Change Password</h2>
-      <p className="mt-1 text-sm text-gray-600">
+    <section className="mx-auto w-full max-w-lg rounded-xl border border-border bg-card text-card-foreground p-6 shadow-sm">
+      <h2 className="text-xl font-semibold text-foreground">Change Password</h2>
+      <p className="mt-1 text-sm text-muted-foreground">
         Update your password to keep your account secure.
       </p>
 
@@ -95,7 +95,7 @@ const ChangePasswordForm = () => {
             <div className="space-y-2">
               <label
                 htmlFor={field.name}
-                className="text-sm font-medium text-gray-700"
+                className="text-sm font-medium text-foreground"
               >
                 Current Password
               </label>
@@ -107,19 +107,19 @@ const ChangePasswordForm = () => {
                   onBlur={field.handleBlur}
                   onChange={(e) => field.handleChange(e.target.value)}
                   type={showCurrentPassword ? "text" : "password"}
-                  className="w-full rounded-md border border-gray-300 px-4 py-2 pr-11 text-gray-900 focus:border-gray-500 focus:outline-none"
+                  className="w-full rounded-md border border-input bg-background px-4 py-2 pr-11 text-foreground focus:border-primary focus:outline-none"
                   placeholder="Enter current password"
                 />
                 <button
                   type="button"
-                  className="absolute inset-y-0 right-3 flex items-center text-gray-500"
+                  className="absolute inset-y-0 right-3 flex items-center text-muted-foreground"
                   onClick={() => setShowCurrentPassword((prev) => !prev)}
                 >
                   {showCurrentPassword ? <Eye size={18} /> : <EyeOff size={18} />}
                 </button>
               </div>
               {field.state.meta.isTouched && field.state.meta.errors.length > 0 && (
-                <p className="text-sm text-red-600">
+                <p className="text-sm text-destructive">
                   {field.state.meta.errors.join(", ")}
                 </p>
               )}
@@ -154,7 +154,7 @@ const ChangePasswordForm = () => {
             <div className="space-y-2">
               <label
                 htmlFor={field.name}
-                className="text-sm font-medium text-gray-700"
+                className="text-sm font-medium text-foreground"
               >
                 New Password
               </label>
@@ -166,19 +166,19 @@ const ChangePasswordForm = () => {
                   onBlur={field.handleBlur}
                   onChange={(e) => field.handleChange(e.target.value)}
                   type={showNewPassword ? "text" : "password"}
-                  className="w-full rounded-md border border-gray-300 px-4 py-2 pr-11 text-gray-900 focus:border-gray-500 focus:outline-none"
+                  className="w-full rounded-md border border-input bg-background px-4 py-2 pr-11 text-foreground focus:border-primary focus:outline-none"
                   placeholder="Enter new password"
                 />
                 <button
                   type="button"
-                  className="absolute inset-y-0 right-3 flex items-center text-gray-500"
+                  className="absolute inset-y-0 right-3 flex items-center text-muted-foreground"
                   onClick={() => setShowNewPassword((prev) => !prev)}
                 >
                   {showNewPassword ? <Eye size={18} /> : <EyeOff size={18} />}
                 </button>
               </div>
               {field.state.meta.isTouched && field.state.meta.errors.length > 0 && (
-                <p className="text-sm text-red-600">
+                <p className="text-sm text-destructive">
                   {field.state.meta.errors.join(", ")}
                 </p>
               )}
@@ -195,7 +195,7 @@ const ChangePasswordForm = () => {
         </button>
 
         {serverError && (
-          <p className="text-sm font-medium text-red-600">{serverError}</p>
+          <p className="text-sm font-medium text-destructive">{serverError}</p>
         )}
       </form>
     </section>

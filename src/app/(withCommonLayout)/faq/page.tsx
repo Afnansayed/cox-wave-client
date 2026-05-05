@@ -36,7 +36,7 @@ const FAQPage = () => {
   const [activeIndex, setActiveIndex] = useState<number | null>(0);
 
   return (
-    <div className="bg-neutral-50 min-h-screen py-16">
+    <div className="bg-background min-h-screen py-16">
       {/* --- HEADER SECTION --- */}
       <section className="mb-12">
         <div className="container-max px-6 text-center space-y-3">
@@ -47,9 +47,9 @@ const FAQPage = () => {
           >
             <div className="flex items-center gap-2 mb-2">
                <HelpCircle size={18} className="text-secondary" />
-               <span className="text-[10px] font-black uppercase tracking-[0.4em] text-neutral-500">Support Center</span>
+               <span className="text-[10px] font-black uppercase tracking-[0.4em] text-muted-foreground">Support Center</span>
             </div>
-            <h1 className="text-3xl md:text-5xl font-black text-neutral-900 tracking-tight">
+            <h1 className="text-3xl md:text-5xl font-black text-foreground tracking-tight">
               Common <span className="italic text-primary font-black">Questions.</span>
             </h1>
           </motion.div>
@@ -67,8 +67,8 @@ const FAQPage = () => {
               transition={{ delay: index * 0.05 }}
               className={`rounded-2xl border transition-all duration-200 ${
                 activeIndex === index 
-                ? 'bg-white border-primary/20 shadow-lg shadow-primary/5' 
-                : 'bg-white border-neutral-200 hover:border-neutral-300 shadow-sm'
+                ? 'bg-card border-primary/20 shadow-lg shadow-primary/5' 
+                : 'bg-card border-border hover:border-primary/20 shadow-sm'
               }`}
             >
               <button
@@ -79,7 +79,7 @@ const FAQPage = () => {
               >
                 <span
                   className={`font-bold text-sm md:text-base tracking-tight transition-colors ${
-                    activeIndex === index ? 'text-primary-dark' : 'text-neutral-700'
+                    activeIndex === index ? 'text-primary' : 'text-foreground'
                   }`}
                 >
                   {faq.question}
@@ -88,7 +88,7 @@ const FAQPage = () => {
                   className={`shrink-0 ml-4 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${
                     activeIndex === index 
                     ? 'bg-primary text-white rotate-180' 
-                    : 'bg-neutral-100 text-neutral-400 group-hover:bg-neutral-200'
+                    : 'bg-muted text-muted-foreground group-hover:bg-muted/80'
                   }`}
                 >
                   {activeIndex === index ? <Minus size={16} /> : <Plus size={16} />}
@@ -103,8 +103,8 @@ const FAQPage = () => {
                     exit={{ height: 0, opacity: 0 }}
                     transition={{ duration: 0.3, ease: 'easeInOut' }}
                   >
-                    <div className="px-6 pb-6 text-neutral-500 text-sm leading-relaxed font-medium">
-                      <div className="pt-3 border-t border-neutral-50">
+                    <div className="px-6 pb-6 text-muted-foreground text-sm leading-relaxed font-medium">
+                      <div className="pt-3 border-t border-border/50">
                         {faq.answer}
                       </div>
                     </div>

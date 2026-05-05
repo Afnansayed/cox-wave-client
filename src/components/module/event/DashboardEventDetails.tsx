@@ -87,10 +87,10 @@ const DashboardEventDetails = ({ id, basePath = "/owner-dashboard/event" }: Dash
   if (isBusy || !event) {
     return (
       <div className="w-full max-w-7xl mx-auto space-y-8 p-4 md:p-6 animate-pulse">
-        <div className="h-20 bg-slate-100 rounded-3xl w-full" />
+        <div className="h-20 bg-muted rounded-3xl w-full" />
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2 h-[600px] bg-slate-50 rounded-3xl" />
-          <div className="h-[400px] bg-slate-50 rounded-3xl" />
+          <div className="lg:col-span-2 h-[600px] bg-muted/40 rounded-3xl" />
+          <div className="h-[400px] bg-muted/40 rounded-3xl" />
         </div>
       </div>
     );
@@ -98,9 +98,9 @@ const DashboardEventDetails = ({ id, basePath = "/owner-dashboard/event" }: Dash
 
   const getStatusStyle = (status: string) => {
     switch (status) {
-      case "APPROVED": return "bg-emerald-50 text-emerald-600 border-emerald-100";
-      case "REJECTED": return "bg-rose-50 text-rose-600 border-rose-100";
-      default: return "bg-amber-50 text-amber-600 border-amber-100";
+      case "APPROVED": return "bg-emerald-500/10 text-emerald-500 border-emerald-500/20";
+      case "REJECTED": return "bg-destructive/10 text-destructive border-destructive/20";
+      default: return "bg-amber-500/10 text-amber-500 border-amber-500/20";
     }
   };
 
@@ -110,16 +110,16 @@ const DashboardEventDetails = ({ id, basePath = "/owner-dashboard/event" }: Dash
       {/* --- HEADER --- */}
       <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
         <div className="flex items-center gap-4">
-          <Button asChild variant="outline" size="icon" className="rounded-xl border-slate-200 h-10 w-10 shrink-0">
+          <Button asChild variant="outline" size="icon" className="rounded-xl border-border h-10 w-10 shrink-0 bg-background">
             <Link href={basePath}>
-              <ArrowLeft size={18} className="text-slate-600" />
+              <ArrowLeft size={18} className="text-foreground" />
             </Link>
           </Button>
           <div className="space-y-0.5">
-            <h1 className="text-2xl md:text-3xl font-semibold tracking-tight text-slate-900">{event.title}</h1>
-            <div className="flex items-center gap-2 text-slate-500 font-mono text-xs">
-              <Hash size={14} className="text-slate-400" />
-              <span>{event.id.toUpperCase()}</span>
+            <h1 className="text-2xl md:text-3xl font-black tracking-tight text-foreground">{event.title}</h1>
+            <div className="flex items-center gap-2 text-muted-foreground font-mono text-xs">
+              <Hash size={14} className="text-muted-foreground/60" />
+              <span className="font-bold tracking-widest">{event.id.toUpperCase()}</span>
             </div>
           </div>
         </div>
@@ -129,20 +129,23 @@ const DashboardEventDetails = ({ id, basePath = "/owner-dashboard/event" }: Dash
             <Button 
               onClick={handleActiveStatusUpdate} 
               disabled={isUpdatingActive}
+              variant="outline"
               className={cn(
-                "rounded-xl px-5 h-10 text-xs font-semibold transition-all",
-                event.isActive ? "bg-rose-50 text-rose-600 hover:bg-rose-100" : "bg-emerald-50 text-emerald-600 hover:bg-emerald-100"
+                "rounded-xl px-5 h-10 text-[10px] font-black uppercase tracking-widest transition-all shadow-none",
+                event.isActive 
+                  ? "bg-destructive/5 text-destructive border-destructive/20 hover:bg-destructive/10" 
+                  : "bg-emerald-500/5 text-emerald-500 border-emerald-500/20 hover:bg-emerald-500/10"
               )}
             >
               <Power size={14} className="mr-2" />
-              {isUpdatingActive ? "Processing..." : event.isActive ? "Deactivate Event" : "Activate Event"}
+              {isUpdatingActive ? "Processing..." : event.isActive ? "Deactivate" : "Activate"}
             </Button>
           )}
 
           {basePath === "/admin-dashboard/event" && (
-            <Button onClick={handleOpenModal} className="rounded-xl px-5 h-10 text-xs font-semibold bg-primary hover:bg-primary/90 text-white transition-all">
+            <Button onClick={handleOpenModal} className="rounded-xl px-5 h-10 text-[10px] font-black uppercase tracking-widest bg-primary hover:bg-primary/90 text-primary-foreground transition-all shadow-lg shadow-primary/20">
               <ShieldCheck size={14} className="mr-2" />
-              Change Approval Status
+              Approval Status
             </Button>
           )}
         </div>
@@ -154,65 +157,66 @@ const DashboardEventDetails = ({ id, basePath = "/owner-dashboard/event" }: Dash
         <div className="lg:col-span-8 space-y-8">
           
           {/* Main Info Card */}
-          <div className="bg-white rounded-[2rem] border border-slate-100 shadow-sm overflow-hidden">
+          <div className="bg-card rounded-[2rem] border border-border shadow-sm overflow-hidden">
             <div className="p-6 md:p-8 space-y-8">
               
               {/* Image Gallery Header */}
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-sm font-semibold text-slate-900 uppercase tracking-wider">Event Media</h3>
-                  <Badge variant="outline" className="rounded-md px-2 text-[10px] font-mono border-slate-100">
+                  <h3 className="text-[10px] font-black text-foreground uppercase tracking-[0.2em]">Event Media</h3>
+                  <Badge variant="outline" className="rounded-full px-3 py-1 text-[10px] font-mono border-border bg-muted/30">
                     {event.images?.length || 0} Files
                   </Badge>
                 </div>
                 
                 {event.images?.length ? (
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                     {event.images.map((image, index) => (
-                      <div key={index} className="aspect-video rounded-2xl overflow-hidden border border-slate-50 group relative">
-                        <img src={image} alt="" className="h-full w-full object-cover transition-transform group-hover:scale-105" />
+                      <div key={index} className="aspect-video rounded-2xl overflow-hidden border border-border group relative bg-muted">
+                        <img src={image} alt="" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                        <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-all" />
                       </div>
                     ))}
                   </div>
                 ) : (
-                  <div className="h-32 flex flex-col items-center justify-center rounded-2xl border border-dashed border-slate-200 bg-slate-50 text-slate-400">
-                    <ImageOff size={24} className="mb-2 opacity-50" />
-                    <span className="text-xs">No event images uploaded</span>
+                  <div className="h-40 flex flex-col items-center justify-center rounded-3xl border-2 border-dashed border-border bg-muted/30 text-muted-foreground transition-colors hover:bg-muted/50">
+                    <ImageOff size={32} className="mb-3 opacity-30" />
+                    <span className="text-xs font-bold uppercase tracking-widest">No Media Found</span>
                   </div>
                 )}
               </div>
 
               <div className="space-y-4">
-                <h3 className="text-sm font-semibold text-slate-900 uppercase tracking-wider">Description</h3>
-                <p className="text-slate-600 text-sm leading-relaxed whitespace-pre-wrap">
+                <h3 className="text-[10px] font-black text-foreground uppercase tracking-[0.2em]">Description</h3>
+                <p className="text-muted-foreground text-sm leading-relaxed whitespace-pre-wrap font-medium">
                   {event.description || "No description provided for this event."}
                 </p>
               </div>
 
               {/* Reviews Section */}
               {event?.reviews && event.reviews?.length > 0 ?(
-                <div className="pt-6 border-t border-slate-50 space-y-6">
-                  <h3 className="text-sm font-semibold text-slate-900 uppercase tracking-wider">Recent Reviews</h3>
+                <div className="pt-8 border-t border-border space-y-6">
+                  <h3 className="text-[10px] font-black text-foreground uppercase tracking-[0.2em]">Recent Guest Feedback</h3>
                   <div className="grid gap-4">
                     {event.reviews.slice(0, 3).map((review) => (
-                      <div key={review.id} className="p-4 rounded-2xl bg-slate-50/50 border border-slate-100">
-                        <div className="flex items-center justify-between mb-2">
-                          <span className="text-sm font-semibold text-slate-900">{review.customer?.name || "Verified Customer"}</span>
-                          <div className="flex items-center gap-1 text-amber-500 bg-amber-50 px-2 py-0.5 rounded-lg text-xs font-bold">
+                      <div key={review.id} className="p-5 rounded-2xl bg-muted/30 border border-border hover:bg-muted/50 transition-colors">
+                        <div className="flex items-center justify-between mb-3">
+                          <span className="text-sm font-bold text-foreground">{review.customer?.name || "Verified Customer"}</span>
+                          <div className="flex items-center gap-1.5 text-amber-500 bg-amber-500/10 px-2.5 py-1 rounded-full text-xs font-black border border-amber-500/20">
                             <Star size={12} fill="currentColor" /> {review.rating}
                           </div>
                         </div>
-                        <p className="text-xs text-slate-500 leading-normal">{review.comment}</p>
+                        <p className="text-[13px] text-muted-foreground leading-relaxed font-medium">{review.comment}</p>
                       </div>
                     ))}
                   </div>
                 </div>
               ):
-               <div className="pt-6 border-t border-slate-50 space-y-6">
-                  <h3 className="text-sm font-semibold text-slate-900 uppercase tracking-wider">Recent Reviews</h3>
-                  <div className="flex items-center gap-2 text-slate-400 text-xs">
-                    <Star size={14} />
-                    <span>No reviews for this event yet</span>
+               <div className="pt-8 border-t border-border space-y-6">
+                  <h3 className="text-[10px] font-black text-foreground uppercase tracking-[0.2em]">Recent Reviews</h3>
+                  <div className="flex items-center gap-3 text-muted-foreground text-xs font-bold uppercase tracking-widest bg-muted/20 p-6 rounded-2xl border border-dashed border-border">
+                    <Star size={16} className="opacity-40" />
+                    <span>Awaiting first review...</span>
                   </div>
                 </div>
               }
@@ -224,75 +228,78 @@ const DashboardEventDetails = ({ id, basePath = "/owner-dashboard/event" }: Dash
         <div className="lg:col-span-4 space-y-6">
           
           {/* Status & Pricing Card */}
-          <div className="bg-white rounded-[2rem] border border-slate-100 p-6 md:p-8 shadow-sm space-y-6">
+          <div className="bg-card rounded-[2rem] border border-border p-6 md:p-8 shadow-sm space-y-8">
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-medium text-slate-400 uppercase tracking-wider">Listing Status</span>
-                <Badge className={cn("rounded-lg px-3 py-1 text-[10px] font-bold uppercase", getStatusStyle(event.status))}>
+                <span className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em]">Listing Status</span>
+                <Badge variant="outline" className={cn("rounded-full px-3 py-1 text-[10px] font-black uppercase tracking-widest border", getStatusStyle(event.status))}>
                   {event.status}
                 </Badge>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-xs font-medium text-slate-400 uppercase tracking-wider">Visibility</span>
-                <Badge className={cn(
-                  "rounded-lg px-3 py-1 text-[10px] font-bold uppercase",
-                  event.isActive ? "bg-emerald-50 text-emerald-600" : "bg-slate-100 text-slate-500"
+                <span className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em]">Visibility</span>
+                <Badge variant="outline" className={cn(
+                  "rounded-full px-3 py-1 text-[10px] font-black uppercase tracking-widest border",
+                  event.isActive ? "bg-emerald-500/10 text-emerald-500 border-emerald-500/20" : "bg-muted text-muted-foreground border-border"
                 )}>
-                  {event.isActive ? "Publicly Active" : "Private / Inactive"}
+                  {event.isActive ? "Public" : "Private"}
                 </Badge>
               </div>
             </div>
 
-            <div className="pt-6 border-t border-slate-50">
-              <p className="text-xs font-medium text-slate-400 uppercase tracking-wider mb-2">Pricing</p>
-              <div className="flex items-baseline gap-1">
-                <span className="text-3xl font-bold text-slate-900">৳{event.per_person_price}</span>
-                <span className="text-slate-400 text-xs">/ per seat</span>
+            <div className="pt-6 border-t border-border">
+              <p className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em] mb-3">Investment Details</p>
+              <div className="flex items-baseline gap-1.5">
+                <span className="text-3xl font-black text-foreground tracking-tighter">৳{event.per_person_price}</span>
+                <span className="text-muted-foreground text-[10px] font-black uppercase tracking-widest">/ seat</span>
               </div>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
-              <div className="bg-slate-50 rounded-2xl p-4 border border-slate-100">
-                <Users size={16} className="text-slate-400 mb-2" />
-                <p className="text-[10px] font-bold text-slate-400 uppercase">Capacity</p>
-                <p className="text-sm font-semibold text-slate-900">{event.capacity}</p>
+              <div className="bg-muted/30 rounded-2xl p-5 border border-border group hover:bg-muted/50 transition-colors">
+                <Users size={16} className="text-primary mb-3" />
+                <p className="text-[9px] font-black text-muted-foreground uppercase tracking-[0.15em]">Capacity</p>
+                <p className="text-lg font-black text-foreground tracking-tight">{event.capacity}</p>
               </div>
-              <div className="bg-slate-50 rounded-2xl p-4 border border-slate-100">
-                <Ticket size={16} className="text-slate-400 mb-2" />
-                <p className="text-[10px] font-bold text-slate-400 uppercase">Remaining</p>
-                <p className="text-sm font-semibold text-slate-900">{event.remaining_seats}</p>
+              <div className="bg-muted/30 rounded-2xl p-5 border border-border group hover:bg-muted/50 transition-colors">
+                <Ticket size={16} className="text-secondary mb-3" />
+                <p className="text-[9px] font-black text-muted-foreground uppercase tracking-[0.15em]">Available</p>
+                <p className="text-lg font-black text-foreground tracking-tight">{event.remaining_seats}</p>
               </div>
             </div>
 
-            <div className="space-y-3 pt-2">
-               <div className="flex items-center gap-3 text-sm text-slate-600">
-                <MapPin size={16} className="text-slate-400 shrink-0" />
-                <span>{event.location || "Location not specified"}</span>
+            <div className="space-y-4 pt-2">
+               <div className="flex items-start gap-3 text-sm">
+                <MapPin size={16} className="text-muted-foreground shrink-0 mt-0.5" />
+                <span className="font-bold text-foreground leading-tight">{event.location || "Location not specified"}</span>
               </div>
-              <div className="flex items-center gap-3 text-sm text-slate-600">
-                <Clock size={16} className="text-slate-400 shrink-0" />
-                <span>Created {new Date(event.createdAt).toLocaleDateString()}</span>
+              <div className="flex items-center gap-3 text-sm">
+                <Calendar size={16} className="text-muted-foreground shrink-0" />
+                <span className="font-bold text-muted-foreground uppercase tracking-widest text-[10px]">Created {new Date(event.createdAt).toLocaleDateString("en-US", { month: 'short', day: 'numeric', year: 'numeric' })}</span>
               </div>
             </div>
           </div>
 
           {/* Owner Info Card */}
-          <div className="bg-slate-50 rounded-[2rem] border border-slate-100 p-6 md:p-8 space-y-6">
-            <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider">Event Provider</h3>
-            <div className="space-y-4">
+          <div className="bg-muted/30 rounded-[2rem] border border-border p-6 md:p-8 space-y-6">
+            <h3 className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em]">Experience Provider</h3>
+            <div className="space-y-5">
               <div className="flex items-center gap-4">
-                <div className="h-10 w-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-primary">
-                  <Building2 size={20} />
+                <div className="h-12 w-12 rounded-2xl bg-card border border-border flex items-center justify-center text-primary shadow-sm">
+                  <Building2 size={24} />
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-slate-900">{event.owner?.business_name || event.owner?.name}</p>
-                  <p className="text-[11px] text-slate-500">Professional Host</p>
+                  <p className="text-sm font-black text-foreground leading-none">{event.owner?.business_name || event.owner?.name}</p>
+                  <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mt-1.5 flex items-center gap-1">
+                    <ShieldCheck size={10} className="text-emerald-500" />
+                    Verified Provider
+                  </p>
                 </div>
               </div>
-              <div className="space-y-3 pt-2 border-t border-slate-200/60">
-                <div className="flex items-center gap-3 text-xs text-slate-600">
-                  <Mail size={14} className="text-slate-400 shrink-0" />
-                  <span className="truncate">{event.owner?.email}</span>
+              <div className="space-y-3 pt-4 border-t border-border">
+                <div className="flex items-center gap-3 text-xs text-muted-foreground hover:text-foreground transition-colors">
+                  <Mail size={14} className="text-muted-foreground shrink-0" />
+                  <span className="truncate font-bold tracking-tight">{event.owner?.email}</span>
                 </div>
               </div>
             </div>

@@ -45,13 +45,13 @@ const AboutBanner = () => {
 
                         <div className="flex flex-col sm:flex-row items-center gap-6 pt-4">
                             <Link href="/event">
-                                <Button className="h-14 px-6 rounded-2xl bg-white text-neutral-900 hover:bg-neutral-100 font-black uppercase tracking-widest text-xs transition-all shadow-2xl hover:-translate-y-1">
+                                <Button className="h-14 px-6 rounded-2xl bg-primary text-primary-foreground hover:bg-primary/90 font-black uppercase tracking-widest text-xs transition-all shadow-2xl shadow-primary/20 hover:-translate-y-1">
                                     Explore Experiences
                                 </Button>
                             </Link>
 
                             {/* Glassmorphism Stat Card */}
-                            <div className="bg-white/10 backdrop-blur-xl border border-white/20 px-8 py-3 rounded-3xl flex items-center gap-6">
+                            <div className="bg-white/10 dark:bg-black/20 backdrop-blur-xl border border-white/20 dark:border-white/10 px-8 py-3 rounded-3xl flex items-center gap-6 shadow-xl shadow-black/5">
                                 <div className="text-center">
                                     <p className="text-xl font-black text-white">12k+</p>
                                     <p className="text-[8px] font-bold text-white/60 uppercase tracking-widest">Travelers</p>

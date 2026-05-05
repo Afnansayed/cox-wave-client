@@ -17,7 +17,7 @@ export default function EventCard({ event }: EventCardProps) {
       key={event.id}
       className="min-w-[90%] md:min-w-[48%] lg:min-w-[32%] snap-start group"
     >
-      <div className="bg-white rounded-[2rem] border border-neutral-100 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.1)]">
+      <div className="bg-card rounded-[2rem] border border-border transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.1)]">
         {/* 1. VISUAL LAYER (Compact Ratio) */}
         <div className="relative aspect-[16/10] overflow-hidden m-3 rounded-[1.5rem]">
           <Image
@@ -29,7 +29,7 @@ export default function EventCard({ event }: EventCardProps) {
 
           {/* FLOAT BADGES */}
           <div className="absolute top-4 left-4 flex gap-2">
-            <div className="bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-xl flex items-center gap-1.5 shadow-sm">
+            <div className="bg-background/90 backdrop-blur-md px-3 py-1.5 rounded-xl flex items-center gap-1.5 shadow-sm text-foreground">
           <Star size={12} className="text-secondary fill-secondary" />
               <span className="text-[10px] font-black">{event?.average_rating|| "4.9"}</span>
             </div>
@@ -45,19 +45,19 @@ export default function EventCard({ event }: EventCardProps) {
                 {event.location}
               </span>
             </div>
-            <h3 className="text-xl min-h-12 font-black text-neutral-900 tracking-tight leading-tight group-hover:text-primary transition-colors">
+            <h3 className="text-xl min-h-12 font-black text-foreground tracking-tight leading-tight group-hover:text-primary transition-colors">
               {event.title}
             </h3>
-            <p className="text-[10px] font-bold text-neutral-500 uppercase tracking-widest">
+            <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
               Hosted by{" "}
-              <span className="text-neutral-900">
+              <span className="text-foreground">
                 {event.owner.business_name}
               </span>
             </p>
           </div>
 
           {/* 3. SHORTHAND INFO BAR */}
-          <div className="flex items-center gap-4 text-xs font-medium text-neutral-400 border-y border-neutral-50 py-3">
+          <div className="flex items-center gap-4 text-xs font-medium text-muted-foreground border-y border-border/50 py-3">
             <div className="flex items-center gap-1.5 text-primary">
               <Ticket size={14} /> {event.remaining_seats} Seats Left
             </div>
@@ -69,11 +69,11 @@ export default function EventCard({ event }: EventCardProps) {
           {/* 4. PRICING & CTA (Optimized Layout) */}
           <div className="flex items-center justify-between pt-1">
             <div>
-              <span className="block text-[8px] font-bold text-neutral-400 uppercase tracking-[0.2em] mb-0.5">
+              <span className="block text-[8px] font-bold text-muted-foreground uppercase tracking-[0.2em] mb-0.5">
                 Start
               </span>
               <div className="flex items-baseline gap-1">
-                <span className="text-2xl font-black text-neutral-900">
+                <span className="text-2xl font-black text-foreground">
                   ৳{event.per_person_price}
                 </span>
               </div>

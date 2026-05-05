@@ -32,13 +32,13 @@ const CorePiler = () => {
         transition: { duration: 0.6 }
     };
     return (
-        <section className="py-12 bg-neutral-50">
+        <section className="py-12 bg-background">
             <div className="container-max px-6">
                 <div className="text-center max-w-2xl mx-auto mb-12">
-                    <h2 className="text-3xl md:text-5xl font-black text-neutral-900 tracking-tighter leading-tight mb-4">
+                    <h2 className="text-3xl md:text-5xl font-black text-foreground tracking-tighter leading-tight mb-4">
                         Our Core <span className="text-primary italic">Pillars.</span>
                     </h2>
-                    <p className="text-sm md:text-base text-neutral-500 font-medium">
+                    <p className="text-sm md:text-base text-muted-foreground font-medium">
                         We define the gold standard for coastal adventures in Bangladesh through four key commitments.
                     </p>
                 </div>
@@ -47,14 +47,14 @@ const CorePiler = () => {
                     {pillars.map((pillar, i) => (
                         <motion.div
                             key={i}
-                            className="p-8 rounded-[2.5rem] bg-white border border-neutral-100 hover:shadow-2xl transition-all group"
+                            className="p-8 rounded-[2.5rem] bg-card border border-border hover:shadow-2xl transition-all group"
                             {...fadeIn}
                         >
                             <div className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                                 <pillar.icon className="w-6 h-6" />
                             </div>
-                            <h3 className="text-lg font-black text-neutral-900 mb-3 tracking-tight">{pillar.title}</h3>
-                            <p className="text-xs md:text-sm text-neutral-500 leading-relaxed font-medium">
+                            <h3 className="text-lg font-black text-foreground mb-3 tracking-tight">{pillar.title}</h3>
+                            <p className="text-xs md:text-sm text-muted-foreground leading-relaxed font-medium">
                                 {pillar.desc}
                             </p>
                         </motion.div>

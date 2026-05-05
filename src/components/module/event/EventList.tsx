@@ -74,7 +74,7 @@ const EventList = ({ initialQueryString }: { initialQueryString: string }) => {
   const isBusy = isLoading || isFetching || isRouteRefreshPending;
 
   return (
-    <div className="bg-neutral-50 py-12">
+    <div className="bg-background py-12">
       <div className="container-max px-6">
         {isBusy && (
           <div className="">
@@ -83,7 +83,7 @@ const EventList = ({ initialQueryString }: { initialQueryString: string }) => {
         )}
 
         {!isBusy && events.length === 0 && (
-          <div className="rounded-md border p-6 text-center text-sm text-muted-foreground">
+          <div className="rounded-2xl border border-border bg-card p-12 text-center text-sm text-muted-foreground shadow-sm">
             No events found for your current search/filter.
           </div>
         )}

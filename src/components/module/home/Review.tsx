@@ -60,7 +60,7 @@ export default function ReviewSlider() {
   };
 
   return (
-    <section className="py-20 bg-white overflow-hidden">
+    <section className="py-20 bg-background overflow-hidden">
       <div className="container-max px-6">
         
         {/* HEADER */}
@@ -70,19 +70,19 @@ export default function ReviewSlider() {
               <span className="h-1 w-8 bg-primary rounded-full" />
               <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">Guest Testimonials</span>
             </div>
-            <h2 className="text-4xl md:text-5xl font-black text-neutral-900 tracking-tight leading-[1.1]">
+            <h2 className="text-4xl md:text-5xl font-black text-foreground tracking-tight leading-[1.1]">
               Trusted by <span className="text-primary italic">Explorers.</span>
             </h2>
-            <p className="text-neutral-500">
+            <p className="text-muted-foreground">
               Don't just take our word for it. Here's what our guests have to say about their experience.
             </p>
           </div>
 
           <div className="flex items-center gap-3">
-            <button onClick={() => scroll('left')} className="h-12 w-12 rounded-full border border-neutral-100 flex items-center justify-center hover:bg-neutral-900 hover:text-white transition-all bg-white shadow-sm active:scale-90 group">
+            <button onClick={() => scroll('left')} className="h-12 w-12 rounded-full border border-border flex items-center justify-center hover:bg-foreground hover:text-background transition-all bg-background shadow-sm active:scale-90 group">
               <ChevronLeft size={20} />
             </button>
-            <button onClick={() => scroll('right')} className="h-12 w-12 rounded-full border border-neutral-100 flex items-center justify-center hover:bg-neutral-900 hover:text-white transition-all bg-white shadow-sm active:scale-90 group">
+            <button onClick={() => scroll('right')} className="h-12 w-12 rounded-full border border-border flex items-center justify-center hover:bg-foreground hover:text-background transition-all bg-background shadow-sm active:scale-90 group">
               <ChevronRight size={20} />
             </button>
           </div>
@@ -96,7 +96,7 @@ export default function ReviewSlider() {
         >
           {MOCK_REVIEWS.map((item) => (
             <div key={item.id} className="min-w-[90%] md:min-w-[45%] lg:min-w-[32%] snap-start">
-              <div className="h-full bg-neutral-50/50 p-8 rounded-[2rem] border border-neutral-100 flex flex-col justify-between transition-all duration-500 hover:bg-white hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] group">
+              <div className="h-full bg-muted/30 p-8 rounded-[2rem] border border-border flex flex-col justify-between transition-all duration-500 hover:bg-card hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] group">
                 
                 <div className="space-y-6">
                   {/* STAR RATING */}
@@ -106,22 +106,22 @@ export default function ReviewSlider() {
                         <Star 
                           key={i} 
                           size={12} 
-                          className={i < item.rating ? "fill-secondary text-secondary" : "text-neutral-200"} 
+                          className={i < item.rating ? "fill-secondary text-secondary" : "text-muted"} 
                         />
                       ))}
                     </div>
-                    <Quote className="text-neutral-200 group-hover:text-primary/20 transition-colors" size={24} />
+                    <Quote className="text-muted group-hover:text-primary/20 transition-colors" size={24} />
                   </div>
 
                   {/* COMMENT */}
-                  <p className="text-base font-bold text-neutral-700 tracking-tight leading-relaxed line-clamp-4">
+                  <p className="text-base font-bold text-foreground tracking-tight leading-relaxed line-clamp-4">
                     "{item.comment}"
                   </p>
                 </div>
 
                 {/* CUSTOMER PROFILE */}
-                <div className="mt-8 pt-6 border-t border-neutral-100/50 flex items-center gap-3">
-                  <div className="relative h-10 w-10 rounded-full overflow-hidden bg-white border border-neutral-200 shrink-0">
+                <div className="mt-8 pt-6 border-t border-border/50 flex items-center gap-3">
+                  <div className="relative h-10 w-10 rounded-full overflow-hidden bg-background border border-border shrink-0">
                     {item.customer.profile_picture ? (
                       <Image src={item.customer.profile_picture} alt={item.customer.name} fill className="object-cover" />
                     ) : (
@@ -131,8 +131,8 @@ export default function ReviewSlider() {
                     )}
                   </div>
                   <div className="overflow-hidden">
-                    <h4 className="font-black text-neutral-900 text-xs tracking-tight truncate">{item.customer.name}</h4>
-                    <p className="text-[9px] font-bold text-neutral-400 uppercase tracking-widest truncate">
+                    <h4 className="font-black text-foreground text-xs tracking-tight truncate">{item.customer.name}</h4>
+                    <p className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest truncate">
                       Event: <span className="text-primary italic">{item.event.title}</span>
                     </p>
                   </div>

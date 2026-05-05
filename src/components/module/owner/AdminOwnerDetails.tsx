@@ -126,39 +126,39 @@ const AdminOwnerDetails = ({ owner }: AdminOwnerDetailsProps) => {
       </div>
 
       <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-        <div className="rounded-2xl border bg-white p-5 shadow-sm">
+        <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
           <p className="text-xs text-muted-foreground">Name</p>
-          <p className="font-semibold">{owner?.name}</p>
+          <p className="font-semibold text-foreground">{owner?.name}</p>
         </div>
-        <div className="rounded-2xl border bg-white p-5 shadow-sm">
+        <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
           <p className="text-xs text-muted-foreground">Email</p>
-          <p className="font-semibold break-all">{owner?.email}</p>
+          <p className="font-semibold break-all text-foreground">{owner?.email}</p>
         </div>
-        <div className="rounded-2xl border bg-white p-5 shadow-sm">
+        <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
           <p className="text-xs text-muted-foreground">Phone</p>
-          <p className="font-semibold">{owner?.phone_number || "N/A"}</p>
+          <p className="font-semibold text-foreground">{owner?.phone_number || "N/A"}</p>
         </div>
-        <div className="rounded-2xl border bg-white p-5 shadow-sm">
+        <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
           <p className="text-xs text-muted-foreground">Business Name</p>
-          <p className="font-semibold">{owner?.business_name || "N/A"}</p>
+          <p className="font-semibold text-foreground">{owner?.business_name || "N/A"}</p>
         </div>
-        <div className="rounded-2xl border bg-white p-5 shadow-sm">
+        <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
           <p className="text-xs text-muted-foreground">Business Address</p>
-          <p className="font-semibold">{owner?.business_address || "N/A"}</p>
+          <p className="font-semibold text-foreground">{owner?.business_address || "N/A"}</p>
         </div>
-        <div className="rounded-2xl border bg-white p-5 shadow-sm">
+        <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
           <p className="text-xs text-muted-foreground">Address</p>
-          <p className="font-semibold">{owner?.address || "N/A"}</p>
+          <p className="font-semibold text-foreground">{owner?.address || "N/A"}</p>
         </div>
-        <div className="rounded-2xl border bg-white p-5 shadow-sm">
+        <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
           <p className="text-xs text-muted-foreground">Rating</p>
-          <p className="font-semibold">{owner?.rating ?? 0}</p>
+          <p className="font-semibold text-foreground">{owner?.rating ?? 0}</p>
         </div>
-        <div className="rounded-2xl border bg-white p-5 shadow-sm">
+        <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
           <p className="text-xs text-muted-foreground">Total Reviews</p>
-          <p className="font-semibold">{owner?.total_reviews}</p>
+          <p className="font-semibold text-foreground">{owner?.total_reviews}</p>
         </div>
-        <div className="rounded-2xl border bg-white p-5 shadow-sm">
+        <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
           <p className="text-xs text-muted-foreground">Approval Status</p>
           <Badge className={isApproved ? "bg-green-100 text-green-700" : "bg-yellow-100 text-yellow-700"}>
             {isApproved ? "APPROVED" : "PENDING"}
@@ -166,13 +166,13 @@ const AdminOwnerDetails = ({ owner }: AdminOwnerDetailsProps) => {
         </div>
       </div>
 
-      <div className="rounded-2xl border bg-white p-5 shadow-sm">
+      <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
         <p className="text-xs text-muted-foreground">Description</p>
-        <p className="mt-2 text-sm leading-relaxed">{owner?.description || "N/A"}</p>
+        <p className="mt-2 text-sm leading-relaxed text-foreground">{owner?.description || "N/A"}</p>
       </div>
 
       <div className="grid gap-5 md:grid-cols-2">
-        <div className="rounded-2xl border bg-white p-5 shadow-sm">
+        <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
           <p className="text-xs text-muted-foreground">Trade License</p>
           {owner?.trade_license ? (
             <a
@@ -184,23 +184,23 @@ const AdminOwnerDetails = ({ owner }: AdminOwnerDetailsProps) => {
               View Trade License
             </a>
           ) : (
-            <p className="mt-2 text-sm">N/A</p>
+            <p className="mt-2 text-sm text-foreground">N/A</p>
           )}
         </div>
-        <div className="rounded-2xl border bg-white p-5 shadow-sm">
+        <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
           <p className="text-xs text-muted-foreground">Bank Account</p>
-          <p className="mt-2 text-sm font-semibold">{owner?.bank_account || "N/A"}</p>
+          <p className="mt-2 text-sm font-semibold text-foreground">{owner?.bank_account || "N/A"}</p>
         </div>
       </div>
 
       <div className="grid gap-5 md:grid-cols-2">
-        <div className="rounded-2xl border bg-white p-5 shadow-sm">
+        <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
           <p className="text-xs text-muted-foreground">Created At</p>
-          <p className="font-semibold">{new Date(owner?.createdAt).toLocaleString()}</p>
+          <p className="font-semibold text-foreground">{new Date(owner?.createdAt).toLocaleString()}</p>
         </div>
-        <div className="rounded-2xl border bg-white p-5 shadow-sm">
+        <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
           <p className="text-xs text-muted-foreground">Updated At</p>
-          <p className="font-semibold">{new Date(owner?.updatedAt).toLocaleString()}</p>
+          <p className="font-semibold text-foreground">{new Date(owner?.updatedAt).toLocaleString()}</p>
         </div>
       </div>
 

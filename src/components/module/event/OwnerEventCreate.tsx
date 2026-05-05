@@ -87,13 +87,14 @@ export function OwnerEventCreate() {
       {/* Header */}
       <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div className="space-y-1">
-          <div className="flex items-center gap-2 text-primary font-medium text-xs uppercase tracking-widest mb-1">
-            <Plus size={14} /> New Listing
+          <div className="flex items-center gap-2 text-primary font-black text-[10px] uppercase tracking-[0.2em] mb-1">
+            <Plus size={14} /> New Experience
           </div>
-          <h1 className="text-3xl font-semibold tracking-tight text-slate-900">Create Event</h1>
+          <h1 className="text-3xl font-black tracking-tight text-foreground">List Your Event</h1>
+          <p className="text-muted-foreground text-sm font-medium">Reach thousands of travelers in Cox's Bazar.</p>
         </div>
-        <Button variant="outline" onClick={() => router.back()} className="rounded-xl h-10 border-slate-200">
-          <ArrowLeft className="mr-2 h-4 w-4" /> Back
+        <Button variant="outline" onClick={() => router.back()} className="rounded-xl h-10 border-border bg-background shadow-sm font-bold text-xs uppercase tracking-widest">
+          <ArrowLeft className="mr-2 h-3.5 w-3.5" /> Back
         </Button>
       </div>
 
@@ -108,8 +109,8 @@ export function OwnerEventCreate() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           {/* Main Details */}
           <div className="lg:col-span-8 space-y-6">
-            <div className="bg-white rounded-[2rem] border border-slate-100 p-6 md:p-8 shadow-sm space-y-6">
-              <h3 className="text-sm font-semibold text-slate-900 uppercase tracking-wider mb-2">General Information</h3>
+            <div className="bg-card rounded-[2rem] border border-border p-6 md:p-8 shadow-sm space-y-8">
+              <h3 className="text-[10px] font-black text-foreground uppercase tracking-[0.2em]">Listing Details</h3>
               
               <form.Field
                 name="title"
@@ -117,19 +118,19 @@ export function OwnerEventCreate() {
               >
                 {(field) => (
                   <div className="space-y-2">
-                    <Label htmlFor="title" className="text-xs font-bold text-slate-500 uppercase flex items-center gap-2">
-                      <Type size={14} className="text-slate-400" /> Event Title *
+                    <Label htmlFor="title" className="text-[10px] font-black text-muted-foreground uppercase tracking-widest flex items-center gap-2">
+                      <Type size={14} className="text-primary" /> Title of Experience
                     </Label>
                     <Input
                       id="title"
-                      placeholder="e.g. Summer Beach Party 2026"
-                      className={cn("h-12 bg-slate-50/50 rounded-xl", field.state.meta.errors.length > 0 && "border-rose-500")}
+                      placeholder="e.g. Luxury Private Yacht Sunset Cruise"
+                      className={cn("h-12 bg-muted/30 border-border rounded-xl font-medium text-foreground", field.state.meta.errors.length > 0 && "border-destructive")}
                       value={field.state.value}
                       onChange={(e) => field.handleChange(e.target.value)}
                       disabled={isLoading}
                     />
                     {field.state.meta.errors.length > 0 && (
-                      <p className="text-xs font-medium text-rose-500">{getFirstError(field.state.meta.errors[0])}</p>
+                      <p className="text-xs font-bold text-destructive">{getFirstError(field.state.meta.errors[0])}</p>
                     )}
                   </div>
                 )}
@@ -146,19 +147,19 @@ export function OwnerEventCreate() {
               >
                 {(field) => (
                   <div className="space-y-2">
-                    <Label htmlFor="description" className="text-xs font-bold text-slate-500 uppercase flex items-center gap-2">
-                      <AlignLeft size={14} className="text-slate-400" /> Description
+                    <Label htmlFor="description" className="text-[10px] font-black text-muted-foreground uppercase tracking-widest flex items-center gap-2">
+                      <AlignLeft size={14} className="text-primary" /> Story & Highlights
                     </Label>
                     <Textarea
                       id="description"
-                      placeholder="Describe the experience..."
-                      className={cn("min-h-[160px] bg-slate-50/50 rounded-2xl p-4", field.state.meta.errors.length > 0 && "border-rose-500")}
+                      placeholder="Describe what makes this experience special..."
+                      className={cn("min-h-[180px] bg-muted/30 border-border rounded-2xl p-4 font-medium text-foreground resize-none", field.state.meta.errors.length > 0 && "border-destructive")}
                       value={field.state.value}
                       onChange={(e) => field.handleChange(e.target.value)}
                       disabled={isLoading}
                     />
                     {field.state.meta.errors.length > 0 && (
-                      <p className="text-xs font-medium text-rose-500">{getFirstError(field.state.meta.errors[0])}</p>
+                      <p className="text-xs font-bold text-destructive">{getFirstError(field.state.meta.errors[0])}</p>
                     )}
                   </div>
                 )}
@@ -166,23 +167,34 @@ export function OwnerEventCreate() {
             </div>
 
             {/* Media Upload Section */}
-            <div className="bg-white rounded-[2rem] border border-slate-100 p-6 md:p-8 shadow-sm space-y-6">
-              <h3 className="text-sm font-semibold text-slate-900 uppercase tracking-wider">Event Media</h3>
+            <div className="bg-card rounded-[2rem] border border-border p-6 md:p-8 shadow-sm space-y-8">
+              <h3 className="text-[10px] font-black text-foreground uppercase tracking-[0.2em]">Visual Gallery</h3>
               <div 
                 onClick={() => fileInputRef.current?.click()}
-                className="group cursor-pointer flex flex-col items-center justify-center p-8 border-2 border-dashed border-slate-200 rounded-3xl bg-slate-50/50 hover:border-primary/50 transition-all"
+                className="group cursor-pointer flex flex-col items-center justify-center p-12 border-2 border-dashed border-border rounded-[2.5rem] bg-muted/30 hover:bg-muted/50 hover:border-primary/50 transition-all duration-300"
               >
-                <UploadCloud size={24} className="text-slate-400 group-hover:text-primary mb-4" />
-                <p className="text-sm font-semibold text-slate-700">Click to upload images</p>
+                <div className="h-14 w-14 rounded-2xl bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform mb-4">
+                  <UploadCloud size={28} />
+                </div>
+                <p className="text-sm font-black text-foreground uppercase tracking-widest">Select Visuals</p>
+                <p className="text-[10px] text-muted-foreground font-medium mt-1 uppercase tracking-wider">JPG, PNG up to 10MB each</p>
                 <input type="file" ref={fileInputRef} onChange={handleFileChange} multiple accept="image/*" className="hidden" />
               </div>
               {selectedFiles.length > 0 && (
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                   {selectedFiles.map((file, index) => (
-                    <div key={index} className="group relative aspect-video rounded-2xl border bg-slate-50 overflow-hidden">
-                      <div className="absolute inset-0 flex items-center justify-center text-[10px] text-slate-400 p-2 truncate">{file.name}</div>
-                      <Button type="button" variant="destructive" size="icon" onClick={() => removeFile(index)} className="absolute top-2 right-2 h-6 w-6 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
-                        <X size={12} />
+                    <div key={index} className="group relative aspect-video rounded-2xl border border-border bg-muted overflow-hidden">
+                      <div className="absolute inset-0 flex items-center justify-center text-[10px] font-bold text-muted-foreground p-3 truncate bg-background/40 backdrop-blur-sm">
+                        {file.name}
+                      </div>
+                      <Button 
+                        type="button" 
+                        variant="destructive" 
+                        size="icon" 
+                        onClick={() => removeFile(index)} 
+                        className="absolute top-2 right-2 h-7 w-7 rounded-xl shadow-lg opacity-0 group-hover:opacity-100 transition-all scale-75 group-hover:scale-100"
+                      >
+                        <X size={14} />
                       </Button>
                     </div>
                   ))}
@@ -193,10 +205,9 @@ export function OwnerEventCreate() {
 
           {/* Logistics Sidebar */}
           <div className="lg:col-span-4 space-y-6">
-            <div className="bg-slate-900 rounded-[2rem] p-6 md:p-8 text-white space-y-6 shadow-xl">
-              <h3 className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">Logistics & Pricing</h3>
+            <div className="bg-neutral-900 rounded-[2rem] p-6 md:p-8 text-white space-y-8 shadow-2xl shadow-black/20 border border-white/5">
+              <h3 className="text-[10px] font-black text-white/40 uppercase tracking-[0.3em]">Logistics Hub</h3>
 
-              {/* Location Error Fixed */}
               <form.Field
                 name="location"
                 validators={{
@@ -207,82 +218,83 @@ export function OwnerEventCreate() {
                 }}
               >
                 {(field) => (
-                  <div className="space-y-2">
-                    <Label className="text-[10px] font-bold text-slate-400 uppercase flex items-center gap-2">
-                      <MapPin size={12} /> Venue Location
+                  <div className="space-y-3">
+                    <Label className="text-[10px] font-black text-white/60 uppercase tracking-widest flex items-center gap-2">
+                      <MapPin size={12} className="text-primary" /> Venue Location
                     </Label>
                     <Input
-                      placeholder="City, Area or Link"
-                      className={cn("bg-white/10 border-white/10 text-white rounded-xl h-11", field.state.meta.errors.length > 0 && "border-rose-500")}
+                      placeholder="e.g. Inani Beach, Marine Drive"
+                      className={cn("bg-white/5 border-white/10 text-white rounded-xl h-12 font-medium placeholder:text-white/20 focus-visible:ring-primary/20", field.state.meta.errors.length > 0 && "border-destructive")}
                       value={field.state.value}
                       onChange={(e) => field.handleChange(e.target.value)}
                     />
                     {field.state.meta.errors.length > 0 && (
-                      <p className="text-xs font-medium text-rose-400">{getFirstError(field.state.meta.errors[0])}</p>
+                      <p className="text-[10px] font-bold text-destructive/80 uppercase tracking-tight">{getFirstError(field.state.meta.errors[0])}</p>
                     )}
                   </div>
                 )}
               </form.Field>
 
-              {/* Capacity Error Fixed */}
               <form.Field
                 name="capacity"
                 validators={{ onChange: createEventValidationSchema.shape.capacity }}
               >
                 {(field) => (
-                  <div className="space-y-2">
-                    <Label className="text-[10px] font-bold text-slate-400 uppercase flex items-center gap-2">
-                      <Users size={12} /> Capacity *
+                  <div className="space-y-3">
+                    <Label className="text-[10px] font-black text-white/60 uppercase tracking-widest flex items-center gap-2">
+                      <Users size={12} className="text-primary" /> Max Participants
                     </Label>
                     <Input
                       type="number"
                       placeholder="0"
-                      className={cn("bg-white/10 border-white/10 text-white rounded-xl h-11", field.state.meta.errors.length > 0 && "border-rose-500")}
+                      className={cn("bg-white/5 border-white/10 text-white rounded-xl h-12 font-medium placeholder:text-white/20 focus-visible:ring-primary/20", field.state.meta.errors.length > 0 && "border-destructive")}
                       value={field.state.value ?? ""}
                       onChange={(e) => field.handleChange(e.target.value === "" ? undefined : Number(e.target.value))}
                     />
                     {field.state.meta.errors.length > 0 && (
-                      <p className="text-xs font-medium text-rose-400">{getFirstError(field.state.meta.errors[0])}</p>
+                      <p className="text-[10px] font-bold text-destructive/80 uppercase tracking-tight">{getFirstError(field.state.meta.errors[0])}</p>
                     )}
                   </div>
                 )}
               </form.Field>
 
-              {/* Price Error Fixed */}
               <form.Field
                 name="per_person_price"
                 validators={{ onChange: createEventValidationSchema.shape.per_person_price }}
               >
                 {(field) => (
-                  <div className="space-y-2">
-                    <Label className="text-[10px] font-bold text-slate-400 uppercase flex items-center gap-2">
-                      <Wallet size={12} /> Price / Person *
+                  <div className="space-y-3">
+                    <Label className="text-[10px] font-black text-white/60 uppercase tracking-widest flex items-center gap-2">
+                      <Wallet size={12} className="text-primary" /> Unit Price (BDT)
                     </Label>
                     <div className="relative">
-                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-white/40 text-sm">$</span>
+                      <span className="absolute left-4 top-1/2 -translate-y-1/2 text-white/20 font-bold text-sm">৳</span>
                       <Input
                         type="number"
-                        step="0.01"
-                        placeholder="0.00"
-                        className={cn("bg-white/10 border-white/10 text-white rounded-xl h-11 pl-7", field.state.meta.errors.length > 0 && "border-rose-500")}
+                        step="1"
+                        placeholder="0"
+                        className={cn("bg-white/5 border-white/10 text-white rounded-xl h-12 pl-8 font-black text-lg placeholder:text-white/20 focus-visible:ring-primary/20", field.state.meta.errors.length > 0 && "border-destructive")}
                         value={field.state.value ?? ""}
                         onChange={(e) => field.handleChange(e.target.value === "" ? undefined : Number(e.target.value))}
                       />
                     </div>
                     {field.state.meta.errors.length > 0 && (
-                      <p className="text-xs font-medium text-rose-400">{getFirstError(field.state.meta.errors[0])}</p>
+                      <p className="text-[10px] font-bold text-destructive/80 uppercase tracking-tight">{getFirstError(field.state.meta.errors[0])}</p>
                     )}
                   </div>
                 )}
               </form.Field>
 
-              <Button
-                type="submit"
-                disabled={isLoading}
-                className="w-full h-12 rounded-2xl bg-white text-slate-900 font-bold hover:bg-slate-100 transition-all shadow-lg"
-              >
-                {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Publish Event"}
-              </Button>
+              <div className="pt-6">
+                <Button
+                  type="submit"
+                  disabled={isLoading}
+                  className="w-full h-14 rounded-2xl bg-primary text-primary-foreground font-black uppercase tracking-[0.2em] text-xs hover:bg-primary/90 transition-all shadow-xl shadow-primary/20"
+                >
+                  {isLoading ? <Loader2 className="h-5 w-5 animate-spin" /> : "Publish Listing"}
+                </Button>
+                <p className="text-[9px] text-center text-white/30 uppercase tracking-widest mt-4 font-bold">Approved by Admin instantly</p>
+              </div>
             </div>
           </div>
         </div>

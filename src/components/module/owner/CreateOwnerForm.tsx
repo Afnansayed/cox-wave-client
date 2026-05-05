@@ -120,7 +120,7 @@ const CreateOwnerForm = () => {
     <form onSubmit={onSubmit} className="space-y-5">
       <div className="grid gap-4 md:grid-cols-2">
         <div className="space-y-2">
-          <label className="text-sm font-semibold">Password</label>
+          <label className="text-sm font-semibold text-foreground">Password</label>
           <Input
             type="password"
             value={formValues.password}
@@ -136,12 +136,12 @@ const CreateOwnerForm = () => {
             disabled={mutation.isPending}
           />
           {getFieldError("password") && (
-            <p className="text-xs text-red-500">{getFieldError("password")}</p>
+            <p className="text-xs text-destructive">{getFieldError("password")}</p>
           )}
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm font-semibold">Owner Name</label>
+          <label className="text-sm font-semibold text-foreground">Owner Name</label>
           <Input
             value={formValues.owner.name}
             onChange={(e) => onChange("name", e.target.value)}
@@ -149,12 +149,12 @@ const CreateOwnerForm = () => {
             disabled={mutation.isPending}
           />
           {getFieldError("owner.name") && (
-            <p className="text-xs text-red-500">{getFieldError("owner.name")}</p>
+            <p className="text-xs text-destructive">{getFieldError("owner.name")}</p>
           )}
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm font-semibold">Email</label>
+          <label className="text-sm font-semibold text-foreground">Email</label>
           <Input
             type="email"
             value={formValues.owner.email}
@@ -163,12 +163,12 @@ const CreateOwnerForm = () => {
             disabled={mutation.isPending}
           />
           {getFieldError("owner.email") && (
-            <p className="text-xs text-red-500">{getFieldError("owner.email")}</p>
+            <p className="text-xs text-destructive">{getFieldError("owner.email")}</p>
           )}
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm font-semibold">Phone Number</label>
+          <label className="text-sm font-semibold text-foreground">Phone Number</label>
           <Input
             value={formValues.owner.phone_number || ""}
             onChange={(e) => onChange("phone_number", e.target.value)}
@@ -176,12 +176,12 @@ const CreateOwnerForm = () => {
             disabled={mutation.isPending}
           />
           {getFieldError("owner.phone_number") && (
-            <p className="text-xs text-red-500">{getFieldError("owner.phone_number")}</p>
+            <p className="text-xs text-destructive">{getFieldError("owner.phone_number")}</p>
           )}
         </div>
 
         <div className="space-y-2 md:col-span-2">
-          <label className="text-sm font-semibold">Address</label>
+          <label className="text-sm font-semibold text-foreground">Address</label>
           <Input
             value={formValues.owner.address || ""}
             onChange={(e) => onChange("address", e.target.value)}
@@ -189,12 +189,12 @@ const CreateOwnerForm = () => {
             disabled={mutation.isPending}
           />
           {getFieldError("owner.address") && (
-            <p className="text-xs text-red-500">{getFieldError("owner.address")}</p>
+            <p className="text-xs text-destructive">{getFieldError("owner.address")}</p>
           )}
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm font-semibold">Business Name</label>
+          <label className="text-sm font-semibold text-foreground">Business Name</label>
           <Input
             value={formValues.owner.business_name}
             onChange={(e) => onChange("business_name", e.target.value)}
@@ -202,12 +202,12 @@ const CreateOwnerForm = () => {
             disabled={mutation.isPending}
           />
           {getFieldError("owner.business_name") && (
-            <p className="text-xs text-red-500">{getFieldError("owner.business_name")}</p>
+            <p className="text-xs text-destructive">{getFieldError("owner.business_name")}</p>
           )}
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm font-semibold">Bank Account</label>
+          <label className="text-sm font-semibold text-foreground">Bank Account</label>
           <Input
             value={formValues.owner.bank_account}
             onChange={(e) => onChange("bank_account", e.target.value)}
@@ -215,12 +215,12 @@ const CreateOwnerForm = () => {
             disabled={mutation.isPending}
           />
           {getFieldError("owner.bank_account") && (
-            <p className="text-xs text-red-500">{getFieldError("owner.bank_account")}</p>
+            <p className="text-xs text-destructive">{getFieldError("owner.bank_account")}</p>
           )}
         </div>
 
         <div className="space-y-2 md:col-span-2">
-          <label className="text-sm font-semibold">Business Address</label>
+          <label className="text-sm font-semibold text-foreground">Business Address</label>
           <Input
             value={formValues.owner.business_address || ""}
             onChange={(e) => onChange("business_address", e.target.value)}
@@ -228,26 +228,26 @@ const CreateOwnerForm = () => {
             disabled={mutation.isPending}
           />
           {getFieldError("owner.business_address") && (
-            <p className="text-xs text-red-500">{getFieldError("owner.business_address")}</p>
+            <p className="text-xs text-destructive">{getFieldError("owner.business_address")}</p>
           )}
         </div>
 
         <div className="space-y-2 md:col-span-2">
-          <label className="text-sm font-semibold">Business Description</label>
+          <label className="text-sm font-semibold text-foreground">Business Description</label>
           <textarea
             value={formValues.owner.description || ""}
             onChange={(e) => onChange("description", e.target.value)}
             placeholder="Business description"
-            className="min-h-24 w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm outline-none focus-visible:ring-1 focus-visible:ring-ring"
+            className="min-h-24 w-full rounded-md border border-input bg-background text-foreground px-3 py-2 text-sm shadow-sm outline-none focus-visible:ring-1 focus-visible:ring-ring"
             disabled={mutation.isPending}
           />
           {getFieldError("owner.description") && (
-            <p className="text-xs text-red-500">{getFieldError("owner.description")}</p>
+            <p className="text-xs text-destructive">{getFieldError("owner.description")}</p>
           )}
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm font-semibold">Profile Picture (File)</label>
+          <label className="text-sm font-semibold text-foreground">Profile Picture (File)</label>
           <Input
             type="file"
             accept="image/*"
@@ -257,7 +257,7 @@ const CreateOwnerForm = () => {
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm font-semibold">Trade License (File)</label>
+          <label className="text-sm font-semibold text-foreground">Trade License (File)</label>
           <Input
             type="file"
             accept="image/*,.pdf"

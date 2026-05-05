@@ -31,9 +31,9 @@ export default function WorkProcess() {
   const currentSteps = activeView === 'customer' ? customerSteps : ownerSteps;
 
   return (
-    <section className="py-12 bg-white relative overflow-hidden">
+    <section className="py-12 bg-background relative overflow-hidden">
       {/* Background Accent */}
-      <div className="absolute top-0 right-0 w-1/3 h-full bg-neutral-50/50 -z-10" />
+      <div className="absolute top-0 right-0 w-1/3 h-full bg-muted/30 -z-10" />
       
       <div className="container-max px-6">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
@@ -42,10 +42,10 @@ export default function WorkProcess() {
           <div className="lg:col-span-4 space-y-8">
             <div className="space-y-4">
               <div className="h-1 w-12 bg-primary rounded-full" />
-              <h2 className="text-3xl md:text-5xl font-black text-neutral-900 tracking-tighter leading-tight">
+              <h2 className="text-3xl md:text-5xl font-black text-foreground tracking-tighter leading-tight">
                 How it <br /> <span className="text-primary italic">Works.</span>
               </h2>
-              <p className="text-sm md:text-base text-neutral-500 font-medium leading-relaxed max-w-xs">
+              <p className="text-sm md:text-base text-muted-foreground font-medium leading-relaxed max-w-xs">
                 A high-performance ecosystem built for seamless coastal adventures.
               </p>
             </div>
@@ -55,32 +55,32 @@ export default function WorkProcess() {
                 onClick={() => setActiveView('customer')}
                 className={cn(
                   "flex items-center justify-between p-5 rounded-2xl border transition-all group",
-                  activeView === 'customer' ? "bg-white border-primary shadow-xl shadow-primary/5" : "bg-transparent border-neutral-100 grayscale opacity-60 hover:opacity-100"
+                  activeView === 'customer' ? "bg-card border-primary shadow-xl shadow-primary/5" : "bg-transparent border-border grayscale opacity-60 hover:opacity-100"
                 )}
               >
                 <div className="flex items-center gap-4">
-                  <div className={cn("p-2.5 rounded-xl", activeView === 'customer' ? "bg-primary text-white" : "bg-neutral-100 text-neutral-400")}>
+                  <div className={cn("p-2.5 rounded-xl", activeView === 'customer' ? "bg-primary text-white" : "bg-muted text-muted-foreground")}>
                     <Users size={20} />
                   </div>
-                  <span className="font-black text-xs uppercase tracking-widest">For Customers</span>
+                  <span className="font-black text-xs uppercase tracking-widest text-foreground">For Customers</span>
                 </div>
-                <ArrowRight size={16} className={cn("transition-transform", activeView === 'customer' ? "translate-x-0" : "-translate-x-2")} />
+                <ArrowRight size={16} className={cn("transition-transform text-foreground", activeView === 'customer' ? "translate-x-0" : "-translate-x-2")} />
               </button>
 
               <button 
                 onClick={() => setActiveView('owner')}
                 className={cn(
                   "flex items-center justify-between p-5 rounded-2xl border transition-all group",
-                  activeView === 'owner' ? "bg-white border-primary shadow-xl shadow-primary/5" : "bg-transparent border-neutral-100 grayscale opacity-60 hover:opacity-100"
+                  activeView === 'owner' ? "bg-card border-primary shadow-xl shadow-primary/5" : "bg-transparent border-border grayscale opacity-60 hover:opacity-100"
                 )}
               >
                 <div className="flex items-center gap-4">
-                  <div className={cn("p-2.5 rounded-xl", activeView === 'owner' ? "bg-primary text-white" : "bg-neutral-100 text-neutral-400")}>
+                  <div className={cn("p-2.5 rounded-xl", activeView === 'owner' ? "bg-primary text-white" : "bg-muted text-muted-foreground")}>
                     <Briefcase size={20} />
                   </div>
-                  <span className="font-black text-xs uppercase tracking-widest">For Event Owners</span>
+                  <span className="font-black text-xs uppercase tracking-widest text-foreground">For Event Owners</span>
                 </div>
-                <ArrowRight size={16} className={cn("transition-transform", activeView === 'owner' ? "translate-x-0" : "-translate-x-2")} />
+                <ArrowRight size={16} className={cn("transition-transform text-foreground", activeView === 'owner' ? "translate-x-0" : "-translate-x-2")} />
               </button>
             </div>
           </div>
@@ -91,13 +91,13 @@ export default function WorkProcess() {
               {currentSteps.map((step, index) => (
                 <div key={step.sub} className="relative group">
                   {/* Step Background Index */}
-                  <span className="absolute -top-6 left-0 text-5xl font-black text-neutral-300 group-hover:text-primary/5 transition-colors select-none pointer-events-none">
+                  <span className="absolute -top-6 left-0 text-5xl font-black text-muted/30 group-hover:text-primary/10 transition-colors select-none pointer-events-none">
                     0{index + 1}
                   </span>
                   
                   <div className="relative pt-2 space-y-4">
                     <div className="flex items-center gap-3">
-                      <div className="h-10 w-10 flex items-center justify-center rounded-xl bg-white border border-neutral-100 text-primary shadow-sm transition-all group-hover:border-primary/30 group-hover:shadow-lg group-hover:shadow-primary/10">
+                      <div className="h-10 w-10 flex items-center justify-center rounded-xl bg-card border border-border text-primary shadow-sm transition-all group-hover:border-primary/30 group-hover:shadow-lg group-hover:shadow-primary/10">
                         {step.icon}
                       </div>
                       <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-primary">
@@ -106,10 +106,10 @@ export default function WorkProcess() {
                     </div>
 
                     <div className="space-y-1">
-                      <h3 className="text-lg md:text-xl font-black text-neutral-900 tracking-tight">
+                      <h3 className="text-lg md:text-xl font-black text-foreground tracking-tight">
                         {step.sub}
                       </h3>
-                      <p className="text-xs md:text-sm text-neutral-500 font-medium leading-relaxed max-w-[240px]">
+                      <p className="text-xs md:text-sm text-muted-foreground font-medium leading-relaxed max-w-[240px]">
                         {step.desc}
                       </p>
                     </div>

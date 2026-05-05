@@ -27,14 +27,14 @@ export const Pagination = ({
     variant="ghost"
     onClick={() => onPageChange(currentPage - 1)}
     disabled={isLoading || currentPage <= 1}
-    className="rounded-full px-5 text-[10px] font-black uppercase tracking-widest text-neutral-500 hover:bg-neutral-100 disabled:opacity-30"
+    className="rounded-full px-5 text-[10px] font-black uppercase tracking-widest text-muted-foreground hover:bg-muted disabled:opacity-30"
   >
     <ChevronLeft size={14} className="mr-1" />
     Prev
   </Button>
 
   {/* PAGE NUMBERS */}
-  <div className="flex items-center gap-1.5 px-2 py-1.5 bg-neutral-50 rounded-full border border-neutral-100">
+  <div className="flex items-center gap-1.5 px-2 py-1.5 bg-muted/30 rounded-full border border-border">
     {pageNumbers.map((page) => (
       <Button
         key={page}
@@ -45,8 +45,8 @@ export const Pagination = ({
         className={cn(
           "h-9 w-9 rounded-full text-xs font-black transition-all duration-300",
           page === currentPage 
-            ? "bg-primary text-white shadow-lg scale-110" 
-            : "text-neutral-500 hover:bg-white hover:text-primary hover:shadow-sm"
+            ? "bg-primary text-primary-foreground shadow-lg shadow-primary/20 scale-110" 
+            : "text-muted-foreground hover:bg-background hover:text-primary hover:shadow-sm"
         )}
       >
         {page}
@@ -60,7 +60,7 @@ export const Pagination = ({
     variant="ghost"
     onClick={() => onPageChange(currentPage + 1)}
     disabled={isLoading || currentPage >= totalPages}
-    className="rounded-full px-5 text-[10px] font-black uppercase tracking-widest text-neutral-500 hover:bg-neutral-100 disabled:opacity-30"
+    className="rounded-full px-5 text-[10px] font-black uppercase tracking-widest text-muted-foreground hover:bg-muted disabled:opacity-30"
   >
     Next
     <ChevronRight size={14} className="ml-1" />

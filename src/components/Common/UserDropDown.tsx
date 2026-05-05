@@ -78,11 +78,11 @@ export default function UserDropdown() {
       >
         <Image src={'i.svg'} alt="user icon" width={24} height={24} />
         <button
-          className="hidden sm:block text-Black hover:text-primary transition-colors"
+          className="hidden sm:block text-foreground hover:text-primary transition-colors font-semibold"
           title={isLoggedIn ? user?.name : ''} // Full name on hover
         >
           {isLoggedIn
-            ? `${user?.name?.substring(0, 8)}${user?.name?.length && user?.name?.length > 8 ? '...' : ''
+            ? `${user?.name?.substring(0, 12)}${user?.name?.length && user?.name?.length > 12 ? '...' : ''
             }`
             : 'Sign in'}
         </button>
@@ -90,103 +90,110 @@ export default function UserDropdown() {
 
       {/* Dropdown Menu */}
       {isOpen && (
-        <div className="absolute right-0 top-full mt-2 w-64 bg-white border border-stroke_1 rounded-lg shadow-lg z-50">
+        <div className="absolute right-0 top-full mt-2 w-64 bg-card border border-border rounded-2xl shadow-xl z-50 overflow-hidden">
           {isLoggedIn ? (
             <>
               {/* Header */}
-              <div className="px-4 py-3 border-b border-stroke_1">
-                <h3 className="font-medium text-Black">
-                  Welcome, {user?.name}!
+              <div className="px-5 py-4 border-b border-border bg-muted/30">
+                <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-1">Authenticated</p>
+                <h3 className="font-bold text-foreground truncate">
+                  {user?.name}
                 </h3>
               </div>
               {/* Menu Items */}
-              {user?.role === Roles.customer && (
-                <div className="py-2">
-                  <Link
-                    href={handleGoProfile()}
-                    className="flex items-center gap-3 px-4 py-2 text-body_text hover:bg-primary_light transition-colors"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    <User className="w-5 h-5" />
-                    <span>My Account</span>
-                  </Link>
+              <div className="py-2">
+                {user?.role === Roles.customer && (
+                  <>
+                    <Link
+                      href={handleGoProfile()}
+                      className="flex items-center gap-3 px-5 py-2.5 text-foreground hover:bg-primary/10 hover:text-primary transition-all font-medium"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      <User className="w-4 h-4" />
+                      <span className="text-sm">My Account</span>
+                    </Link>
+
+                    <Link
+                      href="/customer-dashboard/booking"
+                      className="flex items-center gap-3 px-5 py-2.5 text-foreground hover:bg-primary/10 hover:text-primary transition-all font-medium"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      <BookIcon className="w-4 h-4" />
+                      <span className="text-sm">My Bookings</span>
+                    </Link>
+
+                    <Link
+                      href="/contact"
+                      className="flex items-center gap-3 px-5 py-2.5 text-foreground hover:bg-primary/10 hover:text-primary transition-all font-medium"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      <HelpCircle className="w-4 h-4" />
+                      <span className="text-sm">Contact Us</span>
+                    </Link>
+                  </>
+                )}
+
+                {user?.role === Roles.admin && (
+                  <div className="py-2">
+                    <Link
+                      href={handleGoProfile()}
+                      className="flex items-center gap-3 px-5 py-2.5 text-foreground hover:bg-primary/10 hover:text-primary transition-all font-medium"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      <User className="w-4 h-4" />
+                      <span className="text-sm">Dashboard</span>
+                    </Link>
+                  </div>
+                )}
+
+                {user?.role === Roles.owner && (
+                  <div className="py-2">
+                    <Link
+                      href={handleGoProfile()}
+                      className="flex items-center gap-3 px-5 py-2.5 text-foreground hover:bg-primary/10 hover:text-primary transition-all font-medium"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      <User className="w-4 h-4" />
+                      <span className="text-sm">Dashboard</span>
+                    </Link>
 
                   <Link
-                    href="/customer-dashboard/booking"
-                    className="flex items-center gap-3 px-4 py-2 text-body_text hover:bg-primary_light transition-colors"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    <BookIcon className="w-5 h-5" />
-                    <span className="font-medium">My Bookings</span>
-                  </Link>
-
-                  <Link
-                    href="/contact"
-                    className="flex items-center gap-3 px-4 py-2 text-body_text hover:bg-primary_light transition-colors"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    <HelpCircle className="w-5 h-5" />
-                    <span>Contact Us</span>
-                  </Link>
-                </div>
-              )}
-
-              {user?.role === Roles.admin && (
-                <div className="py-2">
-                  <Link
-                    href={handleGoProfile()}
-                    className="flex items-center gap-3 px-4 py-2 text-body_text hover:bg-primary_light transition-colors"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    <User className="w-5 h-5" />
-                    <span>Dashboard</span>
-                  </Link>
-                </div>
-              )}
-
-              {user?.role === Roles.owner && (
-                <div className="py-2">
-                  <Link
-                    href={handleGoProfile()}
-                    className="flex items-center gap-3 px-4 py-2 text-body_text hover:bg-primary_light transition-colors"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    <User className="w-5 h-5" />
-                    <span>Dashboard</span>
-                  </Link>
-
-                <Link
-                    href="/owner-dashboard/booking"
-                    className="flex items-center gap-3 px-4 py-2 text-body_text hover:bg-primary_light transition-colors"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    <BookIcon className="w-5 h-5" />
-                    <span className="font-medium">My Bookings</span>
-                  </Link>
-                </div>
-              )}
-              <button
-                onClick={handleSignOut}
-                className="flex items-center gap-3 px-4 py-2 text-body_text hover:bg-primary_light transition-colors w-full text-left"
-              >
-                <LogOut className="w-5 h-5" />
-                <span>Sign Out</span>
-              </button>
+                      href="/owner-dashboard/booking"
+                      className="flex items-center gap-3 px-5 py-2.5 text-foreground hover:bg-primary/10 hover:text-primary transition-all font-medium"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      <BookIcon className="w-4 h-4" />
+                      <span className="text-sm">My Bookings</span>
+                    </Link>
+                  </div>
+                )}
+                
+                <div className="my-2 border-t border-border" />
+                
+                <button
+                  onClick={handleSignOut}
+                  className="flex items-center gap-3 px-5 py-2.5 text-destructive hover:bg-destructive/10 transition-all w-full text-left font-bold"
+                >
+                  <LogOut className="w-4 h-4" />
+                  <span className="text-sm">Sign Out</span>
+                </button>
+              </div>
             </>
           ) : (
             /* Not logged in state */
-            <div className="p-4">
-              <div className="space-y-3">
+            <div className="p-5 space-y-3">
+              <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Get Started</p>
+              <div className="space-y-2">
                 <Link
                   href="/login"
-                  className="block w-full bg-primary hover:bg-darker_orange text-white text-center py-2 px-4 rounded-full transition-colors"
+                  className="block w-full bg-primary hover:bg-primary/90 text-primary-foreground text-center py-2.5 px-4 rounded-xl transition-all font-bold text-sm shadow-lg shadow-primary/20"
                   onClick={() => setIsOpen(false)}
                 >
                   Sign In
                 </Link>
                 <Link
                   href="/register"
-                  className="block w-full border border-body_text text-body_text hover:bg-primary_light text-center py-2 px-4 rounded-full transition-colors"
+                  className="block w-full border border-border text-foreground hover:bg-muted text-center py-2.5 px-4 rounded-xl transition-all font-bold text-sm"
                   onClick={() => setIsOpen(false)}
                 >
                   Create Account

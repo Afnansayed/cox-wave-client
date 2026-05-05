@@ -49,28 +49,28 @@ export function UpdateEventStatusModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[400px] rounded-xl border-secondary/10 bg-white p-6">
+      <DialogContent className="sm:max-w-[400px] rounded-xl border-border bg-card p-6">
         <DialogHeader className="space-y-1.5">
-          <DialogTitle className="text-xl font-semibold text-slate-900">
+          <DialogTitle className="text-xl font-semibold text-foreground">
             Update Event Status
           </DialogTitle>
-          <DialogDescription className="text-sm text-slate-500">
+          <DialogDescription className="text-sm text-muted-foreground">
             Change the current approval status for this event.
           </DialogDescription>
         </DialogHeader>
 
         <div className="py-6 space-y-2">
-          <Label className="text-sm font-medium text-slate-700">
+          <Label className="text-sm font-medium text-foreground">
             Status
           </Label>
           <Select 
             value={status} 
             onValueChange={(value) => setStatus(value as EventStatus)}
           >
-            <SelectTrigger className="h-11 rounded-md border-slate-200 bg-white focus:ring-primary/20">
+            <SelectTrigger className="h-11 rounded-md border-border bg-background focus:ring-primary/20">
               <SelectValue placeholder="Select status" />
             </SelectTrigger>
-            <SelectContent className="rounded-md border-slate-200">
+            <SelectContent className="rounded-md border-border bg-card">
               <SelectItem value="APPROVED" className="cursor-pointer">
                 <div className="flex items-center gap-2 text-sm text-emerald-600">
                   <CheckCircle2 size={16} /> Approved

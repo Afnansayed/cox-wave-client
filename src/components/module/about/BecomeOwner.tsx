@@ -32,60 +32,65 @@ const ownerSteps = [
 ];
 const BecomeOwner = () => {
     return (
-        <section className="py-12 bg-neutral-900 text-white relative overflow-hidden">
+        <section className="py-24 bg-card text-foreground relative overflow-hidden border-y border-border">
             <div className="absolute top-0 right-0 w-1/3 h-full bg-primary/5 -z-10" />
-            <div className="container-max px-6 grid grid-cols-1 lg:grid-cols-12 gap-16">
-                <div className="lg:col-span-4 space-y-8">
-                    <div className="space-y-4">
-                        <div className="h-1 w-12 bg-secondary rounded-full" />
-                        <h2 className="text-3xl md:text-5xl font-black tracking-tighter leading-tight text-white">
+            <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-secondary/5 rounded-full blur-[100px] -z-10" />
+            <div className="container-max px-6 grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+                <div className="lg:col-span-4 space-y-10">
+                    <div className="space-y-6">
+                        <div className="h-1.5 w-16 bg-secondary rounded-full" />
+                        <h2 className="text-4xl md:text-6xl font-black tracking-tighter leading-[0.9] text-foreground">
                             Become an <br /> <span className="text-secondary italic">Owner.</span>
                         </h2>
-                        <p className="text-sm md:text-base text-neutral-400 font-medium leading-relaxed max-w-xs">
-                            List your luxury services or events and tap into an exclusive network of travelers.
+                        <p className="text-sm md:text-base text-muted-foreground font-medium leading-relaxed max-w-sm">
+                            List your luxury services or events and tap into an exclusive network of travelers globally.
                         </p>
                     </div>
 
-                    <div className="space-y-4 pt-4">
-                        <h4 className="text-[10px] font-black uppercase tracking-widest text-primary-light">Partner Benefits</h4>
-                        <ul className="space-y-3">
-                            {['Zero Upfront Fees', 'Instant Payouts', 'Verified Network', 'Admin Support'].map((perk, i) => (
-                                <li key={i} className="flex items-center gap-3 text-xs font-bold text-neutral-300">
-                                    <CheckCircle2 className="w-4 h-4 text-primary" />
+                    <div className="space-y-6 pt-4">
+                        <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">Partner Privileges</h4>
+                        <ul className="grid grid-cols-1 gap-4">
+                            {['Zero Upfront Fees', 'Instant Global Payouts', 'Verified Traveler Network', '24/7 Dedicated Support'].map((perk, i) => (
+                                <li key={i} className="flex items-center gap-4 text-xs font-black uppercase tracking-widest text-foreground">
+                                    <div className="h-6 w-6 rounded-lg bg-primary/10 flex items-center justify-center">
+                                        <CheckCircle2 className="w-4 h-4 text-primary" />
+                                    </div>
                                     {perk}
                                 </li>
                             ))}
                         </ul>
                     </div>
 
-                    <Link href="/contact">
-                        <Button className="bg-secondary hover:bg-secondary-dark mt-6 text-white px-8 h-12 rounded-full font-black text-xs uppercase tracking-widest shadow-lg shadow-secondary/20 transition-all">
-                            Join as Partner
-                        </Button>
-                    </Link>
+                    <div className="pt-6">
+                        <Link href="/contact">
+                            <Button className="bg-secondary hover:bg-secondary/90 text-white px-10 h-14 rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl shadow-secondary/20 transition-all hover:scale-105 active:scale-95">
+                                Join our network
+                            </Button>
+                        </Link>
+                    </div>
                 </div>
 
                 <div className="lg:col-span-8">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-12">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-16">
                         {ownerSteps.map((step, index) => (
                             <div key={step.sub} className="relative group">
-                                <span className="absolute -top-6 left-0 text-5xl font-black text-white/5 group-hover:text-primary/10 transition-colors select-none pointer-events-none">
+                                <span className="absolute -top-10 left-0 text-7xl font-black text-foreground/5 group-hover:text-primary/10 transition-all duration-500 select-none pointer-events-none">
                                     0{index + 1}
                                 </span>
-                                <div className="relative pt-2 space-y-4">
-                                    <div className="flex items-center gap-3">
-                                        <div className="h-10 w-10 flex items-center justify-center rounded-xl bg-white/5 border border-white/10 text-primary shadow-sm transition-all group-hover:border-primary/30 group-hover:shadow-lg group-hover:shadow-primary/10">
+                                <div className="relative pt-4 space-y-5">
+                                    <div className="flex items-center gap-4">
+                                        <div className="h-12 w-12 flex items-center justify-center rounded-[1.25rem] bg-card border border-border text-primary shadow-sm transition-all duration-500 group-hover:border-primary group-hover:shadow-xl group-hover:shadow-primary/20 group-hover:-translate-y-1">
                                             {step.icon}
                                         </div>
-                                        <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-primary">
+                                        <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">
                                             {step.title}
                                         </h4>
                                     </div>
-                                    <div className="space-y-1">
-                                        <h3 className="text-lg md:text-xl font-black text-white tracking-tight">
+                                    <div className="space-y-2">
+                                        <h3 className="text-xl md:text-2xl font-black text-foreground tracking-tight">
                                             {step.sub}
                                         </h3>
-                                        <p className="text-xs md:text-sm text-neutral-400 font-medium leading-relaxed max-w-[240px]">
+                                        <p className="text-xs md:text-sm text-muted-foreground font-medium leading-relaxed max-w-[280px]">
                                             {step.desc}
                                         </p>
                                     </div>

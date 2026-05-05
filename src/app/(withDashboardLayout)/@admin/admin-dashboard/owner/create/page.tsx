@@ -10,7 +10,7 @@ const AdminCreateOwnerPage = () => {
         </p>
       </div>
 
-      <div className="rounded-2xl border bg-white p-5 shadow-sm md:p-6">
+      <div className="rounded-2xl border border-border bg-card p-5 shadow-sm md:p-6">
         <CreateOwnerForm />
       </div>
     </section>

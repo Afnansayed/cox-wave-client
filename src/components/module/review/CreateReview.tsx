@@ -94,20 +94,20 @@ const [isExpanded, setIsExpanded] = useState(false);
     <div className="w-full  mx-auto my-6 px-1">
       {!isExpanded ? (
         /* Trigger Button */
-        <Button
+          <Button
           onClick={() => setIsExpanded(true)}
-          className="group w-full md:w-auto h-10 px-4 rounded-2xl bg-primary text-white hover:bg-primary/90 transition-all flex items-center gap-3 shadow-lg shadow-slate-200"
+          className="group w-full md:w-auto h-10 px-4 rounded-2xl bg-primary text-primary-foreground hover:bg-primary/90 transition-all flex items-center gap-3 shadow-lg"
         >
           <Plus size={18} className="group-hover:rotate-90 transition-transform duration-300" />
           <span className="font-bold tracking-tight">Write a Review</span>
         </Button>
       ) : (
         /* Review Form Card */
-        <div className="bg-white rounded-[2rem] border border-slate-100 p-6 md:p-8 shadow-xl shadow-slate-100 animate-in fade-in zoom-in-95 duration-300">
+        <div className="bg-card rounded-[2rem] border border-border p-6 md:p-8 shadow-xl animate-in fade-in zoom-in-95 duration-300">
           <div className="flex items-center justify-between mb-6">
             <div className="space-y-1">
-              <h3 className="text-lg font-bold text-slate-900">Reviewing Event</h3>
-              <p className="text-xs text-slate-500 font-medium truncate max-w-[200px] md:max-w-md">
+              <h3 className="text-lg font-bold text-foreground">Reviewing Event</h3>
+              <p className="text-xs text-muted-foreground font-medium truncate max-w-[200px] md:max-w-md">
                 {title}
               </p>
             </div>
@@ -115,7 +115,7 @@ const [isExpanded, setIsExpanded] = useState(false);
               variant="ghost"
               size="icon"
               onClick={() => setIsExpanded(false)}
-              className="rounded-full hover:bg-slate-50 text-slate-400"
+              className="rounded-full hover:bg-muted text-muted-foreground"
             >
               <X size={20} />
             </Button>
@@ -136,7 +136,7 @@ const [isExpanded, setIsExpanded] = useState(false);
             >
               {(field) => (
                 <div className="space-y-3 text-center md:text-left">
-                  <Label className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] px-1">
+                  <Label className="text-[10px] font-bold text-muted-foreground uppercase tracking-[0.2em] px-1">
                     Your Rating
                   </Label>
                   <div className="flex items-center justify-center md:justify-start gap-2">
@@ -153,14 +153,14 @@ const [isExpanded, setIsExpanded] = useState(false);
                             "transition-colors duration-200",
                             field.state.value >= star
                               ? "fill-amber-400 text-amber-400"
-                              : "text-slate-200 fill-slate-50"
+                              : "text-muted-foreground/30 fill-muted"
                           )}
                         />
                       </button>
                     ))}
                   </div>
                   {field.state.meta.errors.length > 0 && (
-                    <p className="text-[10px] font-medium text-rose-500 px-1">
+                    <p className="text-[10px] font-medium text-destructive px-1">
                       {getFirstError(field.state.meta.errors[0])}
                     </p>
                   )}
@@ -175,7 +175,7 @@ const [isExpanded, setIsExpanded] = useState(false);
             >
               {(field) => (
                 <div className="space-y-3">
-                  <Label className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] px-1 flex items-center gap-2">
+                  <Label className="text-[10px] font-bold text-muted-foreground uppercase tracking-[0.2em] px-1 flex items-center gap-2">
                     <MessageSquare size={12} /> Your Experience
                   </Label>
                   <Textarea
@@ -184,19 +184,19 @@ const [isExpanded, setIsExpanded] = useState(false);
                     onBlur={field.handleBlur}
                     onChange={(e) => field.handleChange(e.target.value)}
                     className={cn(
-                      "min-h-[120px] bg-slate-50/50 border-slate-200 rounded-2xl resize-none p-4 text-sm focus:ring-primary",
-                      field.state.meta.errors.length > 0 && "border-rose-500"
+                      "min-h-[120px] bg-muted/30 border-border text-foreground rounded-2xl resize-none p-4 text-sm focus:ring-primary",
+                      field.state.meta.errors.length > 0 && "border-destructive"
                     )}
                   />
                   <div className="flex justify-between items-center px-1">
                     {field.state.meta.errors.length > 0 ? (
-                      <p className="text-[10px] font-medium text-rose-500">
+                      <p className="text-[10px] font-medium text-destructive">
                        {getFirstError(field.state.meta.errors[0])}
                       </p>
                     ) : (
                       <div />
                     )}
-                    <span className="text-[10px] text-slate-400 font-medium">
+                    <span className="text-[10px] text-muted-foreground font-medium">
                       {field.state.value.length} characters
                     </span>
                   </div>
@@ -209,7 +209,7 @@ const [isExpanded, setIsExpanded] = useState(false);
               <Button
                 type="submit"
                 disabled={ mutation.isPending || !form.state.canSubmit}
-                className="flex-1 h-12 rounded-2xl bg-primary text-white hover:bg-primary/90 transition-all font-bold gap-2 shadow-lg shadow-slate-100"
+                className="flex-1 h-12 rounded-2xl bg-primary text-primary-foreground hover:bg-primary/90 transition-all font-bold gap-2 shadow-lg"
               >
                 { mutation.isPending ? (
                   <Loader2 className="h-5 w-5 animate-spin" />
@@ -223,7 +223,7 @@ const [isExpanded, setIsExpanded] = useState(false);
                 type="button"
                 variant="outline"
                 onClick={() => setIsExpanded(false)}
-                className="h-12 rounded-2xl px-8 border-slate-200 font-bold text-slate-600"
+                className="h-12 rounded-2xl px-8 border-border font-bold text-muted-foreground hover:bg-muted"
               >
                 Cancel
               </Button>

@@ -66,7 +66,7 @@ export default function ChatBot() {
 
             {/* 2. Chat Interface */}
             {isOpen && (
-                <div className="w-80 md:w-96 bg-white shadow-2xl rounded-2xl flex flex-col border border-gray-200 overflow-hidden animate-in slide-in-from-bottom-5 duration-300">
+                <div className="w-80 md:w-96 bg-card text-foreground shadow-2xl rounded-2xl flex flex-col border border-border overflow-hidden animate-in slide-in-from-bottom-5 duration-300">
                     
                     {/* Header */}
                     <div className="bg-primary text-white p-4 flex items-center justify-between">
@@ -85,12 +85,12 @@ export default function ChatBot() {
                     {/* Message Area */}
                     <div 
                         ref={scrollRef}
-                        className="h-[350px] overflow-y-auto p-4 space-y-4 bg-gray-50"
+                        className="h-[350px] overflow-y-auto p-4 space-y-4 bg-muted"
                     >
                         {messages.length === 0 && (
                             <div className="text-center mt-10">
-                                <p className="text-gray-500 font-medium text-sm">Hello! 👋</p>
-                                <p className="text-gray-400 text-xs">How can I assist you today?</p>
+                                <p className="text-muted-foreground font-medium text-sm">Hello! 👋</p>
+                                <p className="text-muted-foreground/80 text-xs">How can I assist you today?</p>
                             </div>
                         )}
 
@@ -103,7 +103,7 @@ export default function ChatBot() {
                                     className={`max-w-[85%] p-3 rounded-2xl text-sm shadow-sm ${
                                         msg.role === "user"
                                             ? "bg-primary text-white rounded-tr-none"
-                                            : "bg-white text-gray-800 border border-gray-100 rounded-tl-none"
+                                            : "bg-background text-foreground border border-border rounded-tl-none"
                                     }`}
                                 >
                                     {msg.text}
@@ -113,7 +113,7 @@ export default function ChatBot() {
 
                         {loading && (
                             <div className="flex justify-start">
-                                <div className="bg-gray-200 text-gray-500 px-4 py-2 rounded-2xl rounded-tl-none text-xs flex gap-1">
+                                <div className="bg-background text-muted-foreground px-4 py-2 rounded-2xl rounded-tl-none text-xs flex gap-1">
                                     <span className="animate-bounce">.</span>
                                     <span className="animate-bounce [animation-delay:0.2s]">.</span>
                                     <span className="animate-bounce [animation-delay:0.4s]">.</span>
@@ -123,10 +123,10 @@ export default function ChatBot() {
                     </div>
 
                     {/* Input Area */}
-                    <div className="p-3 bg-white border-t flex gap-2">
+                    <div className="p-3 bg-card border-t border-border flex gap-2">
                         <input
                             autoFocus
-                            className="flex-1 p-2 bg-gray-100 rounded-xl outline-none text-sm focus:ring-2 focus:ring-blue-500 transition-all"
+                            className="flex-1 p-2 bg-background text-foreground rounded-xl outline-none text-sm focus:ring-2 focus:ring-primary transition-all"
                             value={input}
                             onChange={(e) => setInput(e.target.value)}
                             placeholder="Write a message..."
@@ -135,7 +135,7 @@ export default function ChatBot() {
                         <button
                             onClick={sendMessage}
                             disabled={loading || !input.trim()}
-                            className="bg-primary hover:bg-primary-dark disabled:bg-gray-300 text-white p-2 rounded-xl transition-all flex items-center justify-center"
+                            className="bg-primary hover:bg-primary-dark disabled:bg-muted disabled:text-muted-foreground text-white p-2 rounded-xl transition-all flex items-center justify-center"
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
                         </button>

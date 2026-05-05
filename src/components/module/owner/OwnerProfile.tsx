@@ -71,8 +71,8 @@ const OwnerProfile = () => {
                         <p className="text-sm text-muted-foreground">{owner.email}</p>
                         <Badge
                             className={owner.isApproved
-                                ? "bg-green-100 text-green-700 hover:bg-green-100"
-                                : "bg-yellow-100 text-yellow-700 hover:bg-yellow-100"}
+                                ? "bg-emerald-500/10 text-emerald-500 hover:bg-emerald-500/20"
+                                : "bg-amber-500/10 text-amber-500 hover:bg-amber-500/20"}
                         >
                             {owner.isApproved ? "Approved" : "Pending Approval"}
                         </Badge>
@@ -84,7 +84,7 @@ const OwnerProfile = () => {
                     <Button
                         onClick={() => setIsEditing(true)}
                         variant="outline"
-                        className="self-start md:self-center flex items-center gap-2"
+                        className="self-start md:self-center flex items-center gap-2 border-border text-foreground hover:bg-muted"
                     >
                         <Pencil className="h-4 w-4" />
                         Edit Profile
@@ -94,8 +94,8 @@ const OwnerProfile = () => {
 
             {/* Edit Form */}
             {isEditing ? (
-                <div className="rounded-2xl border bg-white p-6 shadow-sm">
-                    <h2 className="text-base font-bold mb-5">Update Profile</h2>
+                <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+                    <h2 className="text-base font-bold mb-5 text-foreground">Update Profile</h2>
                     <UpdateOwnerProfileForm
                         owner={owner}
                         onCancel={() => setIsEditing(false)}
@@ -136,7 +136,7 @@ const OwnerProfile = () => {
                             <h2 className="text-sm font-semibold uppercase tracking-widest text-muted-foreground mb-3">
                                 Description
                             </h2>
-                            <div className="rounded-2xl border bg-white p-5 shadow-sm">
+                            <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
                                 <p className="text-sm leading-relaxed text-muted-foreground">{owner.description}</p>
                             </div>
                         </div>
@@ -148,7 +148,7 @@ const OwnerProfile = () => {
                             <h2 className="text-sm font-semibold uppercase tracking-widest text-muted-foreground mb-3">
                                 Documents
                             </h2>
-                            <div className="rounded-2xl border bg-white p-5 shadow-sm flex items-center gap-3">
+                            <div className="rounded-2xl border border-border bg-card p-5 shadow-sm flex items-center gap-3">
                                 <FileText className="h-4 w-4 text-primary flex-shrink-0" />
                                 <a
                                     href={owner.trade_license}
@@ -193,11 +193,11 @@ type InfoCardProps = {
 };
 
 const InfoCard = ({ icon, label, value }: InfoCardProps) => (
-    <div className="rounded-2xl border bg-white p-5 shadow-sm flex items-start gap-3">
+    <div className="rounded-2xl border border-border bg-card p-5 shadow-sm flex items-start gap-3">
         <div className="mt-0.5 flex-shrink-0">{icon}</div>
         <div>
             <p className="text-xs text-muted-foreground">{label}</p>
-            <p className="font-semibold text-sm mt-0.5">{value}</p>
+            <p className="font-semibold text-sm mt-0.5 text-foreground">{value}</p>
         </div>
     </div>
 );

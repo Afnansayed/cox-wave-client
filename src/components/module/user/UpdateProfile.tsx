@@ -113,14 +113,14 @@ const UpdateCommonProfile = ({ user, role }: { user: IAdmin; role: string }) => 
   return (
     <div className="w-full max-w-2xl mx-auto py-6 px-4">
       <div className="mb-8 space-y-1">
-        <h2 className="text-2xl font-bold text-slate-900">Edit Profile</h2>
-        <p className="text-sm text-slate-500">Update your personal information and profile picture.</p>
+        <h2 className="text-2xl font-bold text-foreground">Edit Profile</h2>
+        <p className="text-sm text-muted-foreground">Update your personal information and profile picture.</p>
       </div>
 
       {/* Profile Picture Section (Outside Form but handled in onSubmit) */}
       <div className="flex flex-col items-center mb-8 sm:flex-row sm:gap-6">
         <div className="relative group">
-          <div className="h-32 w-32 rounded-[2.5rem] border-4 border-white bg-slate-100 overflow-hidden shadow-lg transition-transform group-hover:scale-[1.02]">
+          <div className="h-32 w-32 rounded-[2.5rem] border-4 border-background bg-muted overflow-hidden shadow-lg transition-transform group-hover:scale-[1.02]">
             {previewUrl ? (
               <img src={previewUrl} alt="Preview" className="h-full w-full object-cover" />
             ) : (
@@ -133,7 +133,7 @@ const UpdateCommonProfile = ({ user, role }: { user: IAdmin; role: string }) => 
           <button 
             type="button"
             onClick={() => fileInputRef.current?.click()}
-            className="absolute bottom-1 right-1 p-2.5 bg-primary text-white rounded-2xl border-4 border-white shadow-lg hover:bg-primary/90 transition-all"
+            className="absolute bottom-1 right-1 p-2.5 bg-primary text-white rounded-2xl border-4 border-background shadow-lg hover:bg-primary/90 transition-all"
           >
             <Camera size={18} />
           </button>
@@ -149,8 +149,8 @@ const UpdateCommonProfile = ({ user, role }: { user: IAdmin; role: string }) => 
         </div>
 
         <div className="mt-4 text-center sm:mt-0 sm:text-left">
-          <p className="text-sm font-semibold text-slate-700">Profile Photo</p>
-          <p className="text-xs text-slate-500 mt-1">JPG, GIF or PNG. Max size of 2MB.</p>
+          <p className="text-sm font-semibold text-foreground">Profile Photo</p>
+          <p className="text-xs text-muted-foreground mt-1">JPG, GIF or PNG. Max size of 2MB.</p>
           <input 
             type="file" 
             ref={fileInputRef} 
@@ -182,7 +182,7 @@ const UpdateCommonProfile = ({ user, role }: { user: IAdmin; role: string }) => 
         >
           {(field) => (
             <div className="space-y-2">
-              <Label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2 px-1">
+              <Label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest flex items-center gap-2 px-1">
                 <User size={12} /> Full Name
               </Label>
               <Input
@@ -191,12 +191,12 @@ const UpdateCommonProfile = ({ user, role }: { user: IAdmin; role: string }) => 
                 onChange={(e) => field.handleChange(e.target.value)}
                 placeholder="Afnan Sayed Fahim"
                 className={cn(
-                  "h-12 bg-slate-50/50 border-slate-200 rounded-xl px-4 focus:ring-primary",
-                  field.state.meta.errors.length > 0 && "border-rose-500"
+                  "h-12 bg-muted/30 border-border text-foreground rounded-xl px-4 focus:ring-primary",
+                  field.state.meta.errors.length > 0 && "border-destructive"
                 )}
               />
               {field.state.meta.errors.length > 0 && (
-                <p className="text-[10px] font-medium text-rose-500 px-1">
+                <p className="text-[10px] font-medium text-destructive px-1">
                   {getFieldError(field.state.meta.errors[0])}
                 </p>
               )}
@@ -216,7 +216,7 @@ const UpdateCommonProfile = ({ user, role }: { user: IAdmin; role: string }) => 
         >
           {(field) => (
             <div className="space-y-2">
-              <Label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2 px-1">
+              <Label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest flex items-center gap-2 px-1">
                 <Phone size={12} /> Phone Number
               </Label>
               <Input
@@ -225,12 +225,12 @@ const UpdateCommonProfile = ({ user, role }: { user: IAdmin; role: string }) => 
                 onChange={(e) => field.handleChange(e.target.value)}
                 placeholder="01864079790"
                 className={cn(
-                  "h-12 bg-slate-50/50 border-slate-200 rounded-xl px-4",
-                  field.state.meta.errors.length > 0 && "border-rose-500"
+                  "h-12 bg-muted/30 border-border text-foreground rounded-xl px-4",
+                  field.state.meta.errors.length > 0 && "border-destructive"
                 )}
               />
               {field.state.meta.errors.length > 0 && (
-                <p className="text-[10px] font-medium text-rose-500 px-1">
+                <p className="text-[10px] font-medium text-destructive px-1">
                   {getFieldError(field.state.meta.errors[0])}
                 </p>
               )}
@@ -250,7 +250,7 @@ const UpdateCommonProfile = ({ user, role }: { user: IAdmin; role: string }) => 
         >
           {(field) => (
             <div className="space-y-2">
-              <Label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2 px-1">
+              <Label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest flex items-center gap-2 px-1">
                 <MapPin size={12} /> Address
               </Label>
               <Input
@@ -259,12 +259,12 @@ const UpdateCommonProfile = ({ user, role }: { user: IAdmin; role: string }) => 
                 onChange={(e) => field.handleChange(e.target.value)}
                 placeholder="Cox's Bazar, Bangladesh"
                 className={cn(
-                  "h-12 bg-slate-50/50 border-slate-200 rounded-xl px-4",
-                  field.state.meta.errors.length > 0 && "border-rose-500"
+                  "h-12 bg-muted/30 border-border text-foreground rounded-xl px-4",
+                  field.state.meta.errors.length > 0 && "border-destructive"
                 )}
               />
               {field.state.meta.errors.length > 0 && (
-                <p className="text-[10px] font-medium text-rose-500 px-1">
+                <p className="text-[10px] font-medium text-destructive px-1">
                   {getFieldError(field.state.meta.errors[0])}
                 </p>
               )}
@@ -290,7 +290,7 @@ const UpdateCommonProfile = ({ user, role }: { user: IAdmin; role: string }) => 
           <Button 
             type="button" 
             variant="outline" 
-            className="rounded-2xl h-12 px-6 border-slate-200"
+            className="rounded-2xl h-12 px-6 border-border bg-card hover:bg-muted"
             onClick={() => form.reset()}
           >
             Reset

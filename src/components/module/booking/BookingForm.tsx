@@ -76,12 +76,12 @@ const BookingForm = ({ defaultEventId, defaultGuestCount }: { defaultEventId: st
   if (isLoading) return <BookingSkeleton />;
 
   return (
-    <div className=" bg-neutral-50/50  md:px-4">
+    <div className=" bg-background  md:px-4">
       <div className="max-w-5xl mx-auto space-y-6">
         {/* Back Button */}
         <Link
           href={`/event/${defaultEventId}`}
-          className="inline-flex items-center text-sm font-bold text-neutral-500 hover:text-primary transition-colors"
+          className="inline-flex items-center text-sm font-bold text-muted-foreground hover:text-primary transition-colors"
         >
           <ArrowLeft size={16} className="mr-2" />
           Back to Event Details
@@ -90,7 +90,7 @@ const BookingForm = ({ defaultEventId, defaultGuestCount }: { defaultEventId: st
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
           {/* LEFT: EVENT SUMMARY (2 Cols) */}
           <div className="lg:col-span-2 space-y-6">
-            <div className="bg-white rounded-3xl border border-neutral-100 overflow-hidden shadow-sm">
+            <div className="bg-card rounded-3xl border border-border overflow-hidden shadow-sm">
               <div className="relative aspect-video">
                 <Image
                   src={event?.images?.[0] || "/placeholder.jpg"}
@@ -101,24 +101,24 @@ const BookingForm = ({ defaultEventId, defaultGuestCount }: { defaultEventId: st
               </div>
               <div className="p-6 space-y-4">
                 <div>
-                  <h1 className="text-xl font-black text-neutral-900 leading-tight">
+                  <h1 className="text-xl font-black text-foreground leading-tight">
                     {event?.title}
                   </h1>
-                  <p className="text-sm text-neutral-500 flex items-center mt-1">
+                  <p className="text-sm text-muted-foreground flex items-center mt-1">
                     <MapPin size={14} className="mr-1 text-primary" />{" "}
                     {event?.location}
                   </p>
                 </div>
 
-                <div className="pt-4 border-t border-neutral-50 space-y-3">
+                <div className="pt-4 border-t border-border space-y-3">
                   <div className="flex justify-between text-sm font-medium">
-                    <span className="text-neutral-500">Price per seat</span>
-                    <span className="text-neutral-900 font-bold">
+                    <span className="text-muted-foreground">Price per seat</span>
+                    <span className="text-foreground font-bold">
                       ৳{event?.per_person_price}
                     </span>
                   </div>
                   <div className="flex justify-between text-sm font-medium">
-                    <span className="text-neutral-500">Available Seats</span>
+                    <span className="text-muted-foreground">Available Seats</span>
                     <span className="text-secondary font-bold">
                       {event?.remaining_seats}
                     </span>
@@ -135,7 +135,7 @@ const BookingForm = ({ defaultEventId, defaultGuestCount }: { defaultEventId: st
                   <p className="text-xs font-black uppercase tracking-wider text-primary">
                     Secure Transaction
                   </p>
-                  <p className="text-[11px] text-neutral-600 leading-relaxed">
+                  <p className="text-[11px] text-muted-foreground leading-relaxed">
                     Your data is encrypted using SSL technology.
                   </p>
                 </div>
@@ -145,12 +145,12 @@ const BookingForm = ({ defaultEventId, defaultGuestCount }: { defaultEventId: st
 
           {/* RIGHT: BOOKING FORM (3 Cols) */}
           <div className="lg:col-span-3">
-            <div className="bg-white rounded-[2rem] border border-neutral-100 p-8 md:p-10 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.03)]">
+            <div className="bg-card rounded-[2rem] border border-border p-8 md:p-10 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.03)]">
               <div className="mb-8">
-                <h2 className="text-2xl font-black text-neutral-900 tracking-tight">
+                <h2 className="text-2xl font-black text-foreground tracking-tight">
                   Complete Your Booking
                 </h2>
-                <p className="text-sm text-neutral-500 font-medium">
+                <p className="text-sm text-muted-foreground font-medium">
                   Enter your details to finalize the reservation.
                 </p>
               </div>
@@ -167,11 +167,11 @@ const BookingForm = ({ defaultEventId, defaultGuestCount }: { defaultEventId: st
                 <form.Field name="event_id">
                   {(field) => (
                     <div className="space-y-2 opacity-60">
-                      <label className="text-[10px] font-black uppercase tracking-[0.1em] text-neutral-400">
+                      <label className="text-[10px] font-black uppercase tracking-[0.1em] text-muted-foreground">
                         Reference Event ID
                       </label>
                       <Input
-                        className="bg-neutral-50 border-neutral-100 h-12 rounded-xl font-mono text-xs"
+                        className="bg-muted border-border h-12 rounded-xl font-mono text-xs text-foreground"
                         value={field.state.value}
                         readOnly
                       />
@@ -195,7 +195,7 @@ const BookingForm = ({ defaultEventId, defaultGuestCount }: { defaultEventId: st
                   {(field) => (
                     <div className="space-y-3">
                       <div className="flex justify-between items-end">
-                        <label className="text-sm font-bold text-neutral-800">
+                        <label className="text-sm font-bold text-foreground">
                           Number of Seats
                         </label>
                         {field.state.meta.errors.length > 0 && (
@@ -206,7 +206,7 @@ const BookingForm = ({ defaultEventId, defaultGuestCount }: { defaultEventId: st
                       </div>
                       <div className="relative group">
                         <Ticket
-                          className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400 group-focus-within:text-primary transition-colors"
+                          className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-primary transition-colors"
                           size={18}
                         />
                         <Input
@@ -214,7 +214,7 @@ const BookingForm = ({ defaultEventId, defaultGuestCount }: { defaultEventId: st
                           type="number"
                           min={1}
                           max={event?.remaining_seats}
-                          className="pl-12 h-14 rounded-2xl border-neutral-100 focus:ring-primary focus:border-primary text-lg font-black"
+                          className="pl-12 h-14 rounded-2xl border-border focus:ring-primary focus:border-primary text-lg font-black bg-muted text-foreground"
                           value={String(field.state.value)}
                           onChange={(e) =>
                             field.handleChange(Number(e.target.value))
@@ -237,7 +237,7 @@ const BookingForm = ({ defaultEventId, defaultGuestCount }: { defaultEventId: st
                     return (
                       <div className="space-y-6">
                         {/* The Live Price Card */}
-                        <div className="p-6 rounded-2xl bg-neutral-950 text-white relative overflow-hidden group">
+                        <div className="p-6 rounded-2xl bg-neutral-900 text-white relative overflow-hidden group">
                           {/* Subtle decorative glow */}
                           <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 blur-[50px] rounded-full -mr-16 -mt-16 group-hover:bg-primary/20 transition-colors" />
 
@@ -263,7 +263,7 @@ const BookingForm = ({ defaultEventId, defaultGuestCount }: { defaultEventId: st
                                 <p className="text-4xl font-black tracking-tighter italic text-white">
                                   ৳{calculatedTotal.toLocaleString()}
                                 </p>
-                                <p className="text-[9px] font-bold text-success uppercase tracking-widest mt-1">
+                                <p className="text-[9px] font-bold text-green-400 uppercase tracking-widest mt-1">
                                   • Instant Confirmation Included
                                 </p>
                               </div>
@@ -287,8 +287,8 @@ const BookingForm = ({ defaultEventId, defaultGuestCount }: { defaultEventId: st
                           className={cn(
                             "w-full h-16 rounded-2xl font-black text-sm uppercase tracking-[0.2em] shadow-xl transition-all duration-500 group",
                             currentSeats < 1
-                              ? "bg-neutral-100 text-neutral-400 cursor-not-allowed shadow-none"
-                              : "bg-primary hover:bg-primary-dark text-white shadow-primary/20",
+                              ? "bg-muted text-muted-foreground cursor-not-allowed shadow-none"
+                              : "bg-primary hover:bg-primary/90 text-white shadow-primary/20",
                           )}
                         >
                           {isPending || isRedirecting ? (
@@ -310,7 +310,7 @@ const BookingForm = ({ defaultEventId, defaultGuestCount }: { defaultEventId: st
                   }}
                 </form.Subscribe>
 
-                <p className="text-[10px] text-center text-neutral-400 font-bold uppercase tracking-tighter">
+                <p className="text-[10px] text-center text-muted-foreground font-bold uppercase tracking-tighter">
                   By clicking, you agree to the Event Terms & Conditions
                 </p>
               </form>

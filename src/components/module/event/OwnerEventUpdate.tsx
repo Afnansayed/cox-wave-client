@@ -142,13 +142,13 @@ export function OwnerEventUpdate({ event }: OwnerEventUpdateProps) {
             <RefreshCcw size={14} />
             Edit Listing
           </div>
-          <h1 className="text-3xl font-semibold tracking-tight text-slate-900">Update Event</h1>
-          <p className="text-slate-500 text-sm">Managing: <span className="font-medium text-slate-700">{event.title}</span></p>
+          <h1 className="text-3xl font-semibold tracking-tight text-foreground">Update Event</h1>
+          <p className="text-muted-foreground text-sm">Managing: <span className="font-medium text-foreground">{event.title}</span></p>
         </div>
         <Button 
           variant="outline" 
           onClick={() => router.back()} 
-          className="rounded-xl h-10 border-slate-200 text-slate-600 hover:bg-slate-50 shadow-sm"
+          className="rounded-xl h-10 border-border text-foreground hover:bg-muted shadow-sm"
         >
           <ArrowLeft className="mr-2 h-4 w-4" /> Back
         </Button>
@@ -168,8 +168,8 @@ export function OwnerEventUpdate({ event }: OwnerEventUpdateProps) {
           <div className="lg:col-span-8 space-y-6">
             
             {/* General Info Card */}
-            <div className="bg-white rounded-[2rem] border border-slate-100 p-6 md:p-8 shadow-sm space-y-6">
-              <h3 className="text-sm font-semibold text-slate-900 uppercase tracking-wider mb-2">Content Details</h3>
+            <div className="bg-card rounded-[2rem] border border-border p-6 md:p-8 shadow-sm space-y-6">
+              <h3 className="text-sm font-semibold text-foreground uppercase tracking-wider mb-2">Content Details</h3>
               
               <form.Field
                 name="title"
@@ -182,12 +182,12 @@ export function OwnerEventUpdate({ event }: OwnerEventUpdateProps) {
               >
                 {(field) => (
                   <div className="space-y-2">
-                    <Label htmlFor="title" className="text-xs font-bold text-slate-500 uppercase flex items-center gap-2">
-                      <Type size={14} className="text-slate-400" /> Title
+                    <Label htmlFor="title" className="text-xs font-bold text-muted-foreground uppercase flex items-center gap-2">
+                      <Type size={14} className="text-muted-foreground" /> Title
                     </Label>
                     <Input
                       id="title"
-                      className={cn("h-12 bg-slate-50/50 border-slate-200 rounded-xl", field.state.meta.errors.length > 0 && "border-rose-500")}
+                      className={cn("h-12 bg-muted border-border rounded-xl text-foreground", field.state.meta.errors.length > 0 && "border-rose-500")}
                       value={field.state.value}
                       onBlur={field.handleBlur}
                       onChange={(e) => field.handleChange(e.target.value)}
@@ -211,12 +211,12 @@ export function OwnerEventUpdate({ event }: OwnerEventUpdateProps) {
               >
                 {(field) => (
                   <div className="space-y-2">
-                    <Label htmlFor="description" className="text-xs font-bold text-slate-500 uppercase flex items-center gap-2">
-                      <AlignLeft size={14} className="text-slate-400" /> Description
+                    <Label htmlFor="description" className="text-xs font-bold text-muted-foreground uppercase flex items-center gap-2">
+                      <AlignLeft size={14} className="text-muted-foreground" /> Description
                     </Label>
                     <Textarea
                       id="description"
-                      className={cn("min-h-[160px] bg-slate-50/50 border-slate-200 rounded-2xl resize-none p-4", field.state.meta.errors.length > 0 && "border-rose-500")}
+                      className={cn("min-h-[160px] bg-muted border-border rounded-2xl resize-none p-4 text-foreground", field.state.meta.errors.length > 0 && "border-rose-500")}
                       value={field.state.value}
                       onBlur={field.handleBlur}
                       onChange={(e) => field.handleChange(e.target.value)}
@@ -231,13 +231,13 @@ export function OwnerEventUpdate({ event }: OwnerEventUpdateProps) {
             </div>
 
             {/* Media Management Card */}
-            <div className="bg-white rounded-[2rem] border border-slate-100 p-6 md:p-8 shadow-sm space-y-6">
-              <h3 className="text-sm font-semibold text-slate-900 uppercase tracking-wider">Image Gallery</h3>
+            <div className="bg-card rounded-[2rem] border border-border p-6 md:p-8 shadow-sm space-y-6">
+              <h3 className="text-sm font-semibold text-foreground uppercase tracking-wider">Image Gallery</h3>
               
               {/* Existing Images */}
               {event.images && event.images.length > 0 && (
                 <div className="space-y-4">
-                  <Label className="text-[10px] font-bold text-slate-400 uppercase tracking-tight">Current Photos (Tap to remove)</Label>
+                  <Label className="text-[10px] font-bold text-muted-foreground uppercase tracking-tight">Current Photos (Tap to remove)</Label>
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                     {event.images.map((image, index) => {
                       const isMarked = imagesToDelete.includes(image);
@@ -247,18 +247,18 @@ export function OwnerEventUpdate({ event }: OwnerEventUpdateProps) {
                           onClick={() => toggleImageDelete(image)}
                           className={cn(
                             "group relative aspect-square rounded-2xl cursor-pointer overflow-hidden border-2 transition-all",
-                            isMarked ? "border-rose-500 opacity-70" : "border-slate-100 hover:border-primary/50"
+                            isMarked ? "border-rose-500 opacity-70" : "border-border hover:border-primary/50"
                           )}
                         >
                           <img src={image} alt="Event" className="w-full h-full object-cover" />
                           <div className={cn(
-                            "absolute inset-0 flex flex-col items-center justify-center transition-all bg-white/40 backdrop-blur-[2px]",
+                            "absolute inset-0 flex flex-col items-center justify-center transition-all bg-background/40 backdrop-blur-[2px]",
                             isMarked ? "opacity-100" : "opacity-0 group-hover:opacity-100"
                           )}>
                             {isMarked ? (
                               <Trash2 className="text-rose-600 animate-bounce" size={24} />
                             ) : (
-                              <X className="text-slate-900" size={20} />
+                              <X className="text-foreground" size={20} />
                             )}
                           </div>
                         </div>
@@ -270,20 +270,20 @@ export function OwnerEventUpdate({ event }: OwnerEventUpdateProps) {
 
               {/* Upload New */}
               <div className="space-y-4">
-                <Label className="text-[10px] font-bold text-slate-400 uppercase tracking-tight">Add New Media</Label>
+                <Label className="text-[10px] font-bold text-muted-foreground uppercase tracking-tight">Add New Media</Label>
                 <div 
                   onClick={() => fileInputRef.current?.click()}
-                  className="group cursor-pointer flex flex-col items-center justify-center p-8 border-2 border-dashed border-slate-200 rounded-3xl bg-slate-50/50 hover:bg-slate-50 transition-all"
+                  className="group cursor-pointer flex flex-col items-center justify-center p-8 border-2 border-dashed border-border rounded-3xl bg-muted hover:bg-muted/80 transition-all"
                 >
-                  <UploadCloud size={24} className="text-slate-400 group-hover:text-primary mb-2" />
-                  <p className="text-sm font-semibold text-slate-700">Drop more files here</p>
+                  <UploadCloud size={24} className="text-muted-foreground group-hover:text-primary mb-2" />
+                  <p className="text-sm font-semibold text-foreground">Drop more files here</p>
                   <input type="file" ref={fileInputRef} onChange={handleFileChange} multiple accept="image/*" className="hidden" />
                 </div>
 
                 {selectedFiles.length > 0 && (
                   <div className="flex flex-wrap gap-2">
                     {selectedFiles.map((file, index) => (
-                      <div key={index} className="flex items-center gap-2 bg-primary/5 text-primary text-[10px] font-bold px-3 py-1.5 rounded-full border border-primary/10">
+                      <div key={index} className="flex items-center gap-2 bg-primary/10 text-primary text-[10px] font-bold px-3 py-1.5 rounded-full border border-primary/20">
                         {file.name}
                         <X size={12} className="cursor-pointer" onClick={() => setSelectedFiles(prev => prev.filter((_, i) => i !== index))} />
                       </div>
@@ -296,15 +296,15 @@ export function OwnerEventUpdate({ event }: OwnerEventUpdateProps) {
 
           {/* Logistics Sidebar */}
           <div className="lg:col-span-4 space-y-6">
-            <div className="bg-slate-900 rounded-[2rem] p-6 md:p-8 text-white space-y-6 shadow-xl shadow-slate-200">
-              <h3 className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">Listing Settings</h3>
+            <div className="bg-neutral-900 rounded-[2rem] p-6 md:p-8 text-white space-y-6 shadow-xl shadow-black/20">
+              <h3 className="text-[10px] font-bold text-neutral-400 uppercase tracking-[0.2em]">Listing Settings</h3>
 
               <form.Field name="isActive">
                 {(field) => (
                   <div className="flex items-center justify-between p-4 bg-white/5 rounded-2xl border border-white/5">
                     <div className="space-y-0.5">
                       <Label className="text-xs font-bold text-white">Active Status</Label>
-                      <p className="text-[10px] text-slate-400 uppercase">Visible to public</p>
+                      <p className="text-[10px] text-neutral-400 uppercase">Visible to public</p>
                     </div>
                     <Switch
                       checked={field.state.value}
@@ -326,7 +326,7 @@ export function OwnerEventUpdate({ event }: OwnerEventUpdateProps) {
               >
                 {(field) => (
                   <div className="space-y-2">
-                    <Label className="text-[10px] font-bold text-slate-400 uppercase flex items-center gap-2">
+                    <Label className="text-[10px] font-bold text-neutral-400 uppercase flex items-center gap-2">
                       <MapPin size={12} /> Location
                     </Label>
                     <Input
@@ -353,7 +353,7 @@ export function OwnerEventUpdate({ event }: OwnerEventUpdateProps) {
                 >
                   {(field) => (
                     <div className="space-y-2">
-                      <Label className="text-[10px] font-bold text-slate-400 uppercase flex items-center gap-2">
+                      <Label className="text-[10px] font-bold text-neutral-400 uppercase flex items-center gap-2">
                         <Users size={12} /> Capacity
                       </Label>
                       <Input
@@ -380,11 +380,11 @@ export function OwnerEventUpdate({ event }: OwnerEventUpdateProps) {
                 >
                   {(field) => (
                     <div className="space-y-2">
-                      <Label className="text-[10px] font-bold text-slate-400 uppercase flex items-center gap-2">
+                      <Label className="text-[10px] font-bold text-neutral-400 uppercase flex items-center gap-2">
                         <Wallet size={12} /> Price / Person
                       </Label>
                       <div className="relative">
-                        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-white/40 text-sm">$</span>
+                        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-white/40 text-sm">৳</span>
                         <Input
                           type="number"
                           step="0.01"
@@ -405,7 +405,7 @@ export function OwnerEventUpdate({ event }: OwnerEventUpdateProps) {
                 <Button
                   type="submit"
                   disabled={isLoading || !form.state.canSubmit}
-                  className="w-full h-12 rounded-2xl bg-white text-slate-900 font-bold hover:bg-slate-100 transition-all shadow-lg"
+                  className="w-full h-12 rounded-2xl bg-white text-neutral-900 font-bold hover:bg-neutral-100 transition-all shadow-lg"
                 >
                   {isLoading ? (
                     <Loader2 className="h-4 w-4 animate-spin" />
@@ -419,7 +419,7 @@ export function OwnerEventUpdate({ event }: OwnerEventUpdateProps) {
             {/* Status Indicator */}
             <div className={cn(
               "rounded-2xl p-4 flex items-start gap-3 border",
-              event.isActive ? "bg-emerald-50 border-emerald-100" : "bg-amber-50 border-amber-100"
+              event.isActive ? "bg-emerald-500/10 border-emerald-500/20" : "bg-amber-500/10 border-amber-500/20"
             )}>
               {event.isActive ? (
                 <CheckCircle2 size={18} className="text-emerald-600 mt-0.5" />
@@ -427,10 +427,10 @@ export function OwnerEventUpdate({ event }: OwnerEventUpdateProps) {
                 <AlertCircle size={18} className="text-amber-600 mt-0.5" />
               )}
               <div className="space-y-1">
-                <p className={cn("text-xs font-bold uppercase", event.isActive ? "text-emerald-700" : "text-amber-700")}>
+                <p className={cn("text-xs font-bold uppercase", event.isActive ? "text-emerald-600" : "text-amber-600")}>
                   {event.isActive ? "Live Listing" : "Paused Listing"}
                 </p>
-                <p className="text-[10px] leading-relaxed text-slate-600">
+                <p className="text-[10px] leading-relaxed text-muted-foreground">
                   {event.isActive 
                     ? "Customers can see and book this event immediately." 
                     : "This event is currently hidden from the public marketplace."}

@@ -117,41 +117,44 @@ const UpdateOwnerProfileForm = ({ owner, onCancel }: UpdateOwnerProfileFormProps
         </h2>
         <div className="grid gap-4 md:grid-cols-2">
           <div className="space-y-1.5">
-            <label className="text-sm font-semibold">Full Name</label>
+            <label className="text-sm font-semibold text-foreground">Full Name</label>
             <Input
               value={formValues.name ?? ""}
               onChange={(e) => onChange("name", e.target.value)}
               placeholder="Your full name"
               disabled={isPending}
+              className="bg-background text-foreground border-border"
             />
             {getFieldError("name") && (
-              <p className="text-xs text-red-500">{getFieldError("name")}</p>
+              <p className="text-xs text-destructive font-medium">{getFieldError("name")}</p>
             )}
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-sm font-semibold">Phone Number</label>
+            <label className="text-sm font-semibold text-foreground">Phone Number</label>
             <Input
               value={formValues.phone_number ?? ""}
               onChange={(e) => onChange("phone_number", e.target.value)}
               placeholder="01XXXXXXXXX"
               disabled={isPending}
+              className="bg-background text-foreground border-border"
             />
             {getFieldError("phone_number") && (
-              <p className="text-xs text-red-500">{getFieldError("phone_number")}</p>
+              <p className="text-xs text-destructive font-medium">{getFieldError("phone_number")}</p>
             )}
           </div>
 
           <div className="space-y-1.5 md:col-span-2">
-            <label className="text-sm font-semibold">Personal Address</label>
+            <label className="text-sm font-semibold text-foreground">Personal Address</label>
             <Input
               value={formValues.address ?? ""}
               onChange={(e) => onChange("address", e.target.value)}
               placeholder="Your home / personal address"
               disabled={isPending}
+              className="bg-background text-foreground border-border"
             />
             {getFieldError("address") && (
-              <p className="text-xs text-red-500">{getFieldError("address")}</p>
+              <p className="text-xs text-destructive font-medium">{getFieldError("address")}</p>
             )}
           </div>
         </div>
@@ -164,46 +167,49 @@ const UpdateOwnerProfileForm = ({ owner, onCancel }: UpdateOwnerProfileFormProps
         </h2>
         <div className="grid gap-4 md:grid-cols-2">
           <div className="space-y-1.5">
-            <label className="text-sm font-semibold">Business Name</label>
+            <label className="text-sm font-semibold text-foreground">Business Name</label>
             <Input
               value={formValues.business_name ?? ""}
               onChange={(e) => onChange("business_name", e.target.value)}
               placeholder="Your business name"
               disabled={isPending}
+              className="bg-background text-foreground border-border"
             />
             {getFieldError("business_name") && (
-              <p className="text-xs text-red-500">{getFieldError("business_name")}</p>
+              <p className="text-xs text-destructive font-medium">{getFieldError("business_name")}</p>
             )}
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-sm font-semibold">Bank Account Number</label>
+            <label className="text-sm font-semibold text-foreground">Bank Account Number</label>
             <Input
               value={formValues.bank_account ?? ""}
               onChange={(e) => onChange("bank_account", e.target.value)}
               placeholder="Numbers only"
               disabled={isPending}
+              className="bg-background text-foreground border-border"
             />
             {getFieldError("bank_account") && (
-              <p className="text-xs text-red-500">{getFieldError("bank_account")}</p>
+              <p className="text-xs text-destructive font-medium">{getFieldError("bank_account")}</p>
             )}
           </div>
 
           <div className="space-y-1.5 md:col-span-2">
-            <label className="text-sm font-semibold">Business Address</label>
+            <label className="text-sm font-semibold text-foreground">Business Address</label>
             <Input
               value={formValues.business_address ?? ""}
               onChange={(e) => onChange("business_address", e.target.value)}
               placeholder="Full business location"
               disabled={isPending}
+              className="bg-background text-foreground border-border"
             />
             {getFieldError("business_address") && (
-              <p className="text-xs text-red-500">{getFieldError("business_address")}</p>
+              <p className="text-xs text-destructive font-medium">{getFieldError("business_address")}</p>
             )}
           </div>
 
           <div className="space-y-1.5 md:col-span-2">
-            <label className="text-sm font-semibold">
+            <label className="text-sm font-semibold text-foreground">
               Description{" "}
               <span className="text-xs font-normal text-muted-foreground">(max 500 chars)</span>
             </label>
@@ -213,10 +219,10 @@ const UpdateOwnerProfileForm = ({ owner, onCancel }: UpdateOwnerProfileFormProps
               placeholder="Brief description of your business"
               rows={4}
               disabled={isPending}
-              className="w-full min-h-24 rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm outline-none focus-visible:ring-1 focus-visible:ring-ring resize-none disabled:opacity-50"
+              className="w-full min-h-24 rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm outline-none focus-visible:ring-1 focus-visible:ring-ring resize-none disabled:opacity-50 text-foreground placeholder:text-muted-foreground"
             />
             {getFieldError("description") && (
-              <p className="text-xs text-red-500">{getFieldError("description")}</p>
+              <p className="text-xs text-destructive font-medium">{getFieldError("description")}</p>
             )}
           </div>
         </div>
@@ -229,7 +235,7 @@ const UpdateOwnerProfileForm = ({ owner, onCancel }: UpdateOwnerProfileFormProps
         </h2>
         <div className="grid gap-4 md:grid-cols-2">
           <div className="space-y-1.5">
-            <label className="text-sm font-semibold">
+            <label className="text-sm font-semibold text-foreground">
               Profile Picture{" "}
               <span className="text-xs font-normal text-muted-foreground">(image file)</span>
             </label>
@@ -238,11 +244,12 @@ const UpdateOwnerProfileForm = ({ owner, onCancel }: UpdateOwnerProfileFormProps
               accept="image/*"
               onChange={(e) => setProfilePictureFile(e.target.files?.[0] || null)}
               disabled={isPending}
+              className="bg-background text-foreground border-border file:bg-primary file:text-primary-foreground file:border-none file:rounded-md file:px-3 file:py-1 file:mr-4 file:hover:bg-primary/90"
             />
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-sm font-semibold">
+            <label className="text-sm font-semibold text-foreground">
               Trade License{" "}
               <span className="text-xs font-normal text-muted-foreground">(image or PDF)</span>
             </label>
@@ -251,6 +258,7 @@ const UpdateOwnerProfileForm = ({ owner, onCancel }: UpdateOwnerProfileFormProps
               accept="image/*,.pdf"
               onChange={(e) => setTradeLicenseFile(e.target.files?.[0] || null)}
               disabled={isPending}
+              className="bg-background text-foreground border-border file:bg-primary file:text-primary-foreground file:border-none file:rounded-md file:px-3 file:py-1 file:mr-4 file:hover:bg-primary/90"
             />
           </div>
         </div>
@@ -258,10 +266,10 @@ const UpdateOwnerProfileForm = ({ owner, onCancel }: UpdateOwnerProfileFormProps
 
       {/* Actions */}
       <div className="flex items-center gap-3 pt-2">
-        <Button type="submit" disabled={isPending}>
+        <Button type="submit" disabled={isPending} className="font-bold">
           {isPending ? "Saving..." : "Save Changes"}
         </Button>
-        <Button type="button" variant="outline" disabled={isPending} onClick={onCancel}>
+        <Button type="button" variant="outline" disabled={isPending} onClick={onCancel} className="font-bold border-border text-foreground hover:bg-muted">
           Cancel
         </Button>
       </div>

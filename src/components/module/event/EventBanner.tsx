@@ -114,17 +114,17 @@ export default function EventBanner() {
     {/* Background Glow Effect */}
     <div className="absolute -inset-1 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-[2rem] blur-xl opacity-50 group-hover:opacity-100 transition duration-1000" />
 
-    <div className="relative bg-white border border-neutral-100 rounded-md md:rounded-full shadow-[0_20px_50px_-12px_rgba(0,0,0,0.08)] p-2 flex flex-col md:flex-row items-center gap-2">
+    <div className="relative bg-card border border-border rounded-md md:rounded-full shadow-[0_20px_50px_-12px_rgba(0,0,0,0.08)] p-2 flex flex-col md:flex-row items-center gap-2">
       
       {/* 1. SEARCH INPUT SECTION + COMPACT FIND BUTTON */}
-      <div className="flex items-center gap-2 px-2 flex-1 w-full bg-neutral-50/50 rounded-full border border-neutral-100/50 ml-1">
+      <div className="flex items-center gap-2 px-2 flex-1 w-full bg-muted/50 rounded-full border border-border/50 ml-1">
         
         <input
           value={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleSearch()}
           placeholder="Search events..."
-          className="bg-transparent border-none outline-none text-sm font-bold text-neutral-800 w-full placeholder:text-neutral-400 h-11"
+          className="bg-transparent border-none outline-none text-sm font-bold text-foreground w-full placeholder:text-muted-foreground h-11"
           disabled={isPending}
         />
         {/* FIND BUTTON NOW NEXT TO INPUT */}
@@ -133,14 +133,14 @@ export default function EventBanner() {
           onClick={handleSearch}
           disabled={isPending}
           size="sm"
-          className="rounded-full bg-primary hover:bg-primary-dark text-white font-black text-[10px] uppercase tracking-wider px-4 h-10 w-10 mr-1 shadow-md transition-transform active:scale-95"
+          className="rounded-full bg-primary hover:bg-primary/90 text-white font-black text-[10px] uppercase tracking-wider px-4 h-10 w-10 mr-1 shadow-md transition-transform active:scale-95"
         >
           {isPending ? <div className="h-3 w-3 border-2 border-white border-t-transparent animate-spin rounded-full" /> : <Search size={18} className="text-white flex-shrink-0 " />}
         </Button>
       </div>
 
       {/* VISUAL DIVIDER (Desktop Only) */}
-      <div className="hidden md:block h-8 w-[1px] bg-neutral-100 mx-1" />
+      <div className="hidden md:block h-8 w-[1px] bg-border mx-1" />
 
       {/* 2. FILTERS GROUP */}
       <div className="flex items-center gap-2 w-full md:w-auto px-2">
@@ -150,10 +150,10 @@ export default function EventBanner() {
             value={sortValue}
             onChange={(e) => handleSortChange(e.target.value)}
             disabled={isPending}
-            className="bg-neutral-50 hover:bg-neutral-100 border-none text-xs font-bold py-2 px-3 rounded-xl cursor-pointer outline-none appearance-none"
+            className="bg-muted hover:bg-muted/80 border-none text-xs font-bold py-2 px-3 rounded-xl cursor-pointer outline-none appearance-none text-foreground"
           >
             {EVENT_SORT_OPTIONS.map((option) => (
-              <option key={option.value} value={option.value}>{option.label}</option>
+              <option key={option.value} value={option.value} className="bg-card text-foreground">{option.label}</option>
             ))}
           </select>
         </div>
@@ -164,10 +164,10 @@ export default function EventBanner() {
             value={currentLimit}
             onChange={(e) => handleLimitChange(e.target.value)}
             disabled={isPending}
-            className="bg-neutral-50 hover:bg-neutral-100 border-none text-xs font-bold py-2 px-3 rounded-xl cursor-pointer outline-none appearance-none"
+            className="bg-muted hover:bg-muted/80 border-none text-xs font-bold py-2 px-3 rounded-xl cursor-pointer outline-none appearance-none text-foreground"
           >
             {EVENT_LIMIT_OPTIONS.map((option) => (
-              <option key={option.value} value={option.value}>{option.label}</option>
+              <option key={option.value} value={option.value} className="bg-card text-foreground">{option.label}</option>
             ))}
           </select>
         </div>
@@ -191,8 +191,8 @@ export default function EventBanner() {
         }}
         disabled={isPending}
         className={cn(
-          "w-full md:w-auto rounded-full h-12 px-8 font-black text-xs uppercase tracking-[0.15em] transition-all duration-300 border border-neutral-100 hover:bg-red-50 hover:text-red-500 hover:border-red-100",
-          "bg-white text-neutral-500 mr-2"
+          "w-full md:w-auto rounded-full h-12 px-8 font-black text-xs uppercase tracking-[0.15em] transition-all duration-300 border border-border hover:bg-destructive/10 hover:text-destructive hover:border-destructive/20",
+          "bg-card text-muted-foreground mr-2"
         )}
       >
         Clear All

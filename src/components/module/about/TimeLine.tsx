@@ -33,7 +33,7 @@ const timeline = [
 
 const TimeLine = () => {
     return (
-        <section className="py-12 bg-white">
+        <section className="py-12 bg-background">
             <div className="container-max px-6">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
 
@@ -41,15 +41,15 @@ const TimeLine = () => {
                     <div className="lg:col-span-5 space-y-10 lg:sticky lg:top-32">
                         <div className="space-y-6">
                             <div className="h-1.5 w-16 bg-primary rounded-full" />
-                            <h2 className="text-4xl md:text-6xl font-black text-neutral-900 tracking-tighter leading-[0.95]">
+                            <h2 className="text-4xl md:text-6xl font-black text-foreground tracking-tighter leading-[0.95]">
                                 Our <span className="text-primary italic">Journey.</span>
                             </h2>
-                            <p className="text-base md:text-lg text-neutral-500 font-medium leading-relaxed max-w-sm">
+                            <p className="text-base md:text-lg text-muted-foreground font-medium leading-relaxed max-w-sm">
                                 From a small collective in Inani to the region's most trusted luxury ecosystem, our growth is a testament to our commitment to excellence.
                             </p>
                         </div>
 
-                        <div className="relative h-64 md:h-80 w-full rounded-[3rem] overflow-hidden shadow-2xl border-4 border-white shadow-primary/10">
+                        <div className="relative h-64 md:h-80 w-full rounded-[3rem] overflow-hidden shadow-2xl border-4 border-background shadow-primary/10">
                             <Image
                                 src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=1200"
                                 alt="Our Journey Background"
@@ -81,7 +81,7 @@ const TimeLine = () => {
                                     <div className="h-10 w-10 rounded-full bg-primary/10 border-2 border-primary/20 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all">
                                         <item.icon className="w-5 h-5" />
                                     </div>
-                                    <div className="flex-grow w-0.5 bg-neutral-100 my-4" />
+                                    <div className="flex-grow w-0.5 bg-border my-4" />
                                 </div>
 
                                 {/* Content Details */}
@@ -89,13 +89,13 @@ const TimeLine = () => {
                                     <span className="text-sm font-black text-primary italic uppercase tracking-widest">
                                         {item.year}
                                     </span>
-                                    <h3 className="text-xl font-black text-neutral-900 tracking-tight leading-none">
+                                    <h3 className="text-xl font-black text-foreground tracking-tight leading-none">
                                         {item.title}
                                     </h3>
-                                    <p className="text-sm  text-neutral-500 font-medium leading-tied max-w-xl">
+                                    <p className="text-sm  text-muted-foreground font-medium leading-tied max-w-xl">
                                         {item.desc}
                                     </p>
-                                    <div className="flex items-center gap-2 pt-2 text-[10px] font-black uppercase tracking-widest text-neutral-400">
+                                    <div className="flex items-center gap-2 pt-2 text-[10px] font-black uppercase tracking-widest text-muted-foreground">
                                         <CheckCircle2 className="w-3 h-3 text-primary" />
                                         <span>Achieved & Verified</span>
                                     </div>
@@ -106,7 +106,7 @@ const TimeLine = () => {
                         {/* Closing Indicator */}
                         <div className="flex items-center gap-4 pl-12 -mt-4">
                             <div className="h-2 w-2 rounded-full bg-primary animate-ping" />
-                            <span className="text-xs font-black text-neutral-400 uppercase tracking-widest">To be continued...</span>
+                            <span className="text-xs font-black text-muted-foreground uppercase tracking-widest">To be continued...</span>
                         </div>
                     </div>
                 </div>
