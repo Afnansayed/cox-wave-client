@@ -5,9 +5,9 @@ import { Button } from '@/components/ui/button';
 
 export default function ContactPage() {
   return (
-    <main className="relative min-h-screen flex items-center justify-center py-12 overflow-hidden bg-background">
+    <main className="relative  flex items-center justify-center py-12 overflow-hidden bg-background">
       {/* BACKGROUND IMAGE WITH OVERLAY */}
-      <div 
+      <div
         className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
         style={{ backgroundImage: `url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=2000')` }}
       >
@@ -15,7 +15,7 @@ export default function ContactPage() {
       </div>
 
       <div className="container-max px-6 relative z-10 max-w-6xl">
-        
+
         {/* COMPACT TOP HEADER */}
         <div className="text-center text-white mb-10 space-y-2">
           <h1 className="text-3xl md:text-4xl font-black tracking-tight">
@@ -28,10 +28,10 @@ export default function ContactPage() {
 
         {/* EQUAL HEIGHT GRID */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 overflow-hidden">
-          
+
           {/* LEFT: FROSTED GLASS SECTION */}
           <div className="bg-white/5 dark:bg-white/10 backdrop-blur-2xl border border-white/10 p-8 md:p-12 flex flex-col justify-between space-y-8 rounded-[2rem]">
-            
+
             <div className="space-y-8">
               {/* Address Block 1 */}
               <div className="flex gap-4 group">
@@ -79,22 +79,22 @@ export default function ContactPage() {
             <h2 className="text-2xl font-black text-foreground mb-6">
               Get in <span className="text-primary">Touch</span>
             </h2>
-            
+
             <form className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
                   <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest ml-1">Full Name *</label>
-                  <input 
-                    type="text" 
-                    placeholder="Enter name" 
+                  <input
+                    type="text"
+                    placeholder="Enter name"
                     className="w-full bg-muted border border-border rounded-xl h-11 px-4 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all text-foreground placeholder:text-muted-foreground"
                   />
                 </div>
                 <div className="space-y-1.5">
                   <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest ml-1">Email *</label>
-                  <input 
-                    type="email" 
-                    placeholder="email@example.com" 
+                  <input
+                    type="email"
+                    placeholder="email@example.com"
                     className="w-full bg-muted border border-border rounded-xl h-11 px-4 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all text-foreground placeholder:text-muted-foreground"
                   />
                 </div>
@@ -102,17 +102,17 @@ export default function ContactPage() {
 
               <div className="space-y-1.5">
                 <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest ml-1">Phone Number *</label>
-                <input 
-                  type="text" 
-                  placeholder="+880..." 
+                <input
+                  type="text"
+                  placeholder="+880..."
                   className="w-full bg-muted border border-border rounded-xl h-11 px-4 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all text-foreground placeholder:text-muted-foreground"
                 />
               </div>
 
               <div className="space-y-1.5">
                 <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest ml-1">Message *</label>
-                <textarea 
-                  placeholder="How can we help?" 
+                <textarea
+                  placeholder="How can we help?"
                   rows={3}
                   className="w-full bg-muted border border-border rounded-xl p-4 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all resize-none text-foreground placeholder:text-muted-foreground"
                 />

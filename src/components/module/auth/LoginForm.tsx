@@ -215,13 +215,36 @@ const LoginPage = () => {
                 )}
               </form.Field>
 
-              <div className="pt-4">
+              <div className="pt-4 space-y-4">
                 <Button
                   type="submit"
                   disabled={isPending || !form.state.canSubmit}
                   className="w-full h-14 bg-primary hover:bg-primary-dark text-white rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-xl shadow-primary/20 transition-all active:scale-[0.98] disabled:opacity-50"
                 >
                   {isPending ? "Verifying..." : "Sign In"}
+                </Button>
+
+                <div className="relative flex items-center py-2">
+                  <div className="flex-grow border-t border-white/10"></div>
+                  <span className="flex-shrink-0 mx-4 text-white/30 text-[10px] font-black uppercase tracking-widest">Or</span>
+                  <div className="flex-grow border-t border-white/10"></div>
+                </div>
+
+                <Button
+                  type="button"
+                  onClick={() => {
+                    const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+                    window.location.href = `${apiBaseUrl}/auth/login/google?redirect=${encodeURIComponent(redirectPath)}`;
+                  }}
+                  className="w-full h-14 bg-white/5 hover:bg-white/10 border border-white/10 text-white rounded-2xl font-bold text-xs shadow-lg transition-all active:scale-[0.98] flex items-center justify-center gap-3"
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M22.56 12.25C22.56 11.47 22.49 10.72 22.36 10H12V14.26H17.92C17.67 15.63 16.89 16.81 15.74 17.58V20.35H19.3C21.38 18.44 22.56 15.6 22.56 12.25Z" fill="#4285F4"/>
+                    <path d="M12 23C14.97 23 17.46 22.02 19.3 20.35L15.74 17.58C14.75 18.25 13.48 18.66 12 18.66C9.13 18.66 6.7 16.73 5.82 14.13H2.15V16.98C3.96 20.58 7.69 23 12 23Z" fill="#34A853"/>
+                    <path d="M5.82 14.13C5.6 13.46 5.47 12.74 5.47 12C5.47 11.26 5.6 10.54 5.82 9.87V7.02H2.15C1.41 8.5 1 10.2 1 12C1 13.8 1.41 15.5 2.15 16.98L5.82 14.13Z" fill="#FBBC05"/>
+                    <path d="M12 5.34C13.62 5.34 15.07 5.9 16.21 6.99L19.39 3.8C17.46 2.01 14.97 1 12 1C7.69 1 3.96 3.42 2.15 7.02L5.82 9.87C6.7 7.27 9.13 5.34 12 5.34Z" fill="#EA4335"/>
+                  </svg>
+                  Continue with Google
                 </Button>
               </div>
 
