@@ -1,102 +1,212 @@
 'use client';
 
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { Play, Calendar, Users, MapPin, Star } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Play } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
+const slides = [
+  {
+    image: "/module/home/bbq1.jpg",
+    title: "Premium Shore Grills",
+    subtitle: "Inani Beach Hotel Specials",
+    tag: "Luxury Dining",
+    accent: "text-primary",
+  },
+  {
+    image: "/module/home/bbq2.webp",
+    title: "Seafood & Sea BBQ",
+    subtitle: "Marine Drive Fresh Catch",
+    tag: "Live Booking",
+    accent: "text-secondary"
+  },
+  {
+    image: "/module/home/bbq3.webp",
+    title: "Tropical Sundown",
+    subtitle: "Sugondha Point Gatherings",
+    tag: "Sunset Event",
+    accent: "text-primary",
+  },
+  {
+    image: "/module/home/bbq4.jpg",
+    title: "Starry Night Bonfire",
+    subtitle: "Himchari Camping Grounds",
+    tag: "Adventure Night",
+    accent: "text-secondary"
+  },
+  {
+    image: "/module/home/bbq5.jpg",
+    title: "Private Resort Roast",
+    subtitle: "Exclusive Vendor Slots",
+    tag: "Business Listing",
+    accent: "text-primary",
+  },
+  {
+    image: "/module/home/bbq6.jpg",
+    title: "Coastal Feast Festival",
+    subtitle: "Seasonal Group Bookings",
+    tag: "Marketplace Live",
+    accent: "text-secondary"
+  }
+];
+
 export default function Hero() {
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setIndex((prev) => (prev + 1) % slides.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
+
   return (
-    <section className="relative py-12 w-full flex items-center justify-center overflow-hidden bg-background">
-      {/* BACKGROUND DECORATION */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full -z-10">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-primary/5 blur-[120px]" />
-        <div className="absolute bottom-[10%] right-[-5%] w-[30%] h-[30%] rounded-full bg-secondary/5 blur-[100px]" />
-      </div>
+    <section className="relative w-full lg:h-[70vh] min-h-[750px] lg:min-h-[600px] lg:max-h-[850px] overflow-hidden bg-white dark:bg-[#080808] transition-colors duration-500 flex items-center">
 
-      <div className="container-max grid grid-cols-1 lg:grid-cols-2 gap-12">
-
-        {/* LEFT CONTENT */}
-        <div className="flex flex-col space-y-8 text-center lg:text-left order-2 lg:order-1">
-          <div className="inline-flex items-center justify-center lg:justify-start gap-2 self-center lg:self-start bg-muted/50 border border-border px-4 py-2 rounded-full shadow-sm">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-secondary"></span>
-            </span>
-            <span className="text-[10px] md:text-xs font-black uppercase tracking-widest text-muted-foreground">
-              Season 2026 Now Open
-            </span>
-          </div>
-
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-foreground leading-[1.1] tracking-tighter">
-            Chase the <span className="text-primary italic">Perfect</span> <br className="hidden md:block" />
-            Wave in Cox's Bazar.
-          </h1>
-
-          <p className="text-base md:text-lg text-muted-foreground max-w-xl mx-auto lg:mx-0 leading-relaxed font-medium">
-            From luxury private cruises to high-octane surf festivals. Discover
-            the hidden gems of the world's longest natural sea beach with premium curated experiences.
-          </p>
-
-          <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
-            <Button className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-white h-12 px-10 rounded-full font-black text-sm uppercase tracking-wider shadow-2xl shadow-primary/20 transition-all hover:-translate-y-1">
-              Explore Events
-            </Button>
-            <button className="flex items-center gap-3 group px-6 py-3 transition-all">
-              <div className="h-12 w-12 rounded-full border border-border flex items-center justify-center bg-background group-hover:bg-primary group-hover:border-primary transition-all shadow-sm">
-                <Play className="w-4 h-4 fill-primary text-primary group-hover:fill-white group-hover:text-white ml-1" />
-              </div>
-              <span className="text-sm font-bold text-foreground uppercase tracking-tight">Watch Story</span>
-            </button>
-          </div>
-
-          {/* TRUST STATS (Mobile-friendly font weights) */}
-          <div className="pt-8 grid grid-cols-3 gap-4 border-t border-border/60">
-            <div>
-              <p className="text-xl md:text-2xl font-black text-foreground">12k+</p>
-              <p className="text-[10px] md:text-xs font-bold text-muted-foreground uppercase tracking-tighter">Happy Tourists</p>
-            </div>
-            <div>
-              <p className="text-xl md:text-2xl font-black text-foreground">4.9</p>
-              <p className="text-[10px] md:text-xs font-bold text-muted-foreground uppercase tracking-tighter">Avg Rating</p>
-            </div>
-            <div>
-              <p className="text-xl md:text-2xl font-black text-foreground">150+</p>
-              <p className="text-[10px] md:text-xs font-bold text-muted-foreground uppercase tracking-tighter">Daily Events</p>
-            </div>
-          </div>
-        </div>
-
-        {/* RIGHT VISUAL - Cinematic Image Composition */}
-        <div className="relative order-1 lg:order-2 px-4 md:px-0">
-          <div className="relative z-10 aspect-[4/5] md:aspect-square w-full max-w-[550px] mx-auto overflow-hidden rounded-[2.5rem] md:rounded-[4rem] shadow-2xl shadow-primary/10">
+      {/* 1. ANIMATED BACKGROUND */}
+      <div className="absolute inset-0 z-0">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, scale: 1.1 }}
+            animate={{ opacity: 0.1, scale: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.5 }}
+            className="absolute inset-0"
+          >
             <Image
-              src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=1200"
-              alt="Cox's Bazar Beach Luxury"
+              src={slides[index].image}
+              alt="Cox's Wave Background"
               fill
-              className="object-cover"
-              priority
+              className="object-cover grayscale dark:invert-0"
             />
-            {/* Overlay Gradient */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
-          </div>
-
-          {/* FLOATING GLASS CARD (Hidden on smallest mobile) */}
-          <div className="hidden sm:flex absolute -bottom-6 -left-6 md:-left-12 bg-background/80 backdrop-blur-xl border border-border/40 p-5 rounded-[2rem] shadow-2xl z-20 items-center gap-4 animate-bounce-slow">
-            <div className="h-12 w-12 rounded-2xl bg-secondary flex items-center justify-center shadow-lg shadow-secondary/30">
-              <Star className="text-white fill-white w-6 h-6" />
-            </div>
-            <div>
-              <p className="text-sm font-black text-foreground">Featured Experience</p>
-              <p className="text-xs font-bold text-muted-foreground">Inani Sunset Dinner</p>
-            </div>
-          </div>
-
-          {/* DECORATIVE ELEMENTS */}
-          <div className="absolute top-10 -right-4 h-24 w-24 bg-primary/10 rounded-full blur-2xl -z-1" />
-          <div className="absolute -bottom-10 right-10 h-32 w-32 bg-secondary/10 rounded-full blur-3xl -z-1" />
-        </div>
-
+          </motion.div>
+        </AnimatePresence>
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
       </div>
+
+      <div className="container-max  h-full relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 items-center gap-12 lg:gap-8 h-full">
+
+          {/* 2. TEXT CONTENT (Exact Design) */}
+          <div className="lg:col-span-7 space-y-6 lg:space-y-10 text-center lg:text-left pt-10 lg:pt-0">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="inline-flex items-center gap-3 px-3 py-1 rounded-full bg-neutral-100 dark:bg-white/5 border border-neutral-200 dark:border-white/10"
+            >
+              <span className="flex h-2 w-2 rounded-full bg-blue-500 animate-pulse" />
+              <span className="text-[10px] font-black uppercase tracking-[0.3em] text-neutral-600 dark:text-neutral-400">
+                System Live: Season 2026
+              </span>
+            </motion.div>
+
+            <div className="space-y-4 lg:space-y-6">
+              <motion.h1
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-5xl md:text-6xl xl:text-7xl font-black text-neutral-900 dark:text-white  tracking-tighter"
+              >
+                Chase the {' '}
+                <span className={`italic underline decoration-4 underline-offset-8 transition-colors duration-700 ${slides[index].accent}`}>
+                  Perfect  <br className="hidden lg:block" />
+                </span> Wave in Cox's Bazar.
+              </motion.h1>
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.2 }}
+                className="text-base md:text-lg lg:text-xl text-neutral-500 dark:text-neutral-400 max-w-lg mx-auto lg:mx-0 font-medium leading-relaxed"
+              >
+                From luxury private cruises to high-octane surf festivals. Discover the hidden gems of the world's longest natural sea beach.
+              </motion.p>
+            </div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4"
+            >
+              <Button className="w-full sm:w-auto h-14 px-8 rounded-full bg-primary text-white font-black text-xs uppercase tracking-widest hover:scale-105 transition-all shadow-xl shadow-blue-500/10">
+                Explore Events
+              </Button>
+              <button className="flex items-center gap-3 group">
+                <div className="h-12 w-12 rounded-full border border-neutral-200 dark:border-white/10 flex items-center justify-center group-hover:border-blue-500 transition-colors bg-white/5 backdrop-blur-sm">
+                  <Play className="w-4 h-4 fill-current text-primary ml-0.5" />
+                </div>
+                <span className="text-[10px] font-black uppercase tracking-widest text-primary dark:text-white">Watch Story</span>
+              </button>
+            </motion.div>
+          </div>
+
+          {/* 3. INTERACTIVE BENTO CARD (Exact Design) */}
+          <div className="lg:col-span-5 flex justify-center items-center pb-10 lg:pb-0">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="relative w-full max-w-[480px] aspect-[6/5] lg:aspect-[6/6] bg-neutral-50 dark:bg-white/5 border border-neutral-200 dark:border-white/10 rounded-[2.5rem] p-3 sm:p-4 overflow-hidden backdrop-blur-3xl shadow-2xl"
+            >
+              <div className="relative w-full h-[75%] lg:h-[80%] rounded-[2rem] overflow-hidden">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={index}
+                    initial={{ x: 50, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    exit={{ x: -50, opacity: 0 }}
+                    transition={{ duration: 0.5 }}
+                    className="absolute inset-0"
+                  >
+                    <Image
+                      src={slides[index].image}
+                      alt="Preview"
+                      fill
+                      className="object-cover"
+                    />
+                  </motion.div>
+                </AnimatePresence>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+                <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 text-left">
+                  <p className="text-[10px] font-black text-white/70 uppercase tracking-widest">{slides[index].subtitle}</p>
+                  <h4 className="text-xl font-bold text-white">{slides[index].title}</h4>
+                </div>
+              </div>
+
+              <div className="h-[25%] lg:h-[20%] flex flex-col justify-center px-2">
+                <div className="space-y-2">
+                  <div className="flex justify-between text-[9px] font-black text-neutral-400 uppercase tracking-[0.2em]">
+                    <span>Optimizing Experience</span>
+                    <span>0{index + 1}</span>
+                  </div>
+                  <div className="h-1.5 w-full bg-neutral-200 dark:bg-white/10 rounded-full overflow-hidden">
+                    <motion.div
+                      key={index}
+                      initial={{ width: "0%" }}
+                      animate={{ width: "100%" }}
+                      transition={{ duration: 5, ease: "linear" }}
+                      className="h-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.5)]"
+                    />
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </div>
+
+      {/* 4. SCROLL INDICATOR */}
+      <motion.div
+        animate={{ y: [0, 10, 0] }}
+        transition={{ duration: 2, repeat: Infinity }}
+        className="absolute bottom-6 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-2 cursor-pointer opacity-50 hover:opacity-100 transition-opacity"
+        onClick={() => window.scrollBy({ top: window.innerHeight * 0.7, behavior: 'smooth' })}
+      >
+        <div className="w-5 h-8 rounded-full border-2 border-neutral-300 dark:border-white/20 flex justify-center p-1.5">
+          <div className="w-1 h-1 bg-blue-500 rounded-full" />
+        </div>
+        <span className="text-[8px] font-black uppercase tracking-[0.4em] text-neutral-400 dark:text-neutral-500">Explore</span>
+      </motion.div>
     </section>
   );
 }

@@ -15,10 +15,22 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "CoxWave - Seamless Travel Booking Experience",
   description: "CoxWave is your ultimate travel companion, offering a seamless booking experience for events, hotels, and more. Explore the world with ease and confidence.",
-    icons: {
-    icon: "/cox-wave-icon.png",
-    shortcut: "/cox-wave-icon.png",
-    apple: "/cox-wave-icon.png",
+  icons: {
+    icon: [
+      {
+        url: '/favicon.ico',
+        media: '(prefers-color-scheme: light)',
+      },
+      {
+        url: '/favicon.ico',
+        media: '(prefers-color-scheme: dark)',
+      },
+      {
+        url: '/favicon.ico',
+        type: 'image/svg+xml',
+      },
+    ],
+    apple: '/favicon.ico',
   },
 };
 
