@@ -33,9 +33,9 @@ const LOCATIONS = [
 
 export default function Locations() {
   return (
-    <section className="py-12 bg-background">
+    <section className="pb-10 bg-background">
       <div className="container-max px-6">
-        
+
         {/* COMPACT HEADER */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
           <div className="max-w-xl">
@@ -55,20 +55,20 @@ export default function Locations() {
         {/* HIGH DENSITY GRID */}
         <div className="grid grid-cols-1 md:grid-cols-12 md:grid-rows-2 gap-4 h-auto md:h-[500px]">
           {LOCATIONS.map((loc, i) => (
-            <div 
+            <div
               key={loc.name}
               className={cn(
                 "group relative overflow-hidden rounded-2xl md:rounded-[2.5rem] bg-muted",
                 loc.className
               )}
             >
-              <Image 
+              <Image
                 src={loc.image}
                 alt={loc.name}
                 fill
                 className="object-cover transition-transform duration-700 group-hover:scale-105"
               />
-              
+
               {/* Intelligent Gradient: Only darkens the bottom text area */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
 
@@ -84,7 +84,7 @@ export default function Locations() {
                       {loc.name}
                     </h3>
                   </div>
-                  
+
                   <button className="h-10 w-10 md:h-12 md:w-12 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white transition-all hover:bg-primary hover:border-primary group-hover:translate-x-1">
                     <ArrowRight className="w-5 h-5" />
                   </button>

@@ -60,9 +60,9 @@ export default function ReviewSlider() {
   };
 
   return (
-    <section className="py-20 bg-background overflow-hidden">
+    <section className="py-12 bg-background overflow-hidden">
       <div className="container-max px-6">
-        
+
         {/* HEADER */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-8">
           <div className="space-y-4">
@@ -89,7 +89,7 @@ export default function ReviewSlider() {
         </div>
 
         {/* REVIEW SLIDER */}
-        <div 
+        <div
           ref={sliderRef}
           className="flex gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-8"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
@@ -97,16 +97,16 @@ export default function ReviewSlider() {
           {MOCK_REVIEWS.map((item) => (
             <div key={item.id} className="min-w-[90%] md:min-w-[45%] lg:min-w-[32%] snap-start">
               <div className="h-full bg-muted/30 p-8 rounded-[2rem] border border-border flex flex-col justify-between transition-all duration-500 hover:bg-card hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] group">
-                
+
                 <div className="space-y-6">
                   {/* STAR RATING */}
                   <div className="flex items-center justify-between">
                     <div className="flex gap-0.5">
                       {[...Array(5)].map((_, i) => (
-                        <Star 
-                          key={i} 
-                          size={12} 
-                          className={i < item.rating ? "fill-secondary text-secondary" : "text-muted"} 
+                        <Star
+                          key={i}
+                          size={12}
+                          className={i < item.rating ? "fill-secondary text-secondary" : "text-muted"}
                         />
                       ))}
                     </div>

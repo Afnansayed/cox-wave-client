@@ -112,7 +112,7 @@ export default function Navbar() {
                     className={cn(
                       'px-5 py-2 text-[13px] font-bold transition-all rounded-full relative',
                       pathname === link.path
-                        ? 'text-primary-foreground bg-primary shadow-md shadow-primary/20'
+                        ? 'text-white bg-primary shadow-md shadow-primary/20'
                         : 'text-muted-foreground hover:text-foreground'
                     )}
                   >

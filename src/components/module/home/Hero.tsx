@@ -62,7 +62,7 @@ export default function Hero() {
   }, []);
 
   return (
-    <section className="relative w-full lg:h-[70vh] min-h-[750px] lg:min-h-[600px] lg:max-h-[850px] overflow-hidden bg-white dark:bg-[#080808] transition-colors duration-500 flex items-center">
+    <section className="relative w-full lg:h-[60vh] min-h-[750px] lg:min-h-[600px] lg:max-h-[850px] overflow-hidden bg-white dark:bg-[#080808] transition-colors duration-500 flex items-center">
 
       {/* 1. ANIMATED BACKGROUND */}
       <div className="absolute inset-0 z-0">
@@ -185,7 +185,7 @@ export default function Hero() {
                       initial={{ width: "0%" }}
                       animate={{ width: "100%" }}
                       transition={{ duration: 5, ease: "linear" }}
-                      className="h-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.5)]"
+                      className={`h-full ${index % 2 === 0 ? 'bg-primary' : 'bg-secondary'} shadow-[0_0_8px_rgba(59,130,246,0.5)]"`}
                     />
                   </div>
                 </div>

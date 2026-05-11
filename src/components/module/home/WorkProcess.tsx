@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { 
+import {
   Search, Ticket, ShieldCheck, CheckCircle2, Smile, Star,
   PlusCircle, SearchCheck, LayoutDashboard, Waves, TrendingUp,
   ArrowRight, Users, Briefcase
@@ -34,10 +34,10 @@ export default function WorkProcess() {
     <section className="py-12 bg-background relative overflow-hidden">
       {/* Background Accent */}
       <div className="absolute top-0 right-0 w-1/3 h-full bg-muted/30 -z-10" />
-      
+
       <div className="container-max px-6">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
-          
+
           {/* LEFT COLUMN: NAVIGATION & TITLE */}
           <div className="lg:col-span-4 space-y-8">
             <div className="space-y-4">
@@ -51,7 +51,7 @@ export default function WorkProcess() {
             </div>
 
             <div className="flex flex-col gap-3">
-              <button 
+              <button
                 onClick={() => setActiveView('customer')}
                 className={cn(
                   "flex items-center justify-between p-5 rounded-2xl border transition-all group",
@@ -67,7 +67,7 @@ export default function WorkProcess() {
                 <ArrowRight size={16} className={cn("transition-transform text-foreground", activeView === 'customer' ? "translate-x-0" : "-translate-x-2")} />
               </button>
 
-              <button 
+              <button
                 onClick={() => setActiveView('owner')}
                 className={cn(
                   "flex items-center justify-between p-5 rounded-2xl border transition-all group",
@@ -94,7 +94,7 @@ export default function WorkProcess() {
                   <span className="absolute -top-6 left-0 text-5xl font-black text-muted/30 group-hover:text-primary/10 transition-colors select-none pointer-events-none">
                     0{index + 1}
                   </span>
-                  
+
                   <div className="relative pt-2 space-y-4">
                     <div className="flex items-center gap-3">
                       <div className="h-10 w-10 flex items-center justify-center rounded-xl bg-card border border-border text-primary shadow-sm transition-all group-hover:border-primary/30 group-hover:shadow-lg group-hover:shadow-primary/10">
